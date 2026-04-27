@@ -1,0 +1,17 @@
+function es = sat_vapor_pressure_WMO(T)
+% WMO 2008 (ITS-90 scale) Equation
+% Accurate as Goff–Gratch but smoother, simpler, 
+%   and formally adopted by the WMO to replace Goff–Gratch.
+%
+%   Input:  Temperature (K)
+%   Output: Saturated vapor pressure (hPa)
+%
+term1 = 54.842763;
+term2 = -6763.22./T;
+term3 = -4.210.*log(T);
+term4 = 0.000367.*T;
+DELTA = 0.0415.*T - 218.8;
+tanh_term = tanh(DELTA).*...
+   (53.878 - 1331.22./T - 9.44523.*log(T) + 0.014025.*T);
+es = exp(term1 + term2 + term3 + term4 + tanh_term)./100; % hPa
+end

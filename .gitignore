@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# MATLAB
+*.asv
+*.m~ 
+slprj/
+*.mat
+*.fig
+*.p
+*.slxc
+*.mdl.r*
+*.autosave
+
+# Editors
+.vscode/
+.idea/
+
+# Logs / temp
+*.log
+tmp/

@@ -1,0 +1,13 @@
+ut_free_system.lo: ut_free_system.c /usr/include/stdc-predef.h \
+ ../config.h udunits2.h \
+ /usr/lib/gcc/x86_64-redhat-linux/11/include/stdarg.h \
+ /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h converter.h \
+ idToUnitMap.h unitToIdMap.h
+/usr/include/stdc-predef.h:
+../config.h:
+udunits2.h:
+/usr/lib/gcc/x86_64-redhat-linux/11/include/stdarg.h:
+/usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h:
+converter.h:
+idToUnitMap.h:
+unitToIdMap.h:

@@ -1,0 +1,15 @@
+Categories = "Position";
+PROCESSING = "Development";
+Version = "Sys25: " ;
+coordinates = "avlon avlat avzmsl time" ;
+latitude_coordinate = "avlat";
+longitude_coordinate = "avlon";
+zaxis_coordinate = "avzmsl";
+time_coordinate = "time" ;
+wind_field = "avwmag avwdir awwind" ;
+CenterCoordLon0 = -105.72039 ;
+CenterCoordLat0 = 41.33789 ;
+CenterCoordName = "Laramie" ;
+DEMCopyright = "ASTER GDEM is a product of METI and NASA" ;
+DMT.defaultWireTempCoeffs= -2.51917, 112.379;
+AWinds.Maneuver_date = "Multi-flight estimate";

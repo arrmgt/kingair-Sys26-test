@@ -1,0 +1,3798 @@
+Integer32 Time;
+Time:long_name = "Seconds from ..." ;
+Time:standard_name = "Time" ;
+Time:strptime_format = "Seconds since ..." ;
+Time:OutputRate = 1 ;
+
+Integer32 time;
+time:long_name = "Seconds from ..." ;
+time:standard_name = "Time" ;
+time:strptime_format = "Seconds since ..." ;
+time:OutputRate = 1 ;
+
+Integer32 TIME;
+TIME:long_name = "Time HHMMSS " ;
+TIME:Status = "Derived Variable" ;
+TIME:units = "HHMMSS";
+TIME:Package = "get_varTIME.m" ;
+TIME:matlab_name = "TIME" ;
+TIME:raw_name = "unknown";
+TIME:Dependencies = "N/A" ;
+TIME:OutputRate = 1 ;
+
+Integer32 DATE;
+DATE:long_name = "Date yymmdd (GMT)" ;
+DATE:Status = "Derived Variable" ;
+DATE:units = "yymmdd" ;
+DATE:Package = "get_varTIME.m" ;
+DATE:matlab_name = "DATE" ;
+DATE:raw_name = "unknown";
+DATE:Dependencies = "N/A" ;
+DATE:OutputRate = 1 ;
+
+Integer32 HOUR;
+HOUR:long_name = "Hour from midnight (GMT)" ;
+HOUR:Status = "Derived Variable" ;
+HOUR:units = "hours" ;
+HOUR:Package = "get_varTIME.m" ;
+HOUR:matlab_name = "HOUR" ;
+HOUR:raw_name = "unknown";
+HOUR:Dependencies = "N/A" ;
+HOUR:OutputRate = 1 ;
+
+Integer32 MINUTE;
+MINUTE:long_name = "Minute from Beginning of HOUR" ;
+MINUTE:Status = "Derived Variable" ;
+MINUTE:units = "minutes" ;
+MINUTE:Package = "get_varTIME.m" ;
+MINUTE:matlab_name = "MINUTE" ;
+MINUTE:raw_name = "unknown";
+MINUTE:Dependencies = "N/A" ;
+MINUTE:OutputRate = 1 ;
+
+Integer32 SECOND;
+SECOND:long_name = "SECOND from Beginning of SECOND" ;
+SECOND:Status = "Derived Variable" ;
+SECOND:units = "seconds" ;
+SECOND:Package = "get_varTIME.m" ;
+SECOND:matlab_name = "SECOND" ;
+SECOND:raw_name = "unknown";
+SECOND:Dependencies = "N/A" ;
+SECOND:OutputRate = 1 ;
+
+Integer32 TIME14D;
+TIME14D:long_name = "TIME yyyymmddhhmmss GMT" ;
+TIME14D:Status = "Derived Variable" ;
+TIME14D:units = "yyyymmddhhmmss" ;
+TIME14D:Package = "get_varTIME.m" ;
+TIME14D:matlab_name = "TIME14D" ;
+TIME14D:raw_name = "unknown";
+TIME14D:Dependencies = "N/A" ;
+TIME14D:OutputRate = 1 ;
+
+Float ias;
+ias:long_name = "Indicated airspeed (P1- ship static)" ;
+ias:Status = "Derived Variable" ;
+ias:units = "knots";
+ias:Package = "get_varTAS" ;
+ias:matlab_name = "ias_ship" ;
+ias:raw_name= "none";
+ias:Dependencies = "N/A" ;
+ias:OutputRate = XX ;
+
+Float torque;
+torque:long_name = "Left Engine Torque";
+torque:Status = "Derived Variable" ;
+torque:units = "ft-lb";
+torque:Package = "get_data" ;
+torque:matlab_name = "TORQUE" ;
+torque:raw_name= "unknown";
+torque:Dependencies = "N/A" ;
+torque:OutputRate = XX ;
+
+Float bias;
+bias:long_name = "Indicated airspeed (co-pilot pitot)" ;
+bias:Status = "Derived Variable" ;
+bias:units = "knots";
+bias:Package = "get_misc" ;
+bias:matlab_name = "bias" ;
+bias:raw_name= "BIAS";
+bias:Dependencies = "N/A" ;
+bias:OutputRate = XX ;
+
+Float BIAS;
+BIAS:long_name = "Rosemount 1221" ;
+BIAS:units = "hPa" ;
+BIAS:SampleRate = 100 ;
+BIAS:InstrumentName = "Co-pilot IAS" ;
+BIAS:InstrumentDescription = "Co-pilot Indicated Airspeed" ;
+BIAS:Package = "get_misc" ;
+BIAS:raw_name = "BIAS" ;
+BIAS:raw_name= "BIAS";
+BIAS:Dependencies = "N/A" ;
+BIAS:OutputRate = XX ;
+
+Float dp1_boom;
+dp1_boom:long_name = "R858 Center Port - Boom Static" ;
+dp1_boom:units = "hPa" ;
+dp1_boom:SampleRate = 1000 ;
+dp1_boom:type = "analog" ;
+dp1_boom:Package = "get_varTAS" ;
+dp1_boom:matlab_name = "dp1_boom" ;
+dp1_boom:raw_name= "DP2";
+dp1_boom:Dependencies = "N/A" ;
+dp1_boom:OutputRate = XX ;
+
+Float dp1_ship;
+dp1_ship:long_name = "R858 Center Port - Ship Static" ;
+dp1_ship:units = "hPa" ;
+dp1_ship:SampleRate = 1000 ;
+dp1_ship:channel = 5 ;
+dp1_ship:type = "analog" ;
+dp1_ship:Package = "get_varTAS" ;
+dp1_ship:matlab_name = "dp1_ship" ;
+dp1_ship:raw_name= "DP1";
+dp1_ship:Dependencies = "N/A" ;
+dp1_ship:OutputRate = XX ;
+
+Float dpr_beta;
+dpr_beta:long_name = "R858  Center Port - Right Port" ;
+dpr_beta:units = "hPa" ;
+dpr_beta:type = "analog" ;
+dpr_beta:Package = "get_varTAS" ;
+dpr_beta:matlab_name = "dpr_beta" ;
+dpr_beta:raw_name= "DPR";
+dpr_beta:Dependencies = "N/A" ;
+dpr_beta:OutputRate = XX ;
+
+Float dpr_alpha;
+dpr_alpha:long_name = "R858  Center Port - Bottom Port" ;
+dpr_alpha:units = "hPa" ;
+dpr_alpha:type = "analog" ;
+dpr_alpha:Package = "get_varTAS" ;
+dpr_alpha:matlab_name = "dpr_alpha" ;
+dpr_alpha:raw_name= "DPN";
+dpr_alpha:Dependencies = "N/A" ;
+dpr_alpha:OutputRate = XX ;
+
+Float dpa;
+dpa:long_name = "R858 Bottom - Top Port" ;
+dpa:units = "hPa" ;
+dpa:channel = 5 ;
+dpa:type = "analog" ;
+dpa:Package = "get_misc" ;
+dpa:matlab_name = "dpa" ;
+dpa:raw_name= "DPA";
+dpa:Dependencies = "N/A" ;
+dpa:OutputRate = XX ;
+
+Float dpb;
+dpb:long_name = "R858 Right - Left Port" ;
+dpb:units = "hPa" ;
+dpb:type = "analog" ;
+dpb:Package = "get_misc" ;
+dpb:matlab_name = "dpb" ;
+dpb:raw_name= "DPB";
+dpb:Dependencies = "N/A" ;
+dpb:OutputRate = XX ;
+
+Float ps_ship;
+ps_ship:long_name = "Rosemount 1332B1 Ship Static Pressure" ;
+ps_ship:units = "hPa" ;
+ps_ship:type = "analog" ;
+ps_ship:Package = "get_varTAS" ;
+ps_ship:matlab_name = "PSA" ;
+ps_ship:raw_name= "ps_ship";
+ps_ship:Dependencies = "N/A" ;
+ps_ship:OutputRate = XX ;
+
+Float ps_boom;
+ps_boom:long_name = "Rosemount 1332B1 Ship Static Pressure" ;
+ps_boom:units = "hPa" ;
+ps_boom:type = "analog" ;
+ps_boom:Package = "get_varTAS" ;
+ps_boom:matlab_name = "ps_boom" ;
+ps_boom:raw_name= "PSB";
+ps_boom:Dependencies = "N/A" ;
+ps_boom:OutputRate = XX ;
+
+Float ptotal_boom;
+ptotal_boom:long_name = "Rosemount 1332B1 Center Port Total Pressure" ;
+ptotal_boom:units = "hPa" ;
+ptotal_boom:type = "analog" ;
+ptotal_boom:Package = "get_varTAS" ;
+ptotal_boom:matlab_name = "DPB" ;
+ptotal_boom:raw_name= "ptotal_boom";
+ptotal_boom:Dependencies = "N/A" ;
+ptotal_boom:OutputRate = XX ;
+
+Float boom_pcor ;
+boom_pcor:long_name = "Static pressure correction from boom calculation" ;
+boom_pcor:units = "mb" ;
+boom_pcor:Package = "cone_pcor" ;
+boom_pcor:matlab_name = "pcorc" ;
+boom_pcor:Dependencies = "N/A" ;
+boom_pcor:OutputRate = XX ;
+
+Float pmb;
+pmb:long_name = "Static Pressure (Rosemount 1201F1B4A1A)" ;
+pmb:Status = "Derived Variable" ;
+pmb:units = "hPa";
+pmb:standard_name = "air_pressure";
+pmb:SampleRate = 100;
+pmb:Package = "get_data" ;
+pmb:matlab_name = "PMB" ;
+pmb:raw_name= "PMB";
+pmb:Dependencies = "N/A" ;
+pmb:OutputRate = XX ;
+X:long_name
+
+Float ps_weston;
+ps_weston:long_name = "Static Pressure (Weston Digital)" ;
+ps_weston:Status = "Derived Variable" ;
+ps_weston:units = "hPa";
+ps_weston:standard_name = "air_pressure";
+ps_weston:SampleRate = 5;
+ps_weston:Package = "get_data" ;
+ps_weston:matlab_name = "PWESTON" ;
+ps_weston:raw_name= "PWESTON";
+ps_weston:Dependencies = "N/A" ;
+ps_weston:OutputRate = XX ;
+
+Float PSX;
+PSX:long_name = "Static Pressure (Used in calculations)" ;
+PSX:Status = "Derived Variable" ;
+PSX:units = "hPa";
+PSX:standard_name = "air_pressure";
+PSX:SampleRate = 5;
+PSX:Package = "get_data" ;
+PSX:matlab_name = "PSX" ;
+PSX:raw_name= "None";
+PSX:Dependencies = "N/A" ;
+PSX:OutputRate = XX ;
+
+Float ps_hads;
+ps_hads:long_name = "Static Pressure (Rosemount 1501 High Accuracy Digital Sensing Module A)" ;
+ps_hads:Status = "Derived Variable" ;
+ps_hads:units = "hPa";
+ps_hads:standard_name = "air_pressure";
+ps_hads:SampleRate = 100;
+ps_hads:Package = "get_hads" ;
+ps_hads:matlab_name = "PHADSA" ;
+ps_hads:raw_name= "PHADSA";
+ps_hads:StaticDefect="Corrected";
+ps_hads:Dependencies = "N/A" ;
+ps_hads:OutputRate = XX ;
+
+Float ps_hads_a;
+ps_hads_a:long_name = "Static Pressure (Rosemount 1501 High Accuracy Digital Sensing Module A)" ;
+ps_hads_a:Status = "Derived Variable" ;
+ps_hads_a:units = "hPa";
+ps_hads_a:standard_name = "air_pressure";
+ps_hads_a:SampleRate = 100;
+ps_hads_a:Package = "get_hads" ;
+ps_hads_a:matlab_name = "PHADSA" ;
+ps_hads_a:raw_name= "PHADSA";
+ps_hads_a:StaticDefect="Corrected";
+ps_hads_a:Dependencies = "N/A" ;
+ps_hads_a:OutputRate = XX ;
+
+Float ps_hads_b;
+ps_hads_b:long_name = "Static Pressure (Rosemount 1501 High Accuracy Digital Sensing Module B)" ;
+ps_hads_b:Status = "Derived Variable" ;
+ps_hads_b:units = "hPa";
+ps_hads_b:standard_name = "air_pressure";
+ps_hads_b:SampleRate = 100;
+ps_hads_b:Package = "get_hads" ;
+ps_hads_b:matlab_name = "PHADSB" ;
+ps_hads_b:raw_name= "PHADSB";
+ps_hads_b:StaticDefect="Corrected";
+ps_hads_b:Dependencies = "N/A" ;
+ps_hads_b:OutputRate = XX ;
+
+Float p1501;
+p1501:long_name = "Static Pressure (Rosemount 1501)" ;
+p1501:Status = "Derived Variable" ;
+p1501:units = "hPa" ;
+p1501:standard_name = "air_pressure";
+
+p1501:Package = "get_1501p";
+p1501:matlab_name = "P1501_" ;
+p1501:raw_name= "P1501_";
+p1501:Dependencies = "N/A" ;
+p1501:OutputRate = XX ;
+
+Float trf;
+trf:long_name = "Static Temperature (In-house Reverse Flow)";
+trf:Status = "Derived Variable" ;
+trf:units = "Celsius";
+trf:standard_name = "air_temperature";
+trf:Package = "cvwind";
+trf:matlab_name = "trf" ;
+trf:raw_name= "TRF";
+trf:RecoveryCoefficient=.6425;
+trf:StaticDefect="Corrected";
+trf:Dependencies = "N/A" ;
+trf:OutputRate = XX ;
+
+Float TEMPX;
+TEMPX:long_name = "Static Temperature (Used in calculations)";
+TEMPX:Status = "Derived Variable" ;
+TEMPX:units = "Celsius";
+TEMPX:standard_name = "air_temperature";
+TEMPX:Package = "cvwind";
+TEMPX:matlab_name = "TEMPX" ;
+TEMPX:raw_name= "TRF";
+TEMPX:RecoveryCoefficient=.6425;
+TEMPX:StaticDefect="Corrected";
+TEMPX:Dependencies = "N/A" ;
+TEMPX:OutputRate = XX ;
+
+Float trose;
+trose:long_name = "Static Temperature (Rosemount 102)";
+trose:Status = "Derived Variable" ;
+trose:units = "Celsius";
+trose:standard_name = "air_temperature";
+trose:Package = "cvwind" ;
+trose:matlab_name = "trmt" ;
+trose:raw_name= "TROSE";
+trose:RecoveryCoefficient=.97;
+trose:StaticDefect="Corrected";
+trose:Dependencies = "N/A" ;
+trose:OutputRate = XX ;
+
+Float tdp;
+tdp:long_name = "Dew Point Temperature";
+tdp:instrument = "N/A" ;
+tdp:Status = "Derived Variable" ;
+tdp:units = "Celsius";
+tdp:standard_name = "dew_point_temperature";
+tdp:Package = "get_data" ;
+tdp:matlab_name = "TDP" ;
+tdp:raw_name = "unknown";
+tdp:Dependencies = "N/A" ;
+tdp:OutputRate = XX ;
+
+Float mr;
+mr:long_name = "Mixing ratio";
+mr:Status = "Derived Variable" ;
+mr:units = "gram/kgram";
+mr:standard_name = "humidity_mixing_ratio";
+mr:Package = "get_misc" ;
+mr:matlab_name = "MIXRATIO" ;
+mr:StaticDefect="Corrected";
+mr:Dependencies = "N/A" ;
+mr:OutputRate = XX ;
+
+Float vapor;
+vapor:long_name = "Water vapor pressure";
+vapor:Status = "Derived Variable" ;
+vapor:units = "hPa";
+vapor:standard_name = "water_vapor_partial_pressure_in_air";
+vapor:Package = "get_misc" ;
+vapor:matlab_name = "VAPRESS" ;
+vapor:raw_name = "unknown";
+vapor:Dependencies = "N/A" ;
+vapor:OutputRate = XX ;
+
+Float rh;
+rh:long_name = "Relative Humidity";
+rh:Status = "Derived Variable" ;
+rh:units = "percent";
+rh:standard_name = "relative_humidity";
+rh:Package = "get_misc" ;
+rh:matlab_name = "RH" ;
+rh:raw_name = "unknown";
+rh:Dependencies = "N/A" ;
+rh:OutputRate = XX ;
+
+Float q_impact;
+q_impact:long_name = "Impact pressure (corrected)";
+q_impact:Status = "Derived Variable" ;
+q_impact:units = "hPa";
+q_impact:Package = "cvwind" ;
+q_impact:matlab_name = "q_impact" ;
+q_impact:raw_name = "unknown";
+q_impact:StaticDefect="Corrected";
+q_impact:Dependencies = "N/A" ;
+q_impact:OutputRate = XX ;
+
+Float q_dynamic;
+q_dynamic:long_name = "Dynamic pressure (corrected)";
+q_dynamic:Status = "Derived Variable" ;
+q_dynamic:units = "hPa";
+q_dynamic:Package = "cvwind" ;
+q_dynamic:matlab_name = "q_impact" ;
+q_dynamic:raw_name = "unknown";
+q_dynamic:StaticDefect="Corrected";
+q_dynamic:Dependencies = "N/A" ;
+q_dynamic:OutputRate = XX ;
+
+Float tas;
+tas:long_name = "True Airspeed ";
+tas:Status = "Derived Variable" ;
+tas:units = "meter/sec";
+tas:standard_name = "True Airspeed" ;
+tas:Package = "get_varTAS";
+tas:matlab_name = "tas" ;
+tas:StaticDefect="Corrected";
+tas:TempUsed = "unknown";
+tas:PressUsed = "unknown";
+tas:raw_name = "unknown";
+tas:Dependencies = "N/A" ;
+tas:OutputRate = XX ;
+
+Float TASX;
+TASX:long_name = "True Airspeed (recommended)";
+TASX:Status = "Derived Variable" ;
+TASX:units = "meter/sec";
+TASX:standard_name = "True Airspeed" ;
+TASX:Package = "get_varTAS";
+TASX:matlab_name = "TASX" ;
+TASX:StaticDefect="Corrected";
+TASX:TempUsed = "unknown";
+TASX:PressUsed = "unknown";
+TASX:raw_name = "unknown";
+TASX:Dependencies = "N/A" ;
+TASX:OutputRate = XX ;
+
+Float z;
+z:long_name = "Pressure altitude (Std Atm)";
+z:Status = "Derived Variable" ;
+z:units = "meters";
+z:standard_name = "barometric_altitude" ;
+z:Package = "get_misc";
+z:matlab_name = "PALT" ;
+z:raw_name = "unknown";
+z:Dependencies = "N/A" ;
+z:OutputRate = XX ;
+
+Float PALT;
+PALT:long_name = "Pressure altitude (Std Atm)";
+PALT:Status = "Derived Variable" ;
+PALT:units = "meters";
+PALT:standard_name = "barometric_altitude" ;
+PALT:Package = "cvwind";
+PALT:matlab_name = "PALT" ;
+PALT:raw_name = "unknown";
+PALT:Dependencies = "N/A" ;
+PALT:OutputRate = XX ;
+
+Float ztrue;
+ztrue:long_name = "Altitude (Hypsometric)";
+ztrue:Status = "Derived Variable" ;
+ztrue:units = "meters";
+ztrue:Package = "cvwind";
+ztrue:matlab_name = "ZTRUE" ;
+ztrue:raw_name = "unknown" ;
+ztrue:StaticDefect="Corrected";
+ztrue:Dependencies = "N/A" ;
+ztrue:OutputRate = XX ;
+
+Float alpha;
+alpha:long_name = "Attack angle (corrected)";
+alpha:Status = "Derived Variable" ;
+alpha:units = "radians";
+alpha:Package = "cvwind";
+alpha:matlab_name = "alpha" ;
+alpha:raw_name = "unknown";
+alpha:Dependencies = "N/A" ;
+alpha:OutputRate = XX ;
+
+Float beta;
+beta:long_name = "Sideslip angle (corrected)";
+beta:Status = "Derived Variable" ;
+beta:units = "radians";
+beta:Package = "cvwind";
+beta:matlab_name = "beta" ;
+beta:raw_name = "unknown";
+beta:Dependencies = "N/A" ;
+beta:OutputRate = XX ;
+
+Float li75cool;
+li75cool:long_name = "LI-7500 Cooler" ;
+li75cool:units = "volt";
+li75cool:Package = "get_7500licor";
+li75cool:matlab_name = "li75cool" ;
+li75cool:raw_name = "unknown";
+li75cool:Dependencies = "N/A" ;
+li75cool:OutputRate = XX ;
+
+Float li75diag;
+li75diag:long_name = "Licor 7500 Diagnostic Value" ;
+li75diag:units = "dimensionless";
+li75diag:Package = "get_7500licor";
+li75diag:matlab_name = "li75diag" ;
+li75diag:raw_name = "unknown";
+li75diag:Dependencies = "N/A" ;
+li75diag:OutputRate = XX ;
+
+Float co2absraw75;
+co2absraw75:long_name = "Licor 7500A CO2 rs-232 absorptivity";
+co2absraw75:Status = "Derived Variable" ;
+co2absraw75:units = "dimensionless";
+co2absraw75:Package = "get_7500licor";
+co2absraw75:matlab_name = "CO2RAW" ;
+co2absraw75:raw_name = "unknown";
+co2absraw75:Dependencies = "N/A" ;
+co2absraw75:OutputRate = XX ;
+co2absraw75:InputRate = 20 ;
+
+Float co2abs75;
+co2abs75:long_name = "Licor 7500A CO2 absorptivity";
+co2abs75:Status = "Derived Variable" ;
+co2abs75:units = "dimensionless";
+co2abs75:Package = "get_7500licor";
+co2abs75:matlab_name = "CO2A" ;
+co2abs75:raw_name = "unknown";
+co2abs75:Dependencies = "N/A" ;
+co2abs75:OutputRate = XX ;
+co2absraw75:InputRate = 1000 ;
+
+Float h2oabsraw75;
+h2oabsraw75:long_name = "Licor 7500A H2O absraworptivity";
+h2oabsraw75:Status = "Derived Variable" ;
+h2oabsraw75:units = "dimensionless" ;
+h2oabsraw75:Package = "get_7500licor";
+h2oabsraw75:matlab_name = "H2ORAW" ;
+h2oabsraw75:raw_name = "unknown";
+h2oabsraw75:Dependencies = "N/A" ;
+h2oabsraw75:OutputRate = XX ;
+
+Float h2oabs75;
+h2oabs75:long_name = "Licor 7500A H2O absorptivity";
+h2oabs75:Status = "Derived Variable" ;
+h2oabs75:units = "dimensionless" ;
+h2oabs75:Package = "get_7500licor";
+h2oabs75:matlab_name = "H2OA" ;
+h2oabs75:raw_name = "unknown";
+h2oabs75:Dependencies = "N/A" ;
+h2oabs75:OutputRate = XX ;
+
+Float co2ndens75;
+co2ndens75:long_name = "Licor 7500A CO2 number density";
+co2ndens75:Status = "Derived Variable" ;
+co2ndens75:units = "mmol/m3";
+co2ndens75:standard_name = "mole_concentration_of_carbon_dioxide_in_air" ;
+co2ndens75:Package = "get_7500licor";
+co2ndens75:matlab_name = "co2ndens75_" ;
+co2ndens75:raw_name = "unknown";
+co2ndens75:Dependencies = "N/A" ;
+co2ndens75:OutputRate = XX ;
+
+Float h2ondens75;
+h2ondens75:long_name = "Licor 7500A H2O number density";
+h2ondens75:Status = "Derived Variable" ;
+h2ondens75:units = "mmol/m3" ;
+h2ondens75:Package = "get_7500licor";
+h2ondens75:matlab_name = "h2ondens75_" ;
+h2ondens75:raw_name = "unknown";
+h2ondens75:Dependencies = "N/A" ;
+h2ondens75:OutputRate = XX ;
+
+Float co2mdens75;
+co2mdens75:long_name = "Licor 7500A CO2 mass density";
+co2mdens75:Status = "Derived Variable" ;
+co2mdens75:units = "milligram/m3";
+co2mdens75:standard_name = "mass_concentration_of_carbon_dioxide_in_air" ;
+co2mdens75:Package = "get_7500licor";
+co2mdens75:matlab_name = "co2mdens75_" ;
+co2mdens75:raw_name = "unknown";
+co2mdens75:Dependencies = "N/A" ;
+co2mdens75:OutputRate = XX ;
+
+Float h2omdens75;
+h2omdens75:long_name = "Licor 7500A H2O mass density";
+h2omdens75:Status = "Derived Variable" ;
+h2omdens75:units = "gram/m3" ;
+h2omdens75:Package = "get_7500licor";
+h2omdens75:matlab_name = "h2omdens75_" ;
+h2omdens75:raw_name = "unknown";
+h2omdens75:Dependencies = "N/A" ;
+h2omdens75:OutputRate = XX ;
+
+Float co2ml75;
+co2ml75:long_name = "CO2 mole fraction LICOR 7500A";
+co2ml75:Status = "Derived Variable" ;
+co2ml75:units = "umol/mole";
+co2ml75:Package = "get_7500licor";
+co2ml75:matlab_name = "co2ml75_" ;
+co2ml75:raw_name = "unknown";
+co2ml75:Dependencies = "N/A" ;
+co2ml75:OutputRate = XX ;
+
+Float co2pbml75;
+co2pbml75:long_name = "CO2 mole fraction LICOR 7500A (corrected for press broading)";
+co2pbml75:Status = "Derived Variable" ;
+co2pbml75:units = "umol/mole";
+co2pbml75:Package = "get_7500licor";
+co2pbml75:matlab_name = "co2pbml75_" ;
+co2pbml75:raw_name = "unknown";
+co2pbml75:Dependencies = "N/A" ;
+co2pbml75:OutputRate = XX ;
+
+Float co2pbml75d;
+co2pbml75d:long_name = "CO2 mole fraction (dry) LICOR 7500A (corrected for press broading)";
+co2pbml75d:Status = "Derived Variable" ;
+co2pbml75d:units = "umol/mole";
+co2pbml75d:Package = "get_7500licor";
+co2pbml75d:matlab_name = "co2pbml75d_" ;
+co2pbml75d:raw_name = "unknown";
+co2pbml75d:Dependencies = "N/A" ;
+co2pbml75d:OutputRate = XX ;
+
+Float co2ms75;
+co2ms75:long_name = "CO2 specific humidity LICOR 7500A";
+co2ms75:Status = "Derived Variable" ;
+co2ms75:units = "ugram/gram";
+co2ms75:Package = "get_7500licor";
+co2ms75:matlab_name = "co2ms75_" ;
+co2ms75:raw_name = "unknown";
+co2ms75:Dependencies = "N/A" ;
+co2ms75:OutputRate = XX ;
+
+Float co2pbms75;
+co2pbms75:long_name = "CO2 specific humidity LICOR 7500A (corrected for press broading)";
+co2pbms75:Status = "Derived Variable" ;
+co2pbms75:units = "ugram/gram";
+co2pbms75:Package = "get_7500licor";
+co2pbms75:matlab_name = "co2pbms75_" ;
+co2pbms75:raw_name = "unknown";
+co2pbms75:Dependencies = "N/A" ;
+co2pbms75:OutputRate = XX ;
+
+Float co2mx75;
+co2mx75:long_name = "CO2 mixing ratio LICOR 7500A";
+co2mx75:Status = "Derived Variable" ;
+co2mx75:units = "ugram/gram";
+co2mx75:Package = "get_7500licor";
+co2mx75:matlab_name = "co2mx75_" ;
+co2mx75:raw_name = "unknown";
+co2mx75:Dependencies = "N/A" ;
+co2mx75:OutputRate = XX ;
+
+Float co2pbmx75;
+co2pbmx75:long_name = "CO2 mixing ratio LICOR 7500A (corrected for press broading)";
+co2pbmx75:Status = "Derived Variable" ;
+co2pbmx75:units = "ugram/gram";
+co2pbmx75:Package = "get_7500licor";
+co2pbmx75:matlab_name = "co2pbmx75_" ;
+co2pbmx75:raw_name = "unknown";
+co2pbmx75:Dependencies = "N/A" ;
+co2pbmx75:OutputRate = XX ;
+
+Float tdplicor75;
+tdplicor75:long_name = "Dew point temperature from LICOR 7500A H2O mixing ratio";
+tdplicor75:Status = "Derived Variable" ;
+tdplicor75:units = "Celsius";
+tdplicor75:standard_name = "dew_point_temperature";
+tdplicor75:Package = "get_7500licor";
+tdplicor75:matlab_name = "tdplicor75_" ;
+tdplicor75:raw_name = "unknown";
+tdplicor75:Dependencies = "N/A" ;
+tdplicor75:OutputRate = XX ;
+
+Float h2oml75;
+h2oml75:long_name = "H2O mole fraction LICOR 7500A";
+h2oml75:Status = "Derived Variable" ;
+h2oml75:units = "mmol/mole";
+h2oml75:Package = "get_7500licor";
+h2oml75:matlab_name = "h2oml75_" ;
+h2oml75:raw_name = "unknown";
+h2oml75:Dependencies = "N/A" ;
+h2oml75:OutputRate = XX ;
+
+Float h2oms75;
+h2oms75:long_name = "H2O specific humidity LICOR 7500A";
+h2oms75:Status = "Derived Variable" ;
+h2oms75:units = "gram/kgram";
+h2oms75:Package = "get_7500licor";
+h2oms75:matlab_name = "h2oms75_" ;
+h2oms75:raw_name = "unknown";
+h2oms75:Dependencies = "N/A" ;
+h2oms75:OutputRate = XX ;
+
+Float h2omx75;
+h2omx75:long_name = "H2O mixing ratio LICOR 750HADSBturbMR0A";
+h2omx75:Status = "Derived Variable" ;
+h2omx75:units = "gram/kgram";
+h2omx75:standard_name = "humidity_mixing_ratio";
+h2omx75:Package = "get_7500licor";
+h2omx75:matlab_name = "h2omx75_" ;
+h2omx75:raw_name = "unknown";
+h2omx75:Dependencies = "N/A" ;
+h2omx75:OutputRate = XX ;
+
+Float turb;
+turb:long_name = "UTIS (MRI) Eddy dissipation rate ^1/3 u-component (corrected)";
+turb:Status = "Derived Variable" ;
+turb:units = "MKS";
+turb:Package = "get_varMISC";
+turb:matlab_name = "turb" ;
+turb:Dependencies = "N/A" ;
+turb:raw_name = "unknown";
+turb:OutputRate = 1;
+
+Float avEDR;
+avEDR:long_name = "Eddy dissipation rate EDR^1/3 RT w-component(corrected)";
+avEDR:Status = "Derived Variable" ;
+avEDR:units = "MKS";
+avEDR:Package = "avEDR" ;
+avEDR:Dependencies = "N/A" ;
+avEDR:raw_name = "unknown";
+avEDR:OutputRate = 1;
+
+Float AVedr;
+AVedr:long_name = "Eddy dissipation rate EDR^1/3 PP w-component PP(corrected)";
+AVedr:Status = "Derived Variable" ;
+AVedr:units = "MKS";
+AVedr:Package = "AVedr" ;
+AVedr:Dependencies = "N/A" ;
+AVedr:raw_name = "unknown";
+AVedr:OutputRate = 1;
+
+Float edrTAS;
+edrTAS:long_name = "Eddy dissipation rate EDR^1/3 w TAS component (corrected)";
+edrTAS:Status = "Derived Variable" ;
+edrTAS:units = "MKS";
+edrTAS:Package = "edrTAS" ;
+edrTAS:Dependencies = "N/A" ;
+edrTAS:raw_name = "unknown";
+edrTAS:OutputRate = 1;
+
+
+Integer32 user_events ;
+user_events:long_name = "Low voltage user events" ;
+user_events:units = "bit" ;
+user_events:Package = "Get_events1";
+user_events:matlab_name = "UEVENTS1" ;
+user_events:Dependencies = "N/A" ;
+user_events:raw_name = "unknown";
+user_events:OutputRate = 1 ;
+
+Integer32 lo_events ;
+lo_events:long_name = "Low voltage events" ;
+lo_events:units = "bit" ;
+lo_events:Package = "Get_events1";
+lo_events:matlab_name = "LEVENTS1" ;
+lo_events:Dependencies = "N/A" ;
+lo_events:raw_name = "unknown";
+lo_events:OutputRate = 1 ;
+lo_events:C_format = "%08x" ;
+
+
+Integer32 hi_events ;
+hi_events:long_name = "High voltage events" ;
+hi_events:units = "bit" ;
+hi_events:Package = "Get_events1";
+hi_events:matlab_name = "HEVENTS1" ;
+hi_events:Dependencies = "N/A" ;
+hi_events:raw_name = "unknown";
+hi_events:OutputRate = 1 ;
+hi_events:C_format = "%08x" ;
+
+Float tsb;
+tsb:long_name = "Total Scattering (blue) Phobea";
+tsb:Status = "Derived Variable" ;
+tsb:units = "1/megameter";
+tsb:Package = "get_phobea";
+tsb:matlab_name = "TSB" ;
+tsb:Dependencies = "N/A" ;
+tsb:raw_name = "unknown";
+tsb:OutputRate = XX ;
+
+Float tsg;
+tsg:long_name = "Total Scattering (green) Phobea";
+tsg:Status = "Derived Variable" ;
+tsg:units = "1/megameter";
+tsg:Package = "get_phobea";
+tsg:matlab_name = "TSG" ;
+tsg:Dependencies = "N/A" ;
+tsg:raw_name = "unknown";
+tsg:OutputRate = XX ;
+
+Float tsr;
+tsr:long_name = "Total Scattering (red) Phobea";
+tsr:Status = "Derived Variable" ;
+tsr:units = "1/megameter";
+tsr:Package = "get_phobea";
+tsr:matlab_name = "TSR" ;
+tsr:Dependencies = "N/A" ;
+tsr:raw_name = "unknown";
+tsr:OutputRate = XX ;
+
+Float bsb;
+bsb:long_name = "Back Scattering (blue) Phobea";
+bsb:Status = "Derived Variable" ;
+bsb:units = "1/megameter";
+bsb:Package = "get_phobea";
+bsb:matlab_name = "BSB" ;
+bsb:Dependencies = "N/A" ;
+bsb:raw_name = "unknown";
+bsb:OutputRate = XX ;
+
+Float bsg;
+bsg:long_name = "Back Scattering (green) Phobea";
+bsg:Status = "Derived Variable" ;
+bsg:units = "1/megameter";
+bsg:Package = "get_phobea";
+bsg:matlab_name = "BSG" ;
+bsg:Dependencies = "N/A" ;
+bsg:raw_name = "unknown";
+bsg:OutputRate = XX ;
+
+Float lwc100;
+lwc100:long_name = "Liquid water content (DMT100)";
+lwc100:Status = "Derived Variable" ;
+lwc100:units = "g/m3";
+lwc100:Package = "get_dmt";
+lwc100:matlab_name = "LWC100_" ;
+lwc100:Dependencies = "N/A" ;
+lwc100:raw_name = "unknown";
+lwc100:OutputRate = XX ;
+
+Float lwc301power;
+lwc301power:long_name = "Sensor power (DMT LWC301)";
+lwc301power:Status = "Derived Variable" ;
+lwc301power:units = "watt";
+lwc301power:Package = "get_301lwc";
+lwc301power:matlab_name = "LWC301Power" ;
+lwc301power:Dependencies = "N/A" ;
+lwc301power:raw_name = "unknown";
+lwc301power:OutputRate = XX ;
+
+Float lwc301lwc;
+lwc301lwc:long_name = "Liquid water content (DMT301)";
+lwc301lwc:Status = "Derived Variable" ;
+lwc301lwc:units = "gram/m3";
+lwc301lwc:Package = "get_301lwc";
+lwc301lwc:matlab_name = "lwc301lwc" ;
+lwc301lwc:Dependencies = "N/A" ;
+lwc301lwc:raw_name = "unknown";
+lwc301lwc:OutputRate = XX ;
+
+Float lwc301ave;
+lwc301ave:long_name = "Liquid water content (DMT301)";
+lwc301ave:Status = "Derived Variable" ;
+lwc301ave:units = "gram/m3";
+lwc301ave:Package = "get_301lwc";
+lwc301ave:matlab_name = "LWC301Ave" ;
+lwc301ave:Dependencies = "N/A" ;
+lwc301ave:raw_name = "unknown";
+lwc301ave:OutputRate = XX ;
+
+Float lwc301cal;
+lwc301cal:long_name = "Liquid water content (DMT301)";
+lwc301cal:Status = "Derived Variable" ;
+lwc301cal:units = "gram/m3";
+lwc301cal:Package = "get_301lwc";
+lwc301cal:matlab_name = "LWC301Cal" ;
+lwc301cal:Dependencies = "N/A" ;
+lwc301cal:raw_name = "unknown";
+lwc301cal:OutputRate = XX ;
+
+Float thetad;
+thetad:long_name = "Potential temperature (dry)";
+thetad:Status = "Derived Variable" ;
+thetad:units = "K";
+thetad:Package = "get_misc";
+thetad:matlab_name = "THETAD" ;
+thetad:StaticDefect="Corrected";
+thetad:Dependencies = "N/A" ;
+thetad:raw_name = "unknown";
+thetad:OutputRate = XX ;
+
+Float thetae;
+thetae:long_name = "Equivalent potential temperature";
+thetae:Status = "Derived Variable" ;
+thetae:units = "K";
+thetae:Package = "get_varTAS";
+thetae:matlab_name = "thetae" ;
+thetae:StaticDefect="Corrected";
+thetae:Dependencies = "N/A" ;
+thetae:raw_name = "unknown";
+thetae:OutputRate = XX ;
+
+Float PLCL;
+PLCL:long_name = "PLCL Lifted Condensation Level Pressure";
+PLCL:Status = "Derived Variable" ;
+PLCL:units = "hPa";
+PLCL:Package = "get_varTAS";
+PLCL:matlab_name = "PLCL" ;
+PLCL:StaticDefect="Corrected";
+PLCL:Dependencies = "N/A" ;
+PLCL:raw_name = "unknown";
+PLCL:OutputRate = XX ;
+
+Float TLCL;
+TLCL:long_name = "TLCL Lifted Condensation Level Temperature";
+TLCL:Status = "Derived Variable" ;
+TLCL:units = "Kelvin";
+TLCL:Package = "get_varTAS";
+TLCL:matlab_name = "TLCL" ;
+TLCL:StaticDefect="Corrected";
+TLCL:Dependencies = "N/A" ;
+TLCL:raw_name = "unknown";
+TLCL:OutputRate = XX ;
+
+Float ralt1;
+ralt1:long_name = "Radar altitude (Avionics)";
+ralt1:Status = "Derived Variable" ;
+ralt1:units = "meter";
+ralt1:Package = "get_misc";
+ralt1:matlab_name = "ZRAD" ;
+ralt1:Dependencies = "N/A" ;
+ralt1:raw_name = "unknown";
+ralt1:OutputRate = 1 ;
+
+Float ralt3;
+ralt3:long_name = "Radar altitude (APN232)";
+ralt3:Status = "Derived Variable" ;
+ralt3:units = "meter";
+ralt3:Package = "get_232ralt";
+ralt3:matlab_name = "RALT3" ;
+ralt3:Dependencies = "Z232F" ;
+ralt3:raw_name = "unknown";
+ralt3:OutputRate = 1 ;
+
+byte ralt3qc;
+ralt3qc:long_name = "Radar altitude (APN232) quality flag";
+ralt3qc:Status = "Derived Variable" ;
+ralt3qc:units = "bit";
+ralt3qc:Package = "get_232ralt";
+ralt3qc:matlab_name = "RALT3QC1" ;
+ralt3qc:Dependencies = "Z232F" ;
+ralt3qc:raw_name = "unknown";
+ralt3qc:OutputRate = 1 ;
+
+Float avtopo;
+avtopo:long_name = "Topography from database (AV410PP location)";
+avtopo:Status = "Derived Variable" ;
+avtopo:units = "meter";
+avtopo:database = "aster";
+avtopo:datum = "WGS84";
+avtopo:Package = "get_varTOPO";
+avtopo:matlab_name = "talt" ;
+avtopo:raw_name = "unknown";
+avtopo:OutputRate = XX ;
+
+Float AVtopo;
+AVtopo:long_name = "Topography from database (AV410RT location)";
+AVtopo:Status = "Derived Variable" ;
+AVtopo:units = "meter";
+AVtopo:database = "aster";
+AVtopo:datum = "WGS84";
+AVtopo:Package = "get_varTOPO";
+AVtopo:matlab_name = "talt" ;
+AVtopo:raw_name = "unknown";
+AVtopo:OutputRate = XX ;
+
+Float avzagl;
+avzagl:long_name = "Height above ground from database (AV410RT location)";
+avzagl:Status = "Derived Variable" ;
+avzagl:units = "meter";
+avzagl:database = "aster";
+avzagl:datum = "WGS84";
+avzagl:Package = "get_varTOPO";
+avzagl:matlab_name = "zagl" ;
+avzagl:raw_name = "unknown";
+avzagl:OutputRate = XX ;
+
+Float AVzagl;
+AVzagl:long_name = "Height above ground from database (AV410PP location)";
+AVzagl:Status = "Derived Variable" ;
+AVzagl:units = "meter";
+AVzagl:database = "aster";
+AVzagl:datum = "WGS84";
+AVzagl:Package = "get_varTOPO";
+AVzagl:matlab_name = "zagl" ;
+AVzagl:raw_name = "unknown";
+AVzagl:OutputRate = XX ;
+
+Float irt;
+irt:long_name = "Upper Eppley pir radiometer (raw)";
+irt:Status = "Derived Variable" ;
+irt:units = "watts/m2";
+irt:Package = "get_radiom";
+irt:matlab_name = "piru" ;
+irt:Dependencies = "N/A" ;
+irt:raw_name = "unknown";
+irt:OutputRate = XX ;
+
+Float irtc;
+irtc:long_name = "Upper Eppley pir radiometer (temperature corrected)";
+irtc:Status = "Derived Variable" ;
+irtc:units = "watts/m2";
+irtc:Package = "get_radiom";
+irtc:matlab_name = "piruc" ;
+irtc:Dependencies = "N/A" ;
+irtc:raw_name = "unknown";
+irtc:OutputRate = XX ;
+
+Float irb;
+irb:long_name = "Lower Eppley pir radiometer (raw)";
+irb:Status = "Derived Variable" ;
+irb:units = "watts/m2";
+irb:Package = "get_radiom";
+irb:matlab_name = "pird" ;
+irb:Dependencies = "N/A" ;
+irb:raw_name = "unknown";
+irb:OutputRate = XX ;
+
+Float irbc;
+irbc:long_name = "Lower Eppley pir radiometer (temperature corrected)";
+irbc:Status = "Derived Variable" ;
+irbc:units = "watts/m2";
+irbc:Package = "get_radiom";
+irbc:matlab_name = "pirdc" ;
+irbc:Dependencies = "N/A" ;
+irbc:raw_name = "unknown";
+irbc:OutputRate = XX ;
+
+Float TDomeT;
+TDomeT:long_name = "Upper Eppley PIR hemisph. temperature ";
+TDomeT:Status = "Derived Variable" ;
+TDomeT:units = "celsius";
+TDomeT:Package = "get_radiom";
+TDomeT:matlab_name = "pirhu" ;
+TDomeT:Dependencies = "N/A" ;
+TDomeT:raw_name = "unknown";
+TDomeT:OutputRate = XX ;
+
+Float TDomeB;
+TDomeB:long_name = "Lower Eppley PIR hemisph. temperature ";
+TDomeB:Status = "Derived Variable" ;
+TDomeB:units = "celsius";
+TDomeB:Package = "get_radiom";
+TDomeB:matlab_name = "pirhd" ;
+TDomeB:Dependencies = "N/A" ;
+TDomeB:raw_name = "unknown";
+TDomeB:OutputRate = XX ;
+
+Float TSinkT;
+TSinkT:long_name = "Upper Eppley PIR case temperature ";
+TSinkT:Status = "Derived Variable" ;
+TSinkT:units = "celsius";
+TSinkT:Package = "get_radiom";
+TSinkT:matlab_name = "pircu" ;
+TSinkT:Dependencies = "N/A" ;
+TSinkT:raw_name = "unknown";
+TSinkT:OutputRate = XX ;
+
+Float TSinkB;
+TSinkB:long_name = "Lower Eppley PIR case temperature ";
+TSinkB:Status = "Derived Variable" ;
+TSinkB:units = "celsius";
+TSinkB:Package = "get_radiom";
+TSinkB:matlab_name = "pircd" ;
+TSinkB:Dependencies = "N/A" ;
+TSinkB:raw_name = "unknown";
+TSinkB:OutputRate = XX ;
+
+Float swt;
+swt:long_name = "Upper Eppley PSP SW radiometer";
+swt:Status = "Derived Variable" ;
+swt:units = "watts/m2";
+swt:Package = "get_radiom";
+swt:matlab_name = "pspu" ;
+swt:Dependencies = "N/A" ;
+swt:raw_name = "unknown";
+swt:OutputRate = XX ;
+
+Float swb;
+swb:long_name = "Lower Eppley PSP SW radiometer";
+swb:Status = "Derived Variable" ;
+swb:units = "watts/m2";
+swb:Package = "get_radiom";
+swb:matlab_name = "pspd" ;
+swb:Dependencies = "N/A" ;
+swb:raw_name = "unknown";
+swb:OutputRate = XX ;
+
+Float rstb;
+rstb:long_name = "IR radiometric temperature (Heiman)";
+rstb:Status = "Raw Variable" ;
+rstb:units = "Celsius";
+rstb:Package = "get_radiom";
+rstb:matlab_name = "HEIMAN" ;
+rstb:Dependencies = "N/A" ;
+rstb:raw_name = "unknown";
+rstb:OutputRate = XX ;
+
+Float rstb2;
+rstb2:long_name = "IR radiometric temperature (Heitronics)";
+rstb2:Status = "Raw Variable" ;
+rstb2:units = "Celsius";
+rstb2:Package = "get_radiom";
+rstb2:matlab_name = "KT" ;
+rstb2:Dependencies = "N/A" ;
+rstb2:raw_name = "unknown";
+rstb2:OutputRate = XX ;
+
+Float bxa100 ;
+bxa100:long_name = "Channel C Exotech radiometer" ;
+bxa100:units = "watt meter-2" ;
+bxa100:SampleRate = 100 ;
+bxa100:Package = "get_radiom";
+bxa100:matlab_name = "BXA100_" ;
+bxa100:OutputRate = XX ;
+
+Float bxb100 ;
+bxb100:long_name = "Channel C Exotech radiometer" ;
+bxb100:units = "watt meter-2" ;
+bxb100:SampleRate = 100 ;
+bxb100:Package = "get_radiom";
+bxb100:matlab_name = "BXB100_" ;
+bxb100:OutputRate = XX ;
+
+Float bxc100 ;
+bxc100:long_name = "Channel C Exotech radiometer" ;
+bxc100:units = "watt meter-2" ;
+bxc100:SampleRate = 100 ;
+bxc100:Package = "get_radiom";
+bxc100:matlab_name = "BXC100_" ;
+bxc100:OutputRate = XX ;
+
+Float bxd100 ;
+bxd100:long_name = "Channel D Exotech radiometer" ;
+bxd100:units = "watt meter-2" ;
+bxd100:SampleRate = 100 ;
+bxd100:Package = "get_radiom";
+bxd100:matlab_name = "BXD100_" ;
+bxd100:OutputRate = XX ;
+
+Float ndvi ;
+ndvi:long_name = "NDVI from  Exotech radiometer" ;
+ndvi:units = "dimensionless" ;
+ndvi:SampleRate = 100 ;
+ndvi:Package = "get_radiom";
+ndvi:matlab_name = "ndvi" ;
+ndvi:OutputRate = XX ;
+
+Float cabinp;
+cabinp:long_name = "cabin pressure Rosemount 1332";
+cabinp:Status = "Raw Variable" ;
+cabinp:units = "hPa";
+cabinp:Package = "get_misc";
+cabinp:matlab_name = "cabinp" ;
+cabinp:Dependencies = "N/A" ;
+cabinp:raw_name = "unknown";
+cabinp:OutputRate = XX ;
+
+Float flowr;
+flowr:long_name = "Li-cor ref flow";
+flowr:Status = "Raw Variable" ;
+flowr:units = "slpm";
+flowr:Package = "get_misc";
+flowr:matlab_name = "FLOW_R" ;
+flowr:Dependencies = "N/A" ;
+flowr:raw_name = "unknown";
+flowr:OutputRate = XX ;
+
+Float flowi;
+flowi:long_name = "Li-cor inlet flow";
+flowi:Status = "Raw Variable" ;
+flowi:units = "slpm";
+flowi:Package = "get_misc";
+flowi:matlab_name = "FLOW_I" ;
+flowi:Dependencies = "N/A" ;
+flowi:raw_name = "unknown";
+flowi:OutputRate = XX ;
+
+Float flowm;
+flowm:long_name = "a/c main inlet flow";
+flowm:Status = "Raw Variable" ;
+flowm:units = "slpm";
+flowm:Package = "get_misc";
+flowm:matlab_name = "FLOW_M" ;
+flowm:Dependencies = "N/A" ;
+flowm:raw_name = "unknown";
+flowm:OutputRate = XX ;
+
+Float flow70;
+flow70:long_name = "Licor 7000 Flow";
+flow70:units = "volt";
+flow70:Package = "get_7000licor";
+flow70:matlab_name = "flow70";
+flow70:OutputRate = XX;
+
+Float co2mlb70;
+co2mlb70:long_name = "Licor 7000 C02 cell B concentration";
+co2mlb70:units = "umol/mol";
+co2mlb70:Package = "get_7000licor";
+co2mlb70:matlab_name = "co2mlb70";
+co2mlb70:OutputRate = XX;
+
+Float tdp70;
+tdp70:long_name = "Licor 7000 Dew point of cell B";
+tdp70:units = "Celsius";
+tdp70:standard_name = "dew_point_temperature";
+tdp70:Package = "get_7000licor";
+tdp70:matlab_name = "tdpli70";
+tdp70:OutputRate = XX;
+
+Float h2omlb70;
+h2omlb70:long_name = "Licor 7000 H2O cell B mass mixing ratio";
+h2omlb70:units = "gram/kg";
+h2omlb70:standard_name = "humidity_mixing_ratio";
+h2omlb70:Dependencies = "H2OMLB70";
+h2omlb70:Package = "get_7000licor";
+h2omlb70:matlab_name = "h2omlb70";
+h2omlb70:OutputRate = XX;
+
+Float rhli70;
+rhli70:long_name = "Licor 7000 cell B relative humidity";
+rhli70:units = "percent" ;
+rhli70:standard_name = "relative_humidity";
+rhli70:Dependencies = "TDPLI70,tr,PHADSA" ;
+rhli70:Package = "get_7000licor";
+rhli70:matlab_name = "rhli70";
+rhli70:OutputRate = XX;
+
+
+// PMS FSSP is in FS1 canister. Edit to change.
+Float AFSSP_FSA ;
+AFSSP_FSA:units = "counts" ;
+AFSSP_FSA:long_name = "FSSP-100 Raw Accumulation (per cell)" ;
+AFSSP_FSA:Category = "PMS Probe" ;
+AFSSP_FSA:missing_value = -32767. ;
+AFSSP_FSA:SampledRate = 10 ;
+AFSSP_FSA:OutputRate = YY ;
+AFSSP_FSA:matlab_name= "FsspYY_FSA";
+AFSSP_FSA:VectorLength = 16 ;
+AFSSP_FSA:SerialNumber = "_FSA22" ;
+AFSSP_FSA:FirstBin = 1 ;
+AFSSP_FSA:LastBin = 15 ;
+AFSSP_FSA:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
+25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
+1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
+25., 27., 29., 31.,
+.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
+12.5, 13.5, 14.5, 15.5,
+.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
+4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75 ;
+AFSSP_FSA:CellSizeUnits = "micrometers" ;
+AFSSP_FSA:Density = 1. ;
+AFSSP_FSA:PLWfactor = 1.e-06 ;
+AFSSP_FSA:DBZfactor = 1000000. ;
+
+// PMS 200X is in XX1 canister. Edit to change.
+Float A200X_LXA ;
+A200X_LXA:units = "counts" ;
+A200X_LXA:long_name = "200X Raw Accumulation (per cell)" ;
+A200X_LXA:Category = "PMS Probe" ;
+A200X_LXA:missing_value = -32767. ;
+A200X_LXA:SampledRate = 10 ;
+A200X_LXA:OutputRate = YY ;
+A200X_LXA:matlab_name = "a200xYY";
+A200X_LXA:VectorLength = 16 ;
+A200X_LXA:SerialNumber = "" ;
+A200X_LXA:FirstBin = 1 ;
+A200X_LXA:LastBin = 15 ;
+A200X_LXA:CellSizes = 6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25,
+93.75, 106.25, 118.75, 131.25, 143.75, 156.25, 168.75, 181.25, 193.75f ;
+//A200X_LXA:CellSizes = 12.5, 25., 37.5, 50., 62.5, 75., 87.5, 100.,
+// 112.5, 125., 137.5, 150., 162.5, 175., 187.5, 9999. ;
+A200X_LXA:nDiodes = 23 ;
+A200X_LXA:Resolution = 12.5;
+A200X_LXA:Magnification = 16. ;
+A200X_LXA:ResponseTime = 0.35f ;
+A200X_LXA:ArmDistance = 61. ;
+A200X_LXA:CellSizeUnits = "micrometers" ;
+A200X_LXA:Density = 1. ;
+A200X_LXA:PLWfactor = 1.e-09f ;
+A200X_LXA:DBZfactor = 1000. ;
+
+//Following are Derived Varibles from PMS optical array probes.
+Float C200X_LXA ;
+C200X_LXA:units = "liter-1" ;
+C200X_LXA:long_name = "200X concentration (per cell)" ;
+C200X_LXA:Category = "PMS Probe" ;
+C200X_LXA:missing_value = -32767. ;
+C200X_LXA:SampledRate = 10 ;
+C200X_LXA:OutputRate = YY ;
+C200X_LXA:matlab_name = "s200xYY";
+C200X_LXA:VectorLength = 16 ;
+C200X_LXA:SerialNumber = "" ;
+C200X_LXA:CellSizes = 6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25,
+93.75, 106.25, 118.75, 131.25, 143.75, 156.25, 168.75, 181.25, 193.75f ;
+//C200X_LXA:CellSizes = 12.5, 25., 37.5, 50., 62.5, 75., 87.5, 100.,
+// 112.5, 125., 137.5, 150., 162.5, 175., 187.5, 9999. ;
+C200X_LXA:FirstBin = 1 ;
+C200X_LXA:LastBin = 15 ;
+C200X_LXA:Resolution = 12.5;
+C200X_LXA:nDiodes = 23 ;
+C200X_LXA:Magnification = 16. ;
+C200X_LXA:ResponseTime = 0.35f ;
+C200X_LXA:ArmDistance = 61. ;
+C200X_LXA:CellSizeUnits = "micrometers" ;
+C200X_LXA:Density = 1. ;
+C200X_LXA:PLWfactor = 1.e-09f ;
+C200X_LXA:DBZfactor = 1000. ;
+
+
+Float CFSSP_FSA ;
+CFSSP_FSA:units = "cm-3" ;
+CFSSP_FSA:long_name = "FSSP-100 Accumulation (per cell)" ;
+CFSSP_FSA:Category = "PMS Probe" ;
+CFSSP_FSA:missing_value = -32767. ;
+CFSSP_FSA:SampledRate = 10 ;
+CFSSP_FSA:OutputRate = YY ;
+CFSSP_FSA:VectorLength = 16 ;
+CFSSP_FSA:SerialNumber = "_FSA22" ;
+CFSSP_FSA:Package = "get_fssp";
+CFSSP_FSA:matlab_name = "concfYY_FSA" ;
+CFSSP_FSA:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
+25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
+1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
+25., 27., 29., 31.,
+.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
+12.5, 13.5, 14.5, 15.5,
+.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
+4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75 ;
+CFSSP_FSA:FirstBin = 1 ;
+CFSSP_FSA:LastBin = 15 ;
+CFSSP_FSA:CellSizeUnits = "micrometers" ;
+CFSSP_FSA:Density = 1. ;
+CFSSP_FSA:PLWfactor = 1.e-06f ;
+CFSSP_FSA:DBZfactor = 1000000. ;
+
+Float FRNG_FSA ;
+FRNG_FSA:units = "none" ;
+FRNG_FSA:long_name = "FSSP-100 Size Range Category" ;
+FRNG_FSA:Category = "PMS Probe" ;
+FRNG_FSA:missing_value = -32767. ;
+FRNG_FSA:SampledRate = 1 ;
+FRNG_FSA:VectorLength = 1 ;
+FRNG_FSA:Package = "get_fssp";
+FRNG_FSA:matlab_name = "frangeYY_FSA" ;
+FRNG_FSA:Dependencies = "N/A" ;
+FRNG_FSA:raw_name = "unknown";
+FRNG_FSA:OutputRate = YY ;
+
+Float CONCX_LXA;
+CONCX_LXA:units = "liter-1" ;
+CONCX_LXA:long_name = "200X Concentration (all cells)" ;
+CONCX_LXA:Category = "PMS Probe" ;
+CONCX_LXA:missing_value = -32767. ;
+CONCX_LXA:Package = "get_200x";
+CONCX_LXA:matlab_name = "t200xYY" ;
+CONCX_LXA:Dependencies = "N/A" ;
+CONCX_LXA:raw_name = "unknown";
+CONCX_LXA:OutputRate = YY ;
+
+Float CONCF_FSA;
+CONCF_FSA:units = "cm-3" ;
+CONCF_FSA:long_name = "FSSP-100 Concentration (all cells)" ;
+CONCF_FSA:Category = "PMS Probe" ;
+CONCF_FSA:missing_value = -32767. ;
+CONCF_FSA:Package = "get_fssp";
+CONCF_FSA:matlab_name = "fconcYY_FSA" ;
+CONCF_FSA:Dependencies = "N/A" ;
+CONCF_FSA:raw_name = "unknown";
+CONCF_FSA:OutputRate = YY ;
+
+Float FACT_FSA ;
+FACT_FSA:units = "none" ;
+FACT_FSA:long_name = "FSSP-100 Activity Fraction" ;
+FACT_FSA:Category = "PMS Probe" ;
+FACT_FSA:missing_value = -32767. ;
+FACT_FSA:SampledRate = 50 ;
+FACT_FSA:OutputRate = YY ;
+FACT_FSA:Package = "get_fssp";
+FACT_FSA:matlab_name = "ActivityYY_FSA" ;
+FACT_FSA:Dependencies = "N/A" ;
+FACT_FSA:raw_name = "unknown";
+
+Float FRST_FSA ;
+FRST_FSA:units = "counts" ;
+FRST_FSA:long_name = "FSSP-100 Fast Resets" ;
+FRST_FSA:Category = "PMS Probe" ;
+FRST_FSA:missing_value = -32767. ;
+FRST_FSA:SampledRate = 50 ;
+FRST_FSA:OutputRate = YY ;
+FRST_FSA:Package = "get_fssp";
+FRST_FSA:matlab_name = "ResetsYY_FSA" ;
+FRST_FSA:Dependencies = "N/A" ;
+FRST_FSA:raw_name = "unknown";
+
+Float FSTB_FSA ;
+FSTB_FSA:units = "counts" ;
+FSTB_FSA:long_name = "FSSP-100 Total Strobes" ;
+FSTB_FSA:Category = "PMS Probe" ;
+FSTB_FSA:missing_value = -32767. ;
+FSTB_FSA:SampledRate = 50 ;
+FSTB_FSA:OutputRate = YY ;
+FSTB_FSA:Package = "get_fsspXX.m";
+FSTB_FSA:matlab_name = "TotalStrobesYY_FSA" ;
+FSTB_FSA:Dependencies = "N/A" ;
+FSTB_FSA:raw_name = "unknown";
+
+Float FGSTB_FSA ;
+FGSTB_FSA:units = "counts" ;
+FGSTB_FSA:long_name = "FSSP-100 Gated Strobes" ;
+FGSTB_FSA:Category = "PMS Probe" ;
+FGSTB_FSA:missing_value = -32767. ;
+FGSTB_FSA:SampledRate = 50 ;
+FGSTB_FSA:OutputRate = YY ;
+FGSTB_FSA:Package = "get_fsspXX.m";
+FGSTB_FSA:matlab_name = "GatedStrobesYY_FSA" ;
+FGSTB_FSA:Dependencies = "N/A" ;
+FGSTB_FSA:raw_name = "unknown";
+
+Float DBARX_LXA;
+DBARX_LXA:units = "um" ;
+DBARX_LXA:long_name = "200X Mean Particle Diameter" ;
+DBARX_LXA:Category = "PMS Probe" ;
+DBARX_LXA:missing_value = -32767. ;
+DBARX_LXA:Package = "get_misc";
+DBARX_LXA:matlab_name = "d200xYY" ;
+DBARX_LXA:Dependencies = "N/A" ;
+DBARX_LXA:raw_name = "unknown";
+DBARX_LXA:OutputRate = YY ;
+
+Float DBARF_FSA;
+DBARF_FSA:units = "um" ;
+DBARF_FSA:long_name = "FSSP-100 Mean Particle Diameter" ;
+DBARF_FSA:Category = "PMS Probe" ;
+DBARF_FSA:missing_value = -32767. ;
+DBARF_FSA:Package = "get_fssp";
+DBARF_FSA:matlab_name = "Dbar_FSA" ;
+DBARF_FSA:Dependencies = "N/A" ;
+DBARF_FSA:raw_name = "unknown";
+DBARF_FSA:OutputRate = YY ;
+
+Float FBMFR_FSA;
+FBMFR_FSA:units = "fraction" ;
+FBMFR_FSA:long_name = "FSSP-100 Beam Fraction" ;
+FBMFR_FSA:Category = "PMS Probe" ;
+FBMFR_FSA:missing_value = -32767. ;
+FBMFR_FSA:Package = "get_fssp";
+FBMFR_FSA:matlab_name = "BeamFractionYY_FSA" ;
+FBMFR_FSA:Dependencies = "N/A" ;
+FBMFR_FSA:raw_name = "unknown";
+FBMFR_FSA:OutputRate = YY ;
+
+Float FDOFFR_FSA;
+FDOFFR_FSA:units = "fraction" ;
+FDOFFR_FSA:long_name = "FSSP-100 DOF Fraction" ;
+FDOFFR_FSA:Category = "PMS Probe" ;
+FDOFFR_FSA:missing_value = -32767. ;
+FDOFFR_FSA:Package = "get_fssp";
+FDOFFR_FSA:matlab_name = "DOFFractionYY_FSA" ;
+FDOFFR_FSA:Dependencies = "N/A" ;
+FDOFFR_FSA:raw_name = "unknown";
+FDOFFR_FSA:OutputRate = YY ;
+
+Float PLWCX_LXA;
+PLWCX_LXA:units = "gram/m3" ;
+PLWCX_LXA:long_name = "200X Water Content" ;
+PLWCX_LXA:Category = "PMS Probe" ;
+PLWCX_LXA:missing_value = -32767. ;
+PLWCX_LXA:Package = "get_misc";
+PLWCX_LXA:matlab_name = "lwc200xYY" ;
+PLWCX_LXA:Dependencies = "N/A" ;
+PLWCX_LXA:raw_name = "unknown";
+PLWCX_LXA:OutputRate = YY ;
+
+Float PLWCF_FSA;
+PLWCF_FSA:units = "gram/m3" ;
+PLWCF_FSA:long_name = "FSSP-100 Water Content" ;
+PLWCF_FSA:Category = "Derived PMS Probe" ;
+PLWCF_FSA:missing_value = -32767. ;
+PLWCF_FSA:Package = "get_fssp";
+PLWCF_FSA:matlab_name = "flwcYY_FSA" ;
+PLWCF_FSA:Dependencies = "N/A" ;
+PLWCF_FSA:raw_name = "unknown";
+PLWCF_FSA:OutputRate = YY ;
+
+Float REffective_FSA;
+REffective_FSA:long_name = "FSSP-100  effective radius" ;
+REffective_FSA:Category = "Derived" ;
+REffective_FSA:units = "um" ;
+REffective_FSA:SampleRate = 10 ;
+REffective_FSA:Package = "get_fssp";
+REffective_FSA:matlab_name = "REffectiveYY_FSA" ;
+REffective_FSA:Dependencies = "N/A" ;
+REffective_FSA:raw_name = "unknown";
+REffective_FSA:OutputRate = YY ;
+
+Float RBarVol_FSA ;
+RBarVol_FSA:long_name = "FSSP-100  Mean volume radius" ;
+RBarVol_FSA:Category = "Derived" ;
+RBarVol_FSA:units = "um" ;
+RBarVol_FSA:SampleRate = 10 ;
+RBarVol_FSA:Package = "get_fssp";
+RBarVol_FSA:matlab_name = "RBarVolYY_FSA" ;
+RBarVol_FSA:Dependencies = "N/A" ;
+RBarVol_FSA:raw_name = "unknown";
+RBarVol_FSA:OutputRate = YY ;
+
+Float SurfArea_FSA ;
+SurfArea_FSA:long_name = "FSSP-100  Particle Surface Area" ;
+SurfArea_FSA:Category = "Derived" ;
+SurfArea_FSA:units = "cm2/m3" ;
+SurfArea_FSA:SampleRate = 10 ;
+SurfArea_FSA:Package = "get_fssp";
+SurfArea_FSA:matlab_name = "SurfAreaYY_FSA" ;
+SurfArea_FSA:Dependencies = "N/A" ;
+SurfArea_FSA:raw_name = "unknown";
+SurfArea_FSA:OutputRate = YY ;
+
+// PMS FSSP is in FS2 canister. Edit to change.
+Float AFSSP_FSB ;
+AFSSP_FSB:units = "counts" ;
+AFSSP_FSB:long_name = "FSSP-100 Raw Accumulation (per cell)" ;
+AFSSP_FSB:Category = "PMS Probe" ;
+AFSSP_FSB:missing_value = -32767. ;
+AFSSP_FSB:SampledRate = 10 ;
+AFSSP_FSB:OutputRate = YY ;
+AFSSP_FSB:matlab_name= "FsspYY_FSB";
+AFSSP_FSB:VectorLength = 16 ;
+AFSSP_FSB:SerialNumber = "_FSA22" ;
+AFSSP_FSB:FirstBin = 1 ;
+AFSSP_FSB:LastBin = 15 ;
+AFSSP_FSB:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
+25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
+1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
+25., 27., 29., 31.,
+.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
+12.5, 13.5, 14.5, 15.5,
+.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
+4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75f ;
+AFSSP_FSB:CellSizeUnits = "micrometers" ;
+AFSSP_FSB:Density = 1. ;
+AFSSP_FSB:PLWfactor = 1.e-06f ;
+AFSSP_FSB:DBZfactor = 1000000. ;
+
+Float CFSSP_FSB ;
+CFSSP_FSB:units = "cm-3" ;
+CFSSP_FSB:long_name = "FSSP-100 Accumulation (per cell)" ;
+CFSSP_FSB:Category = "PMS Probe" ;
+CFSSP_FSB:missing_value = -32767. ;
+CFSSP_FSB:SampledRate = 10 ;
+CFSSP_FSB:OutputRate = YY ;
+CFSSP_FSB:VectorLength = 16 ;
+CFSSP_FSB:SerialNumber = "_FSA22" ;
+CFSSP_FSB:Package = "get_fssp";
+CFSSP_FSB:matlab_name = "concfYY_FSB" ;
+CFSSP_FSB:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
+25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
+1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
+25., 27., 29., 31.,
+.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
+12.5, 13.5, 14.5, 15.5,
+.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
+4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75f ;
+CFSSP_FSB:FirstBin = 1 ;
+CFSSP_FSB:LastBin = 15 ;
+CFSSP_FSB:CellSizeUnits = "micrometers" ;
+CFSSP_FSB:Density = 1. ;
+CFSSP_FSB:PLWfactor = 1.e-06f ;
+CFSSP_FSB:DBZfactor = 1000000. ;
+
+Float FRNG_FSB ;
+FRNG_FSB:units = "none" ;
+FRNG_FSB:long_name = "FSSP-100 Size Range Category" ;
+FRNG_FSB:Category = "PMS Probe" ;
+FRNG_FSB:missing_value = -32767. ;
+FRNG_FSB:SampledRate = 1 ;
+FRNG_FSB:VectorLength = 1 ;
+FRNG_FSB:Package = "get_fssp";
+FRNG_FSB:matlab_name = "frangeYY_FSB" ;
+FRNG_FSB:Dependencies = "N/A" ;
+FRNG_FSB:raw_name = "unknown";
+FRNG_FSB:OutputRate = YY ;
+
+Float CONCF_FSB;
+CONCF_FSB:units = "cm-3" ;
+CONCF_FSB:long_name = "FSSP-100 Concentration (all cells)" ;
+CONCF_FSB:Category = "PMS Probe" ;
+CONCF_FSB:missing_value = -32767. ;
+CONCF_FSB:Package = "get_fssp";
+CONCF_FSB:matlab_name = "fconcYY_FSB" ;
+CONCF_FSB:Dependencies = "N/A" ;
+CONCF_FSB:raw_name = "unknown";
+CONCF_FSB:OutputRate = YY ;
+
+Float FACT_FSB ;
+FACT_FSB:units = "none" ;
+FACT_FSB:long_name = "FSSP-100 Activity Fraction" ;
+FACT_FSB:Category = "PMS Probe" ;
+FACT_FSB:missing_value = -32767. ;
+FACT_FSB:SampledRate = 50 ;
+FACT_FSB:OutputRate = YY ;
+FACT_FSB:Package = "get_fssp";
+FACT_FSB:matlab_name = "ActivityYY_FSB" ;
+FACT_FSB:Dependencies = "N/A" ;
+FACT_FSB:raw_name = "unknown";
+
+Float FRST_FSB ;
+FRST_FSB:units = "counts" ;
+FRST_FSB:long_name = "FSSP-100 Fast Resets" ;
+FRST_FSB:Category = "PMS Probe" ;
+FRST_FSB:missing_value = -32767. ;
+FRST_FSB:SampledRate = 50 ;
+FRST_FSB:OutputRate = YY ;
+FRST_FSB:Package = "get_fssp";
+FRST_FSB:matlab_name = "ResetsYY_FSB" ;
+FRST_FSB:Dependencies = "N/A" ;
+FRST_FSB:raw_name = "unknown";
+
+Float FSTB_FSB ;
+FSTB_FSB:units = "counts" ;
+FSTB_FSB:long_name = "FSSP-100 Total Strobes" ;
+FSTB_FSB:Category = "PMS Probe" ;
+FSTB_FSB:missing_value = -32767. ;
+FSTB_FSB:SampledRate = 50 ;
+FSTB_FSB:OutputRate = YY ;
+FSTB_FSB:Package = "get_fsspXX.m";
+FSTB_FSB:matlab_name = "TotalStrobesYY_FSB" ;
+FSTB_FSB:Dependencies = "N/A" ;
+FSTB_FSB:raw_name = "unknown";
+
+Float DBARF_FSB;
+DBARF_FSB:units = "um" ;
+DBARF_FSB:long_name = "FSSP-100 Mean Particle Diameter" ;
+DBARF_FSB:Category = "PMS Probe" ;
+DBARF_FSB:missing_value = -32767. ;
+DBARF_FSB:Package = "get_fssp";
+DBARF_FSB:matlab_name = "Dbar_FSB" ;
+DBARF_FSB:Dependencies = "N/A" ;
+DBARF_FSB:raw_name = "unknown";
+DBARF_FSB:OutputRate = YY ;
+
+Float FBMFR_FSB;
+FBMFR_FSB:units = "fraction" ;
+FBMFR_FSB:long_name = "FSSP-100 Beam Fraction" ;
+FBMFR_FSB:Category = "PMS Probe" ;
+FBMFR_FSB:missing_value = -32767. ;
+FBMFR_FSB:Package = "get_fssp";
+FBMFR_FSB:matlab_name = "BeamFractionYY_FSB" ;
+FBMFR_FSB:Dependencies = "N/A" ;
+FBMFR_FSB:raw_name = "unknown";
+FBMFR_FSB:OutputRate = YY ;
+
+Float FDOFFR_FSB;
+FDOFFR_FSB:units = "fraction" ;
+FDOFFR_FSB:long_name = "FSSP-100 DOF Fraction" ;
+FDOFFR_FSB:Category = "PMS Probe" ;
+FDOFFR_FSB:missing_value = -32767. ;
+FDOFFR_FSB:Package = "get_fssp";
+FDOFFR_FSB:matlab_name = "DOFFractionYY_FSB" ;
+FDOFFR_FSB:Dependencies = "N/A" ;
+FDOFFR_FSB:raw_name = "unknown";
+FDOFFR_FSB:OutputRate = YY ;
+
+Float PLWCF_FSB;
+PLWCF_FSB:units = "gram/m3" ;
+PLWCF_FSB:long_name = "FSSP-100 Water Content" ;
+PLWCF_FSB:Category = "Derived PMS Probe" ;
+PLWCF_FSB:missing_value = -32767. ;
+PLWCF_FSB:Package = "get_fssp";
+PLWCF_FSB:matlab_name = "flwcYY_FSB" ;
+PLWCF_FSB:Dependencies = "N/A" ;
+PLWCF_FSB:raw_name = "unknown";
+PLWCF_FSB:OutputRate = YY ;
+
+Float REffective_FSB;
+REffective_FSB:long_name = "FSSP-100  effective radius" ;
+REffective_FSB:Category = "Derived" ;
+REffective_FSB:units = "um" ;
+REffective_FSB:SampleRate = 10 ;
+REffective_FSB:Package = "get_fssp";
+REffective_FSB:matlab_name = "REffectiveYY_FSB" ;
+REffective_FSB:Dependencies = "N/A" ;
+REffective_FSB:raw_name = "unknown";
+REffective_FSB:OutputRate = YY ;
+
+Float RBarVol_FSB ;
+RBarVol_FSB:long_name = "FSSP-100  Mean volume radius" ;
+RBarVol_FSB:Category = "Derived" ;
+RBarVol_FSB:units = "um" ;
+RBarVol_FSB:SampleRate = 10 ;
+RBarVol_FSB:Package = "get_fssp";
+RBarVol_FSB:matlab_name = "RBarVolYY_FSB" ;
+RBarVol_FSB:Dependencies = "N/A" ;
+RBarVol_FSB:raw_name = "unknown";
+RBarVol_FSB:OutputRate = YY ;
+
+Float SurfArea_FSB ;
+SurfArea_FSB:long_name = "FSSP-100  Particle Surface Area" ;
+SurfArea_FSB:Category = "Derived" ;
+SurfArea_FSB:units = "cm2/m3" ;
+SurfArea_FSB:SampleRate = 10 ;
+SurfArea_FSB:Package = "get_fssp";
+SurfArea_FSB:matlab_name = "SurfAreaYY_FSB" ;
+SurfArea_FSB:Dependencies = "N/A" ;
+SurfArea_FSB:raw_name = "unknown";
+SurfArea_FSB:OutputRate = YY ;
+
+Float pvmre;
+pvmre:long_name = "PVM-100A (Gerber) effective radius" ;
+pvmre:Category = "Derived" ;
+pvmre:units = "um" ;
+pvmre:CalFactor = 0., 1. ;
+pvmre:SampleRate = 100 ;
+pvmre:module = "!IP330_1" ;
+pvmre:channel = 19 ;
+pvmre:type = "analog" ;
+pvmre:Package = "get_data";
+pvmre:matlab_name = "PVMRE" ;
+pvmre:Dependencies = "N/A" ;
+pvmre:raw_name = "unknown";
+pvmre:OutputRate = XX ;
+
+Float pvmpsa;
+pvmpsa:long_name = "PVM-100A (Gerber) particle surface area" ;
+pvmpsa:Category = "Derived" ;
+pvmpsa:units = "cm2/m3" ;
+pvmpsa:SampleRate = 100 ;
+pvmpsa:module = "!IP330_1" ;
+pvmpsa:channel = 13 ;
+pvmpsa:type = "analog" ;
+pvmpsa:Package = "get_data";
+pvmpsa:matlab_name = "PVMPSA" ;
+pvmpsa:Dependencies = "N/A" ;
+pvmpsa:raw_name = "unknown";
+pvmpsa:OutputRate = XX ;
+
+Float pvmlwc;
+pvmlwc:long_name = "PVM-100A (Gerber) liquid water content" ;
+pvmlwc:Category = "Derived" ;
+pvmlwc:units = "gram/m3" ;
+pvmlwc:SampleRate = 100 ;
+pvmlwc:module = "!IP330_1" ;
+pvmlwc:channel = 16 ;
+pvmlwc:type = "analog" ;
+pvmlwc:Package = "get_data";
+pvmlwc:matlab_name = "PVMLWC" ;
+pvmlwc:Dependencies = "N/A" ;
+pvmlwc:raw_name = "unknown";
+pvmlwc:OutputRate = XX ;
+
+Float pvmre_c;
+pvmre_c:long_name = "PVM-100A (Gerber) effective radius (computed from lwc and psa)" ;
+pvmre_c:Category = "Derived" ;
+pvmre_c:units = "micrometer" ;
+pvmre_c:SampleRate = 100 ;
+pvmre_c:type = "analog" ;
+pvmre_c:Package = "get_data";
+pvmre_c:matlab_name = "PVMRE_C" ;
+pvmre_c:Dependencies = "N/A" ;
+pvmre_c:raw_name = "unknown";
+pvmre_c:OutputRate = XX ;
+
+Float rlwc;
+rlwc:long_name = "Liquid water content from Rosemount 871 icing probe" ;
+rlwc:Category = "Derived" ;
+rlwc:units = "gram/m3" ;
+rlwc:SampleRate = 100 ;
+rlwc:module = "!IP330_1" ;
+rlwc:channel = 16 ;
+rlwc:type = "analog" ;
+rlwc:Package = "get_icing";
+rlwc:matlab_name = "RLWC" ;
+rlwc:Dependencies = "N/A" ;
+rlwc:raw_name = "unknown";
+rlwc:OutputRate = XX ;
+
+
+Float rid_cycles;
+rid_cycles:long_name = "Icing cycles from Rosemount 871 icing detector" ;
+rid_cycles:Category = "Derived" ;
+rid_cycles:units = "count" ;
+rid_cycles:SampleRate = 100 ;
+rid_cycles:module = "!IP330_1" ;
+rid_cycles:channel = 16 ;
+rid_cycles:type = "analog" ;
+rid_cycles:Package = "get_icing";
+rid_cycles:matlab_name = "NRIP" ;
+rid_cycles:Dependencies = "N/A" ;
+rid_cycles:raw_name = "unknown";
+rid_cycles:OutputRate = XX ;
+
+Float c99xdist;
+c99xdist:long_name = "Position (x-component) equiazimuth equidistant proj";
+c99xdist:Status = "Derived Variable" ;
+c99xdist:units = "km";
+c99xdist:Center = 43.5, -126. ;
+c99xdist:Package = "get_c99dist1";
+c99xdist:matlab_name = "c99xdist1" ;
+c99xdist:raw_name = "unknown";
+c99xdist:Dependencies = "N/A" ;
+c99xdist:OutputRate = XX ;
+
+Float c99ydist;
+c99ydist:long_name = "Position (y-component) equiazimuth equidistant proj";
+c99ydist:Status = "Derived Variable" ;
+c99ydist:units = "km";
+c99ydist:Center = 43.5, -126. ;
+c99ydist:Package = "get_c99dist1";
+c99ydist:matlab_name = "c99ydist1" ;
+c99ydist:Dependencies = "N/A" ;
+c99ydist:raw_name = "unknown";
+c99ydist:OutputRate = XX ;
+
+Float twodc ;
+twodc:long_name = "2DC shadow OR concentration" ;
+twodc:units = "liter-1" ;
+twodc:SampleRate = 10 ;
+twodc:Package = "get_misc";
+twodc:matlab_name = "SO2DC" ;
+twodc:Dependencies = "N/A" ;
+twodc:raw_name = "unknown";
+twodc:OutputRate = ZZZ ;
+
+Float twodp ;
+twodp:long_name = "2DP shadow OR concentration" ;
+twodp:units = "liter-1" ;
+twodp:SampleRate = 10 ;
+twodp:Package = "get_misc";
+twodp:matlab_name = "SO2DP" ;
+twodp:Dependencies = "N/A" ;
+twodp:raw_name = "unknown";
+twodp:OutputRate = ZZZ ;
+
+Float hwind_qflag ;
+hwind_qflag:long_name = "Horizontal Wind Correction Quality flag (0=accept, -1=reject)";
+hwind_qflag:units = "number";
+hwind_qflag:Category = "Derived" ;
+hwind_qflag:SampleRate = 1 ;
+hwind_qflag:Package = "get_names";
+hwind_qflag:matlab_name = "qflag1" ;
+hwind_qflag:Dependencies = "N/A" ;
+hwind_qflag:raw_name = "unknown";
+hwind_qflag:OutputRate = 1 ;
+
+
+Float aeri_flow ;
+aeri_flow:long_name = "Flow rate in heated aerosol tube" ;
+aeri_flow:units = "liter/min" ;
+aeri_flow:Category = "Derived" ;
+aeri_flow:SampleRate = 100 ;
+aeri_flow:Package = "get_misc";
+aeri_flow:matlab_name = "aeri_flow" ;
+aeri_flow:Dependencies = "N/A" ;
+aeri_flow:raw_name = "unknown";
+aeri_flow:OutputRate = XX ;
+
+Float aeriflow ;
+aeriflow:long_name = "Flow rate in cifex aerosol tube" ;
+aeriflow:units = "liter/min" ;
+aeriflow:Category = "Derived" ;
+aeriflow:SampleRate = 100 ;
+aeriflow:Package = "get_misc";
+aeriflow:matlab_name = "aeriflow" ;
+aeriflow:Dependencies = "N/A" ;
+aeriflow:raw_name = "unknown";
+aeriflow:OutputRate = XX ;
+
+Float aeriflowc ;
+aeriflowc:long_name = "Flow rate in cifex aerosol tube" ;
+aeriflowc:units = "slpm" ;
+aeriflowc:Category = "Derived" ;
+aeriflowc:SampleRate = 100 ;
+aeriflowc:Package = "get_misc";
+aeriflowc:matlab_name = "aeriflowc" ;
+aeriflowc:Dependencies = "N/A" ;
+aeriflowc:raw_name = "unknown";
+aeriflowc:OutputRate = XX ;
+
+Float aethconc ;
+aethconc:long_name = "Aethalometer concentration" ;
+aethconc:units = "ugram/m3" ;
+aethconc:Category = "Derived" ;
+aethconc:SampleRate = 100 ;
+aethconc:Package = "get_misc";
+aethconc:matlab_name = "aethconc" ;
+aethconc:Dependencies = "N/A" ;
+aethconc:raw_name = "unknown";
+aethconc:OutputRate = XX ;
+
+Float vla ;
+vla:long_name = "Lyman-alpha humidity (NCAR) output voltage" ;
+vla:units = "volts" ;
+vla:Category = "Derived" ;
+vla:SampleRate = 100;
+vla:Package = "get_lymana" ;
+vla:matlab_name = "VLA" ;
+vla:Dependencies = "N/A" ;
+vla:raw_name = "unknown";
+vla:OutputRate = XX ;
+
+Float rholaf ;
+rholaf:long_name = "Lyman-alpha humidity (NCAR) vapor density (combined)" ;
+rholaf:units = "gram/m3" ;
+rholaf:Category = "Derived" ;
+rholaf:SampleRate = 100;
+rholaf:Package = "get_lymana" ;
+rholaf:matlab_name = "rholaf" ;
+rholaf:Dependencies = "N/A" ;
+rholaf:raw_name = "unknown";
+rholaf:OutputRate = XX ;
+
+Float mrla ;
+mrla:long_name = "Lyman-alpha humidity (NCAR) mixing ratio" ;
+mrla:units = "gram/kgram" ;
+mrla:standard_name = "humidity_mixing_ratio";
+mrla:Category = "Derived" ;
+mrla:SampleRate = 100;
+mrla:Package = "get_lymana" ;
+mrla:matlab_name = "mrla" ;
+mrla:Dependencies = "N/A" ;
+mrla:raw_name = "unknown";
+mrla:OutputRate = XX ;
+
+Float mrlaf ;
+mrlaf:long_name = "Lyman-alpha humidity (NCAR) mixing ratio (combined)" ;
+mrlaf:units = "gram/kgram" ;
+mrlaf:standard_name = "humidity_mixing_ratio";
+mrlaf:Category = "Derived" ;
+mrlaf:SampleRate = 100;
+mrlaf:Package = "get_lymana" ;
+mrlaf:matlab_name = "mrlaf" ;
+mrlaf:Dependencies = "N/A" ;
+mrlaf:raw_name = "unknown";
+mrlaf:OutputRate = XX ;
+
+Float tdla ;
+tdla:long_name = "Lyman-alpha humidity (NCAR) dewpoint temperature " ;
+tdla:units = "Celsius" ;
+tdla:standard_name = "dew_point_temperature";
+tdla:Category = "Derived" ;
+tdla:SampleRate = 100;
+tdla:Package = "get_lymana" ;
+tdla:matlab_name = "tdla" ;
+tdla:Dependencies = "N/A" ;
+tdla:raw_name = "unknown";
+tdla:OutputRate = XX ;
+
+Float tdlaf;
+tdlaf:long_name = "Lyman-alpha humidity (NCAR) dewpoint temperature (combined)" ;
+tdlaf:units = "Celsius" ;
+tdlaf:standard_name = "dew_point_temperature";
+tdlaf:Category = "Derived" ;
+tdlaf:SampleRate = 100;
+tdlaf:Package = "get_lymana" ;
+tdlaf:matlab_name = "tdlaf" ;
+tdlaf:Dependencies = "N/A" ;
+tdlaf:raw_name = "unknown";
+tdlaf:OutputRate = XX ;
+
+Float rhola ;
+rhola:long_name = "Lyman-alpha humidity (NCAR) vapor density" ;
+rhola:units = "gram/m3" ;
+rhola:Category = "Derived" ;
+rhola:SampleRate = 100;
+rhola:Package = "get_lymana" ;
+rhola:matlab_name = "rhola" ;
+rhola:Dependencies = "N/A" ;
+rhola:raw_name = "unknown";
+rhola:OutputRate = XX ;
+
+
+// PMS PCASP (UWYO/NOAA) is in PCA canister. Edit to change.
+Float AS200_PC1 ;
+AS200_PC1:long_name = "PMS PCASP (----) number (per cell)" ;
+AS200_PC1:units = "number" ;
+AS200_PC1:Category = "PMS Probe" ;
+AS200_PC1:SampledRate = PCASPrate ;
+AS200_PC1:FirstBin = 2 ;
+AS200_PC1:LastBin = 30 ;
+AS200_PC1:VectorLength = 31 ;
+AS200_PC1:Package = "get_pcasp";
+AS200_PC1:matlab_name = "NPcasp_PC1" ;
+AS200_PC1:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+AS200_PC1:OutputRate = PCASPrate ;
+
+Float CS200_PC1 ;
+CS200_PC1:long_name = "PMS PCASP (----) concentration (per cell)" ;
+CS200_PC1:units = "cm-3" ;
+CS200_PC1:Category = "PMS Probe" ;
+CS200_PC1:SampledRate = PCASPrate ;
+CS200_PC1:FirstBin = 2 ;
+CS200_PC1:LastBin = 30 ;
+CS200_PC1:VectorLength = 31 ;
+CS200_PC1:Package = "get_pcasp";
+CS200_PC1:matlab_name = "CPcasp_PC1" ;
+CS200_PC1:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+CS200_PC1:OutputRate = PCASPrate ;
+
+Float TCNTP_PC1 ;
+TCNTP_PC1:long_name = "PMS PCASP (----) number concentration " ;
+TCNTP_PC1:units = "number" ;
+TCNTP_PC1:Category = "PMS Probe" ;
+TCNTP_PC1:SampledRate = PCASPrate ;
+TCNTP_PC1:Package = "get_pcasp";
+TCNTP_PC1:matlab_name = "PcaspTot_PC1" ;
+TCNTP_PC1:OutputRate = PCASPrate ;
+
+Float CONCP_PC1 ;
+CONCP_PC1:long_name = "PMS PCASP (----) number concentration " ;
+CONCP_PC1:units = "cm-3" ;
+CONCP_PC1:Category = "PMS Probe" ;
+CONCP_PC1:SampledRate = PCASPrate ;
+CONCP_PC1:Package = "get_pcasp";
+CONCP_PC1:matlab_name = "PcaspConc_PC1" ;
+CONCP_PC1:OutputRate = PCASPrate ;
+
+Float DBARP_PC1;
+DBARP_PC1:long_name = "PCASP (----) Mean Particle Diameter" ;
+DBARP_PC1:units = "um" ;
+DBARP_PC1:Category = "PMS Probe" ;
+DBARP_PC1:Package = "get_pcasp";
+DBARP_PC1:matlab_name = "PcaspDbar_PC1" ;
+DBARP_PC1:Dependencies = "N/A" ;
+DBARP_PC1:raw_name = "unknown";
+DBARP_PC1:OutputRate = PCASPrate ;
+
+Float PSFCP_PC1;
+PSFCP_PC1:long_name = "PCASP (----) surface area concentration" ;
+PSFCP_PC1:units = "um2/cm3" ;
+PSFCP_PC1:Category = "PMS Probe" ;
+PSFCP_PC1:Package = "get_pcasp";
+PSFCP_PC1:matlab_name = "PcaspSfc_PC1" ;
+PSFCP_PC1:Dependencies = "N/A" ;
+PSFCP_PC1:raw_name = "unknown";
+PSFCP_PC1:OutputRate = PCASPrate ;
+
+Float PVOLP_PC1;
+PVOLP_PC1:long_name = "PCASP (----) volume concentration" ;
+PVOLP_PC1:units = "um3/cm3" ;
+PVOLP_PC1:Category = "PMS Probe" ;
+PVOLP_PC1:Package = "get_pcasp";
+PVOLP_PC1:matlab_name = "PcaspVol_PC1" ;
+PVOLP_PC1:Dependencies = "N/A" ;
+PVOLP_PC1:raw_name = "unknown";
+PVOLP_PC1:OutputRate = PCASPrate ;
+
+Float DISPP_PC1;
+DISPP_PC1:long_name = "PCASP (----) size dispersion" ;
+DISPP_PC1:units = "N/A" ;
+DISPP_PC1:Category = "PMS Probe" ;
+DISPP_PC1:Package = "get_pcasp";
+DISPP_PC1:matlab_name = "PcaspDspr_PC1" ;
+DISPP_PC1:Dependencies = "N/A" ;
+DISPP_PC1:raw_name = "unknown";
+DISPP_PC1:OutputRate = PCASPrate ;
+
+Float PFLW_PC1;
+PFLW_PC1:long_name = "PCASP (----) sample flow (standard)" ;
+PFLW_PC1:units = "cm3/sec" ;
+PFLW_PC1:CalibrationCoefficients = 0., 1. ;
+PFLW_PC1:Category = "PMS Probe" ;
+PFLW_PC1:Package = "get_pcasp";
+PFLW_PC1:matlab_name = "PcaspFlow_PC1" ;
+PFLW_PC1:Dependencies = "N/A" ;
+PFLW_PC1:raw_name = "unknown";
+PFLW_PC1:OutputRate = PCASPrate ;
+
+Float PFLWC_PC1;
+PFLWC_PC1:long_name = "PCASP (----) sample volume (actual)" ;
+PFLWC_PC1:units = "cm3/sec" ;
+PFLWC_PC1:Category = "PMS Probe" ;
+PFLWC_PC1:Package = "get_pcasp";
+PFLWC_PC1:matlab_name = "PcaspSV_PC1" ;
+PFLWC_PC1:Dependencies = "N/A" ;
+PFLWC_PC1:raw_name = "unknown";
+PFLWC_PC1:OutputRate = PCASPrate ;
+
+Float PFLWS_PC1;
+PFLWS_PC1:long_name = "PCASP (----) sheath flow (standard)" ;
+PFLWS_PC1:units = "cm3/sec" ;
+PFLWS_PC1:Category = "PMS Probe" ;
+PFLWS_PC1:Package = "get_pcasp";
+PFLWS_PC1:matlab_name = "PcaspSheath_PC1" ;
+PFLWS_PC1:Dependencies = "N/A" ;
+PFLWS_PC1:raw_name = "unknown";
+PFLWS_PC1:OutputRate = PCASPrate ;
+
+// PMS PCASP (UWYO/NOAA) is in PCA canister. Edit to change.
+Float AS200_PC2 ;
+AS200_PC2:long_name = "PMS PCASP (----) number (per cell)" ;
+AS200_PC2:units = "number" ;
+AS200_PC2:Category = "PMS Probe" ;
+AS200_PC2:SampledRate = 1 ;
+AS200_PC2:FirstBin = 2 ;
+AS200_PC2:LastBin = 30 ;
+AS200_PC2:VectorLength = 31 ;
+AS200_PC2:Package = "get_pcasp";
+AS200_PC2:matlab_name = "NPcasp_PC2" ;
+AS200_PC2:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+AS200_PC2:OutputRate = PCASPrate ;
+
+Float CS200_PC2 ;
+CS200_PC2:long_name = "PMS PCASP (----) concentration (per cell)" ;
+CS200_PC2:units = "cm-3" ;
+CS200_PC2:Category = "PMS Probe" ;
+CS200_PC2:SampledRate = 1 ;
+CS200_PC2:FirstBin = 2 ;
+CS200_PC2:LastBin = 30 ;
+CS200_PC2:VectorLength = 31 ;
+CS200_PC2:Package = "get_pcasp";
+CS200_PC2:matlab_name = "CPcasp_PC2" ;
+CS200_PC2:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+CS200_PC2:OutputRate = PCASPrate ;
+
+Float TCNTP_PC2 ;
+TCNTP_PC2:long_name = "PMS PCASP (----) number concentration " ;
+TCNTP_PC2:units = "number" ;
+TCNTP_PC2:Category = "PMS Probe" ;
+TCNTP_PC2:SampledRate = 1 ;
+TCNTP_PC2:Package = "get_pcasp";
+TCNTP_PC2:matlab_name = "PcaspTot_PC2" ;
+TCNTP_PC2:OutputRate = PCASPrate ;
+
+Float CONCP_PC2 ;
+CONCP_PC2:long_name = "PMS PCASP (----) number concentration " ;
+CONCP_PC2:units = "cm-3" ;
+CONCP_PC2:Category = "PMS Probe" ;
+CONCP_PC2:SampledRate = 1 ;
+CONCP_PC2:Package = "get_pcasp";
+CONCP_PC2:matlab_name = "PcaspConc_PC2" ;
+CONCP_PC2:OutputRate = PCASPrate ;
+
+Float DBARP_PC2;
+DBARP_PC2:long_name = "PCASP (----) Mean Particle Diameter" ;
+DBARP_PC2:units = "um" ;
+DBARP_PC2:Category = "PMS Probe" ;
+DBARP_PC2:Package = "get_pcasp";
+DBARP_PC2:matlab_name = "PcaspDbar_PC2" ;
+DBARP_PC2:Dependencies = "N/A" ;
+DBARP_PC2:raw_name = "unknown";
+DBARP_PC2:OutputRate = PCASPrate ;
+
+Float PSFCP_PC2;
+PSFCP_PC2:long_name = "PCASP (----) surface area concentration" ;
+PSFCP_PC2:units = "um2/cm3" ;
+PSFCP_PC2:Category = "PMS Probe" ;
+PSFCP_PC2:Package = "get_pcasp";
+PSFCP_PC2:matlab_name = "PcaspSfc_PC2" ;
+PSFCP_PC2:Dependencies = "N/A" ;
+PSFCP_PC2:raw_name = "unknown";
+PSFCP_PC2:OutputRate = PCASPrate ;
+
+Float PVOLP_PC2;
+PVOLP_PC2:long_name = "PCASP (----) volume concentration" ;
+PVOLP_PC2:units = "um3/cm3" ;
+PVOLP_PC2:Category = "PMS Probe" ;
+PVOLP_PC2:Package = "get_pcasp";
+PVOLP_PC2:matlab_name = "PcaspVol_PC2" ;
+PVOLP_PC2:Dependencies = "N/A" ;
+PVOLP_PC2:raw_name = "unknown";
+PVOLP_PC2:OutputRate = PCASPrate ;
+
+Float DISPP_PC2;
+DISPP_PC2:long_name = "PCASP (----) size dispersion" ;
+DISPP_PC2:units = "N/A" ;
+DISPP_PC2:Category = "PMS Probe" ;
+DISPP_PC2:Package = "get_pcasp";
+DISPP_PC2:matlab_name = "PcaspDspr_PC2" ;
+DISPP_PC2:Dependencies = "N/A" ;
+DISPP_PC2:raw_name = "unknown";
+DISPP_PC2:OutputRate = PCASPrate ;
+
+Float PFLW_PC2;
+PFLW_PC2:long_name = "PCASP (----) sample flow (standard)" ;
+PFLW_PC2:units = "cm3/sec" ;
+PFLW_PC2:CalibrationCoefficients = 0., 1. ;
+PFLW_PC2:Category = "PMS Probe" ;
+PFLW_PC2:Package = "get_pcasp";
+PFLW_PC2:matlab_name = "PcaspFlow_PC2" ;
+PFLW_PC2:Dependencies = "N/A" ;
+PFLW_PC2:raw_name = "unknown";
+PFLW_PC2:OutputRate = PCASPrate ;
+
+Float PFLWC_PC2;
+PFLWC_PC2:long_name = "PCASP (----) sample volume (actual)" ;
+PFLWC_PC2:units = "cm3/sec" ;
+PFLWC_PC2:Category = "PMS Probe" ;
+PFLWC_PC2:Package = "get_pcasp";
+PFLWC_PC2:matlab_name = "PcaspSV_PC2" ;
+PFLWC_PC2:Dependencies = "N/A" ;
+PFLWC_PC2:raw_name = "unknown";
+PFLWC_PC2:OutputRate = PCASPrate ;
+
+Float PFLWS_PC2;
+PFLWS_PC2:long_name = "PCASP (----) sheath flow (standard)" ;
+PFLWS_PC2:units = "cm3/sec" ;
+PFLWS_PC2:Category = "PMS Probe" ;
+PFLWS_PC2:Package = "get_pcasp";
+PFLWS_PC2:matlab_name = "PcaspSheath_PC2" ;
+PFLWS_PC2:Dependencies = "N/A" ;
+PFLWS_PC2:raw_name = "unknown";
+PFLWS_PC2:OutputRate = PCASPrate ;
+
+Float mr_o3teco ;
+mr_o3teco:long_name = "TECO Ozone mixing ratio (corrected to NOAA)" ;
+mr_o3teco:units = "ppb" ;
+mr_o3teco:AdditionalCoefficients = 0.554, 1.018 ;
+mr_o3teco:CalibrationDate = "9/19/2003" ;
+mr_o3teco:Comment = " Coefs. conv to ppb, add. to correct to NOAA" ;
+mr_o3teco:Package = "get_o3teco" ;
+mr_o3teco:matlab_name = "mr_o3teco" ;
+mr_o3teco:SampleRate = 100 ;
+mr_o3teco:SerialNumber = "49-31621-241" ;
+mr_o3teco:OutputRate = XX;
+
+Float pteco ;
+pteco:long_name = "TECO Ozone Analyzer Cell Pressure" ;
+pteco:units = "hPa" ;
+pteco:CalibrationCoefficients = -78.306, 0.0613 ;
+pteco:CalibrationDate = "9/19/2003" ;
+pteco:Comment = " Coefs. convert counts to mbar" ;
+pteco:Package = "get_o3teco" ;
+pteco:matlab_name = "TEP" ;
+pteco:SampleRate = 100 ;
+pteco:SerialNumber = "49-31621-241" ;
+pteco:OutputRate = XX;
+
+Float tteco ;
+tteco:long_name = "TECO Ozone Analyzer Cell Temperature" ;
+tteco:units = "celsius" ;
+tteco:CalibrationCoefficients = -18.0019, 0.017 ;
+tteco:CalibrationDate = "9/19/2003" ;
+tteco:Comment = " Coefs. convert counts to celsius" ;
+tteco:Package = "get_o3teco" ;
+tteco:matlab_name = "TET" ;
+tteco:SampleRate = 100 ;
+tteco:SerialNumber = "49-31621-241" ;
+tteco:module = "!IP330_1" ;
+tteco:OutputRate = XX;
+
+Float conc_cpc ;
+conc_cpc:long_name = "Cloud Particle Counter (CPC)" ;
+conc_cpc:units = "cm-3" ;
+conc_cpc:matlab_name = "cpc" ;
+conc_cpc:Package = "get_data" ;
+conc_cpc:SampleRate = 1000 ;
+conc_cpc:Dependencies = "N/A" ;
+conc_cpc:OutputRate = XX;
+
+Float conc_ufn ;
+conc_ufn:long_name = "Ultrafine Cloud Particle Counter" ;
+conc_ufn:units = "cm-3" ;
+conc_ufn:matlab_name = "ufn" ;
+conc_ufn:Package = "get_data" ;
+conc_ufn:SampleRate = 1000 ;
+conc_ufn:Dependencies = "N/A" ;
+conc_ufn:OutputRate = XX;
+
+
+//Applanix AV-410 output
+
+Float AVewvel ;
+AVewvel:long_name = "Applanix AV-410 ground speed (E-W component, post-processed)";
+AVewvel:Status = "AV410 post-processed variable" ;
+AVewvel:units = "meter/sec";
+AVewvel:standard_name = "eastward_patform_speed_wrt_ground" ;
+AVewvel:Package = "POSPac MMM";
+AVewvel:matlab_name = "AVewvel" ;
+AVewvel:missing_value = -32767.;
+AVewvel:FillValue = -32767.;
+AVewvel:raw_name = "unknown";
+AVewvel:Dependencies = "N/A" ;
+AVewvel:OutputRate = XX ;
+
+Float AVnsvel ;
+AVnsvel:long_name = "Applanix AV-410 ground speed (N-S component, post-processed)";
+AVnsvel:Status = "AV410 post-processed variable" ;
+AVnsvel:units = "meter/sec";
+AVnsvel:standard_name = "northward_patform_speed_wrt_ground" ;
+AVnsvel:Package = "POSPac MMM";
+AVnsvel:matlab_name = "AVnsvel" ;
+AVnsvel:missing_value = -32767.;
+AVnsvel:FillValue = -32767.;
+AVnsvel:raw_name = "unknown";
+AVnsvel:Dependencies = "N/A" ;
+AVnsvel:OutputRate = XX ;
+
+Float AVgs ;
+AVgs:long_name = "Applanix AV-410 ground speed (GPS corrected )";
+AVgs:Status = "AV410 post-processed variable" ;
+AVgs:units = "meter/sec";
+AVgs:Package = "POSPac MMM";
+AVgs:matlab_name = "AVgs" ;
+AVgs:missing_value = -32767.;
+AVgs:FillValue = -32767.;
+AVgs:raw_name = "unknown";
+AVgs:Dependencies = "N/A" ;
+AVgs:OutputRate = XX ;
+
+
+Float AVux ;
+AVux:long_name = " horizontal wind -- longitudinal component (GPS corrected )";
+AVux:Status = "AV410 post-processed variable" ;
+AVux:units = "meter/sec";
+AVux:Package = "POSPac MMM";
+AVux:matlab_name = "AVux" ;
+AVux:missing_value = -32767.;
+AVux:FillValue = -32767.;
+AVux:raw_name = "unknown";
+AVux:Dependencies = "N/A" ;
+AVux:OutputRate = XX ;
+
+Float AVvy ;
+AVvy:long_name = " horizontal wind -- lateral (GPS corrected )";
+AVvy:Status = "AV410 post-processed variable" ;
+AVvy:units = "meter/sec";
+AVvy:Package = "POSPac MMM";
+AVvy:matlab_name = "AVvy" ;
+AVvy:missing_value = -32767.;
+AVvy:FillValue = -32767.;
+AVvy:raw_name = "unknown";
+AVvy:Dependencies = "N/A" ;
+AVvy:OutputRate = XX ;
+
+Float AVtrack ;
+AVtrack:long_name = "Applanix AV-410 track angle (AV corrected )";
+AVtrack:Status = "AV410 post-processed variable" ;
+AVtrack:units = "degree";
+AVtrack:Package = "POSPac MMM";
+AVtrack:matlab_name = "AVtrack" ;
+AVtrack:missing_value = -32767.;
+AVtrack:FillValue = -32767.;
+AVtrack:raw_name = "unknown";
+AVtrack:Dependencies = "N/A" ;
+AVtrack:OutputRate = XX ;
+
+Float AVzvel ;
+AVzvel:long_name = "Applanix AV-410 ground speed (UP component, post-processed)";
+AVzvel:Status = "AV410 post-processed variable" ;
+AVzvel:units = "meter/sec";
+AVzvel:Package = "POSPac MMM";
+AVzvel:matlab_name = "AVzvel" ;
+AVzvel:missing_value = -32767.;
+AVzvel:FillValue = -32767.;
+AVzvel:raw_name = "unknown";
+AVzvel:Dependencies = "N/A" ;
+AVzvel:OutputRate = XX ;
+
+Float AVroll ;
+AVroll:long_name = "Applanix AV-410 roll angle (GPS corrected )";
+AVroll:Status = "AV410 post-processed variable" ;
+AVroll:units = "degree";
+AVroll:standard_name = "platform_roll_angle" ;
+AVroll:Package = "POSPac MMM";
+AVroll:matlab_name = "AVroll" ;
+AVroll:missing_value = -32767.;
+AVroll:FillValue = -32767.;
+AVroll:raw_name = "unknown";
+AVroll:Dependencies = "N/A" ;
+AVroll:OutputRate = XX ;
+
+Float AVpitch ;
+AVpitch:long_name = "Applanix AV-410 pitch angle (GPS corrected )";
+AVpitch:Status = "AV410 post-processed variable" ;
+AVpitch:units = "degree";
+AVpitch:standard_name = "platform_pitch_angle" ;
+AVpitch:Package = "POSPac MMM";
+AVpitch:matlab_name = "AVpitch" ;
+AVpitch:missing_value = -32767.;
+AVpitch:FillValue = -32767.;
+AVpitch:raw_name = "unknown";
+AVpitch:Dependencies = "N/A" ;
+AVpitch:OutputRate = XX ;
+
+Float AVwanderangle ;
+AVwanderangle:long_name = "Applanix AV-410 wander angle (GPS corrected )";
+AVwanderangle:Status = "AV410 post-processed variable" ;
+AVwanderangle:units = "degree";
+AVwanderangle:Package = "POSPac MMM";
+AVwanderangle:matlab_name = "AVwanderang" ;
+AVwanderangle:missing_value = -32767.;
+AVwanderangle:FillValue = -32767.;
+AVwanderangle:raw_name = "unknown";
+AVwanderangle:Dependencies = "N/A" ;
+AVwanderangle:OutputRate = XX ;
+
+Float AVplatformhead ;
+AVplatformhead:long_name = "Applanix AV-410 platform heading (GPS corrected )";
+AVplatformhead:Status = "AV410 post-processed variable" ;
+AVplatformhead:units = "degree";
+AVplatformhead:standard_name = "platform_orientation" ;
+AVplatformhead:Package = "POSPac MMM";
+AVplatformhead:matlab_name = "AVplatformhead" ;
+AVplatformhead:missing_value = -32767.;
+AVplatformhead:FillValue = -32767.;
+AVplatformhead:raw_name = "unknown";
+AVplatformhead:Dependencies = "N/A" ;
+AVplatformhead:OutputRate = XX ;
+
+Float AVthead ;
+AVthead:long_name = "Applanix AV-410 true heading angle (GPS corrected )";
+AVthead:Status = "AV410 post-processed variable" ;
+AVthead:units = "degree";
+AVthead:standard_name = "platform_orientation" ;
+AVthead:Package = "POSPac MMM";
+AVthead:matlab_name = "AVthead" ;
+AVthead:missing_value = -32767.;
+AVthead:FillValue = -32767.;
+AVthead:raw_name = "unknown";
+AVthead:Dependencies = "N/A" ;
+AVthead:OutputRate = XX ;
+
+Float AVlat ;
+AVlat:long_name = "Applanix AV-410 latitude (GPS corrected )";
+AVlat:Status = "AV410 post-processed variable" ;
+AVlat:units = "degree";
+AVlat:Package = "POSPac MMM";
+AVlat:matlab_name = "AVlat" ;
+AVlat:missing_value = -32767.;
+AVlat:FillValue = -32767.;
+AVlat:raw_name = "unknown";
+AVlat:Dependencies = "N/A" ;
+AVlat:OutputRate = XX ;
+
+Float AVlon ;
+AVlon:long_name = "Applanix AV-410 longitude (GPS corrected )";
+AVlon:Status = "AV410 post-processed variable" ;
+AVlon:units = "degreesss=sprintf("blurf=ncread(X.RawPath,"%s");",var0);eval(ss)
+AVlon:Package = "POSPac MMM";
+AVlon:matlab_name = "AVlon" ;
+AVlon:missing_value = -32767.;
+AVlon:FillValue = -32767.;
+AVlon:raw_name = "unknown";
+AVlon:Dependencies = "N/A" ;
+AVlon:OutputRate = XX ;
+
+Float AVzmsl ;
+AVzmsl:long_name = "Applanix AV-410 orthometric (MSL) altitude (GPS corrected )";
+AVzmsl:Status = "AV410 post-processed variable" ;
+AVzmsl:units = "meter";
+AVzmsl:standard_name = "altitude" ;
+AVzmsl:Package = "POSPac MMM";
+AVzmsl:matlab_name = "AVzmsl" ;
+AVzmsl:missing_value = -32767.;
+AVzmsl:FillValue = -32767.;
+AVzmsl:raw_name = "unknown";
+AVzmsl:Dependencies = "N/A" ;
+AVzmsl:OutputRate = XX ;
+
+Float AVzell;
+AVzell:long_name = "Applanix AV-410 ellipsoid altitude (GPS corrected )";
+AVzell:Status = "AV410 post-processed variable" ;
+AVzell:units = "meter";
+AVzell:Package = "POSPac MMM";
+AVzell:matlab_name = "AVzell" ;
+AVzell:missing_value = -32767.;
+AVzell:FillValue = -32767.;
+AVzell:raw_name = "unknown";
+AVzell:Dependencies = "N/A" ;
+AVzell:OutputRate = XX ;
+
+Float AVlonga ;
+AVlonga:long_name = "Applanix AV-410 accel (body-axis longit. component, post-processed)";
+AVlonga:Status = "AV410 post-processed variable" ;
+AVlonga:units = "meter/sec^2";
+AVlonga:Package = "POSPac MMM";
+AVlonga:matlab_name = "AVlonga" ;
+AVlonga:missing_value = -32767.;
+AVlonga:FillValue = -32767.;
+AVlonga:raw_name = "unknown";
+AVlonga:Dependencies = "N/A" ;
+AVlonga:OutputRate = XX ;
+
+Float AVlata ;
+AVlata:long_name = "Applanix AV-410 accel (body-axis lateral component, post-processed)";
+AVlata:Status = "AV410 post-processed variable" ;
+AVlata:units = "meter/sec^2";
+AVlata:Package = "POSPac MMM";
+AVlata:matlab_name = "AVlata" ;
+AVlata:missing_value = -32767.;
+AVlata:FillValue = -32767.;
+AVlata:raw_name = "unknown";
+AVlata:Dependencies = "N/A" ;
+AVlata:OutputRate = XX ;
+
+Float AVnorma ;
+AVnorma:long_name = "Applanix AV-410 accel (body-axis vertical component, post-processed)";
+AVnorma:Status = "AV410 post-processed variable" ;
+AVnorma:units = "meter/sec^2";
+AVnorma:Package = "POSPac MMM";
+AVnorma:matlab_name = "AVnorma" ;
+AVnorma:missing_value = -32767.;
+AVnorma:FillValue = -32767.;
+AVnorma:raw_name = "unknown";
+AVnorma:Dependencies = "N/A" ;
+AVnorma:OutputRate = XX ;
+
+Float AVrollr ;
+AVrollr:long_name = "Applanix AV-410 angle rate (body x-axis  component, post-processed)";
+AVrollr:Status = "AV410 post-processed variable" ;
+AVrollr:units = "radian/sec";
+AVrollr:standard_name = "platform_roll_rate" ;
+AVrollr:Package = "POSPac MMM";
+AVrollr:matlab_name = "AVrollr" ;
+AVrollr:missing_value = -32767.;
+AVrollr:FillValue = -32767.;
+AVrollr:raw_name = "unknown";
+AVrollr:Dependencies = "N/A" ;
+AVrollr:OutputRate = XX ;
+
+Float AVpitchr ;
+AVpitchr:long_name = "Applanix AV-410 angle rate (body y-axis component, post-processed)";
+AVpitchr:Status = "AV410 post-processed variable" ;
+AVpitchr:units = "radian/sec";
+AVpitchr:standard_name = "platform_pitch_rate" ;
+AVpitchr:Package = "POSPac MMM";
+AVpitchr:matlab_name = "AVpitchr" ;
+AVpitchr:missing_value = -32767.;
+AVpitchr:FillValue = -32767.;
+AVpitchr:raw_name = "unknown";
+AVpitchr:Dependencies = "N/A" ;
+AVpitchr:OutputRate = XX ;
+
+Float AVyawr ;
+AVyawr:long_name = "Applanix AV-410 angle rate (body z-axis component, post-processed)";
+AVyawr:Status = "AV410 post-processed variable" ;
+AVyawr:units = "radian/sec";
+AVyawr:standard_name = "platform_yaw_rate" ;
+AVyawr:Package = "POSPac MMM";
+AVyawr:matlab_name = "AVyawr" ;
+AVyawr:missing_value = -32767.;
+AVyawr:FillValue = -32767.;
+AVyawr:raw_name = "unknown";
+AVyawr:Dependencies = "N/A" ;
+AVyawr:OutputRate = XX ;
+
+Float AVuwind ;
+AVuwind:long_name = "Horizontal wind (Applanix AV-410, E-W component, post-processed)";
+AVuwind:Status = "AV410 post-processed variable" ;
+AVuwind:units = "meter/sec";
+AVuwind:Package = "POSPac MMM";
+AVuwind:matlab_name = "AVuwind" ;
+AVuwind:missing_value = -32767.;
+AVuwind:FillValue = -32767.;
+AVuwind:raw_name = "unknown";
+AVuwind:Dependencies = "N/A" ;
+AVuwind:OutputRate = XX ;
+
+Float AVvwind ;
+AVvwind:long_name = "Horizontal wind (Applanix AV-410, N-S component, post-processed)";
+AVvwind:Status = "AV410 post-processed variable" ;
+AVvwind:units = "meter/sec";
+AVvwind:Package = "POSPac MMM";
+AVvwind:matlab_name = "AVvwind" ;
+AVvwind:missing_value = -32767.;
+AVvwind:FillValue = -32767.;
+AVvwind:raw_name = "unknown";
+AVvwind:Dependencies = "N/A" ;
+AVvwind:OutputRate = XX ;
+
+Float AVwwind ;
+AVwwind:long_name = "Vertical wind (Applanix AV-410, UP component, post-processed)";
+AVwwind:Status = "AV410 post-processed variable" ;
+AVwwind:units = "meter/sec";
+AVwwind:standard_name = "upward_air_velocity" ;
+AVwwind:Package = "POSPac MMM";
+AVwwind:matlab_name = "AVwwind" ;
+AVwwind:missing_value = -32767.;
+AVwwind:FillValue = -32767.;
+AVwwind:raw_name = "unknown";
+AVwwind:Dependencies = "N/A" ;
+AVwwind:OutputRate = XX ;
+
+Float AVwdir;
+AVwdir:long_name = "Applanix post-processed Wind direction (from)";
+AVwdir:Status = "Derived Variable" ;
+AVwdir:units = "degree";
+AVwdir:Package = "get_AVimu";
+AVwdir:matlab_name = "AVwdir" ;
+AVwdir:Dependencies = "N/A" ;
+AVwdir:raw_name = "unknown";
+AVwdir:OutputRate = XX ;
+
+Float AVwmag;
+AVwmag:long_name = "Applanix post-processed Wind magnitude";
+AVwmag:Status = "Derived Variable" ;
+AVwmag:units = "meter/sec";
+AVwmag:Package = "get_AVimu";
+AVwmag:matlab_name = "AVwmag" ;
+AVwmag:Dependencies = "N/A" ;
+AVwmag:raw_name = "unknown";
+AVwmag:OutputRate = XX ;
+
+Float AVnposrms ;
+AVnposrms:long_name = "Applanix AV-410 north position RMS post-processed";
+AVnposrms:Status = "AV410 post-processed variable" ;
+AVnposrms:units = "meter";
+AVnposrms:Package = "POSPac MMM";
+AVnposrms:matlab_name = "AVnposrms1" ;
+AVnposrms:missing_value = -32767.;
+AVnposrms:FillValue = -32767.;
+AVnposrms:raw_name = "unknown";
+AVnposrms:Dependencies = "N/A" ;
+AVnposrms:OutputRate = 1 ;
+
+Float AVeposrms ;
+AVeposrms:long_name = "Applanix AV-410 east position RMS post-processed";
+AVeposrms:Status = "AV410 post-processed variable" ;
+AVeposrms:units = "meter";
+AVeposrms:Package = "POSPac MMM";
+AVeposrms:matlab_name = "AVeposrms1" ;
+AVeposrms:missing_value = -32767.;
+AVeposrms:FillValue = -32767.;
+AVeposrms:raw_name = "unknown";
+AVeposrms:Dependencies = "N/A" ;
+AVeposrms:OutputRate = 1 ;
+
+Float AVdposrms ;
+AVdposrms:long_name = "Applanix AV-410 down position RMS post-processed";
+AVdposrms:Status = "AV410 post-processed variable" ;
+AVdposrms:units = "meter";
+AVdposrms:Package = "POSPac MMM";
+AVdposrms:matlab_name = "AVdposrms1" ;
+AVdposrms:missing_value = -32767.;
+AVdposrms:FillValue = -32767.;
+AVdposrms:raw_name = "unknown";
+AVdposrms:Dependencies = "N/A" ;
+AVdposrms:OutputRate = 1 ;
+
+Float AVnvelrms ;
+AVnvelrms:long_name = "Applanix AV-410 north velocity RMS post-processed";
+AVnvelrms:Status = "AV410 velt-processed variable" ;
+AVnvelrms:units = "meter/sec";
+AVnvelrms:Package = "POSPac MMM";
+AVnvelrms:matlab_name = "AVnvelrms1" ;
+AVnvelrms:missing_value = -32767.;
+AVnvelrms:FillValue = -32767.;
+AVnvelrms:raw_name = "unknown";
+AVnvelrms:Dependencies = "N/A" ;
+AVnvelrms:OutputRate = 1 ;
+
+Float AVevelrms ;
+AVevelrms:long_name = "Applanix AV-410 east velocity RMS post-processed";
+AVevelrms:Status = "AV410 velt-processed variable" ;
+AVevelrms:units = "meter/sec";
+AVevelrms:Package = "POSPac MMM";
+AVevelrms:matlab_name = "AVevelrms1" ;
+AVevelrms:missing_value = -32767.;
+AVevelrms:FillValue = -32767.;
+AVevelrms:raw_name = "unknown";
+AVevelrms:Dependencies = "N/A" ;
+AVevelrms:OutputRate = 1 ;
+
+Float AVdvelrms ;
+AVdvelrms:long_name = "Applanix AV-410 down velocity RMS post-processed";
+AVdvelrms:Status = "AV410 velt-processed variable" ;
+AVdvelrms:units = "meter/sec";
+AVdvelrms:Package = "POSPac MMM";
+AVdvelrms:matlab_name = "AVdvelrms1" ;
+AVdvelrms:missing_value = -32767.;
+AVdvelrms:FillValue = -32767.;
+AVdvelrms:raw_name = "unknown";
+AVdvelrms:Dependencies = "N/A" ;
+AVdvelrms:OutputRate = 1 ;
+
+Float AVrollrms ;
+AVrollrms:long_name = "Applanix AV-410 down roll angle RMS post-processed";
+AVrollrms:Status = "AV410 velt-processed variable" ;
+AVrollrms:units = "degree";
+AVrollrms:Package = "POSPac MMM";
+AVrollrms:matlab_name = "AVrollrms1" ;
+AVrollrms:missing_value = -32767.;
+AVrollrms:FillValue = -32767.;
+AVrollrms:raw_name = "unknown";
+AVrollrms:Dependencies = "N/A" ;
+AVrollrms:OutputRate = 1 ;
+
+Float AVpitchrms ;
+AVpitchrms:long_name = "Applanix AV-410 down pitch angle RMS post-processed";
+AVpitchrms:Status = "AV410 velt-processed variable" ;
+AVpitchrms:units = "degree";
+AVpitchrms:Package = "POSPac MMM";
+AVpitchrms:matlab_name = "AVpitchrms1" ;
+AVpitchrms:missing_value = -32767.;
+AVpitchrms:FillValue = -32767.;
+AVpitchrms:raw_name = "unknown";
+AVpitchrms:Dependencies = "N/A" ;
+AVpitchrms:OutputRate = 1 ;
+
+Float AVtheadrms ;
+AVtheadrms:long_name = "Applanix AV-410 down heading angle RMS post-processed";
+AVtheadrms:Status = "AV410 velt-processed variable" ;
+AVtheadrms:units = "degree";
+AVtheadrms:Package = "POSPac MMM";
+AVtheadrms:matlab_name = "AVtheadrms1" ;
+AVtheadrms:missing_value = -32767.;
+AVtheadrms:FillValue = -32767.;
+AVtheadrms:raw_name = "unknown";
+AVtheadrms:Dependencies = "N/A" ;
+AVtheadrms:OutputRate = 1 ;
+
+Float AVxdist;
+AVxdist:long_name = "Position (east) from Applanix post-processed";
+AVxdist:Status = "Derived Variable" ;
+AVxdist:units = "km";
+AVxdist:Package = "get_gps";
+AVxdist:matlab_name = "AV_xdist" ;
+AVxdist:raw_name = "unknown";
+AVxdist:Dependencies = "N/A" ;
+AVxdist:OutputRate = XX ;
+
+Float AVydist;
+AVydist:long_name = "Position (north) from Applanix post-processed";
+AVydist:Status = "Derived Variable" ;
+AVydist:units = "km";
+AVydist:Package = "get_gps";
+AVydist:matlab_name = "AV_ydist" ;
+AVydist:Dependencies = "N/A" ;
+AVydist:raw_name = "unknown";
+AVydist:OutputRate = XX ;
+
+//Applanix a-410 output (real-time)
+
+Float avhdop ;
+avhdop:long_name = "Applanix horizontal dilution of precision" ;
+avhdop:Status = "AV410 real-time variable" ;
+avhdop:units = "factor";
+avhdop:Package = "AV-410 Real-Time ";
+avhdop:matlab_name = "avhdop1" ;
+avhdop:missing_value = -32767.;
+avhdop:FillValue = -32767.;
+avhdop:raw_name = "unknown";
+avhdop:Dependencies = "N/A" ;
+avhdop:OutputRate = XX ;
+
+Float avvdop ;
+avvdop:long_name = "Applanix vertical dilution of precision" ;
+avvdop:Status = "AV410 real-time variable" ;
+avvdop:units = "factor";
+avvdop:Package = "AV-410 Real-Time ";
+avvdop:matlab_name = "avvdop1" ;
+avvdop:missing_value = -32767.;
+avvdop:FillValue = -32767.;
+avvdop:raw_name = "unknown";
+avvdop:Dependencies = "N/A" ;
+avvdop:OutputRate = XX ;
+
+Float avewvel ;
+avewvel:long_name = "Applanix a-410 ground speed (E-W component, real-time)";
+avewvel:Status = "AV410 real-time variable" ;
+avewvel:units = "meter/sec";
+avewvel:standard_name = "eastward_patform_speed_wrt_ground" ;
+avewvel:Package = "AV-410 Real-Time ";
+avewvel:matlab_name = "avewvel" ;
+avewvel:missing_value = -32767.;
+avewvel:FillValue = -32767.;
+avewvel:raw_name = "unknown";
+avewvel:Dependencies = "N/A" ;
+avewvel:OutputRate = XX ;
+
+Float avnsvel ;
+avnsvel:long_name = "Applanix a-410 ground speed (N-S component, real-time)";
+avnsvel:Status = "AV410 real-time variable" ;
+avnsvel:units = "meter/sec";
+avnsvel:standard_name = "northward_patform_speed_wrt_ground" ;
+avnsvel:Package = "AV-410 Real-Time ";
+avnsvel:matlab_name = "avnsvel" ;
+avnsvel:missing_value = -32767.;
+avnsvel:FillValue = -32767.;
+avnsvel:raw_name = "unknown";
+avnsvel:Dependencies = "N/A" ;
+avnsvel:OutputRate = XX ;
+
+Float avzvel ;
+avzvel:long_name = "Applanix a-410 ground speed (UP component, real-time, fixed)";
+avzvel:Status = "AV410 real-time variable" ;
+avzvel:units = "meter/sec";
+avzvel:Package = "AV-410 Real-Time ";
+avzvel:matlab_name = "avzvel" ;
+avzvel:missing_value = -32767.;
+avzvel:FillValue = -32767.;
+avzvel:raw_name = "unknown";
+avzvel:Dependencies = "N/A" ;
+avzvel:OutputRate = XX ;
+
+
+Float avgs ;
+avgs:long_name = "Applanix a-410 ground speed (real-time)";
+avgs:Status = "AV410 real-time variable" ;
+avgs:units = "meter/sec";
+avgs:Package = "AV-410 Real-Time ";
+avgs:matlab_name = "avgs" ;
+avgs:missing_value = -32767.;
+avgs:FillValue = -32767.;
+avgs:raw_name = "unknown";
+avgs:Dependencies = "N/A" ;
+avgs:OutputRate = XX ;
+
+
+Float avux ;
+avux:long_name = " horizontal wind -- longitudinal component (real-time)";
+avux:Status = "AV410 real-time variable" ;
+avux:units = "meter/sec";
+avux:Package = "AV-410 Real-Time ";
+avux:matlab_name = "avux" ;
+avux:missing_value = -32767.;
+avux:FillValue = -32767.;
+avux:raw_name = "unknown";
+avux:Dependencies = "N/A" ;
+avux:OutputRate = XX ;
+
+Float avvy ;
+avvy:long_name = " horizontal wind -- lateral (real-time)";
+avvy:Status = "AV410 real-time variable" ;
+avvy:units = "meter/sec";
+avvy:Package = "AV-410 Real-Time ";
+avvy:matlab_name = "avvy" ;
+avvy:missing_value = -32767.;
+avvy:FillValue = -32767.;
+avvy:raw_name = "unknown";
+avvy:Dependencies = "N/A" ;
+avvy:OutputRate = XX ;
+
+Float avtrack ;
+avtrack:long_name = "Applanix a-410 track angle (real-time  )";
+avtrack:Status = "AV410 real-time variable" ;
+avtrack:units = "degree";
+avtrack:Package = "AV-410 Real-Time ";
+avtrack:matlab_name = "avtrack" ;
+avtrack:missing_value = -32767.;
+avtrack:FillValue = -32767.;
+avtrack:raw_name = "unknown";
+avtrack:Dependencies = "N/A" ;
+avtrack:OutputRate = XX ;
+
+Float avdnvel ;
+avdnvel:long_name = "Applanix a-410 ground speed (DN component, real-time)";
+avdnvel:Status = "AV410 real-time variable" ;
+avdnvel:units = "meter/sec";
+avdnvel:Package = "AV-410 Real-Time ";
+avdnvel:matlab_name = "avdnvel" ;
+avdnvel:missing_value = -32767.;
+avdnvel:FillValue = -32767.;
+avdnvel:raw_name = "unknown";
+avdnvel:Dependencies = "N/A" ;
+avdnvel:OutputRate = XX ;
+
+Float avroll ;
+avroll:long_name = "Applanix a-410 roll angle (real-time)";
+avroll:Status = "AV410 real-time variable" ;
+avroll:units = "degree";
+avroll:standard_name = "platform_roll_angle" ;
+avroll:Package = "AV-410 Real-Time ";
+avroll:matlab_name = "avroll" ;
+avroll:missing_value = -32767.;
+avroll:FillValue = -32767.;
+avroll:raw_name = "unknown";
+avroll:Dependencies = "N/A" ;
+avroll:OutputRate = XX ;
+
+Float avpitch ;
+avpitch:long_name = "Applanix a-410 pitch angle (real-time)";
+avpitch:Status = "AV410 real-time variable" ;
+avpitch:units = "degree";
+avpitch:standard_name = "platform_pitch_angle" ;
+avpitch:Package = "AV-410 Real-Time ";
+avpitch:matlab_name = "avpitch" ;
+avpitch:missing_value = -32767.;
+avpitch:FillValue = -32767.;
+avpitch:raw_name = "unknown";
+avpitch:Dependencies = "N/A" ;
+avpitch:OutputRate = XX ;
+
+Float avthead ;
+avthead:long_name = "Applanix a-410 true heading angle (real-time)";
+avthead:Status = "AV410 real-time variable" ;
+avthead:units = "degree";
+avthead:standard_name = "platform_orientation" ;
+avthead:Package = "AV-410 Real-Time ";
+avthead:matlab_name = "avthead" ;
+avthead:missing_value = -32767.;
+avthead:FillValue = -32767.;
+avthead:raw_name = "unknown";
+avthead:Dependencies = "N/A" ;
+avthead:OutputRate = XX ;
+
+Float avlat ;
+avlat:long_name = "Applanix a-410 latitude (real-time)";
+avlat:Status = "AV410 real-time variable" ;
+avlat:units = "degree";
+avlat:Package = "AV-410 Real-Time ";
+avlat:matlab_name = "avlat" ;
+avlat:missing_value = -32767.;
+avlat:FillValue = -32767.;
+avlat:raw_name = "unknown";
+avlat:Dependencies = "N/A" ;
+avlat:OutputRate = XX ;
+
+Float avzell ;
+avzell:long_name = "Applanix a-410 altitude (ellipsoid) (real-time)";
+avzell:Status = "AV410 real-time variable" ;
+avzell:units = "meter";
+avzell:Package = "AV-410 Real-Time ";
+avzell:matlab_name = "avzell" ;
+avzell:missing_value = -32767.;
+avzell:FillValue = -32767.;
+avzell:raw_name = "unknown";
+avzell:Dependencies = "N/A" ;
+avzell:OutputRate = XX ;
+
+Float avzmsl ;
+avzmsl:long_name = "Applanix a-410 altitude (orthometric) (real-time)";
+avzmsl:Status = "AV410 real-time variable" ;
+avzmsl:units = "meter";
+avzmsl:standard_name = "altitude" ;
+avzmsl:Package = "AV-410 Real-Time ";
+avzmsl:matlab_name = "avzmsl" ;
+avzmsl:missing_value = -32767.;
+avzmsl:FillValue = -32767.;
+avzmsl:raw_name = "unknown";
+avzmsl:Dependencies = "N/A" ;
+avzmsl:OutputRate = XX ;
+
+Float ALTX ;
+ALTX:long_name = "Inertial Altitude (orthometric) (real-time)";
+ALTX:Status = "AV410 variable" ;
+ALTX:units = "meter";
+ALTX:standard_name = "altitude" ;
+ALTX:Package = "AV-410 Real-Time ";
+ALTX:matlab_name = "ALTX" ;
+ALTX:missing_value = -32767.;
+ALTX:FillValue = -32767.;
+ALTX:raw_name = "unknown";
+ALTX:Dependencies = "N/A" ;
+ALTX:OutputRate = XX ;
+
+
+Float avalt ;
+avalt:long_name = "Applanix a-410 altitude (real-time)";
+avalt:Status = "AV410 real-time variable" ;
+avalt:units = "meter";
+avalt:Package = "AV-410 Real-Time ";
+avalt:matlab_name = "avalt" ;
+avalt:missing_value = -32767.;
+avalt:FillValue = -32767.;
+avalt:raw_name = "unknown";
+avalt:Dependencies = "N/A" ;
+avalt:OutputRate = XX ;
+
+Float avlon ;
+avlon:long_name = "Applanix a-410 longitude (real-time)";
+avlon:Status = "AV410 real-time variable" ;
+avlon:units = "degree";
+avlon:Package = "AV-410 Real-Time ";
+avlon:matlab_name = "avlon" ;
+avlon:missing_value = -32767.;
+avlon:FillValue = -32767.;
+avlon:raw_name = "unknown";
+avlon:Dependencies = "N/A" ;
+avlon:OutputRate = XX ;
+
+Float avlonga ;
+avlonga:long_name = "Applanix a-410 accel (body-axis longit. component(real-time)";
+avlonga:Status = "AV410 real-time variable" ;
+avlonga:units = "meter/sec^2";
+avlonga:Package = "AV-410 Real-Time ";
+avlonga:matlab_name = "avlonga" ;
+avlonga:missing_value = -32767.;
+avlonga:FillValue = -32767.;
+avlonga:raw_name = "unknown";
+avlonga:Dependencies = "N/A" ;
+avlonga:OutputRate = XX ;
+
+Float LATX ;
+LATX:long_name = "IMU/GPS logitude (recommended)";
+LATX:Status = "Recommended logitude variable" ;
+LATX:units = "degree";
+LATX:Package = "AV-410 ";
+LATX:matlab_name = "LATX" ;
+LATX:missing_value = -32767.;
+LATX:FillValue = -32767.;
+LATX:raw_name = "unknown";
+LATX:Dependencies = "N/A" ;
+LATX:OutputRate = XX ;
+
+Float LONX ;
+LONX:long_name = "IMU/GPS logitude (recommended)";
+LONX:Status = "Recommended logitude variable" ;
+LONX:units = "degree";
+LONX:Package = "AV-410 ";
+LONX:matlab_name = "LONX" ;
+LONX:missing_value = -32767.;
+LONX:FillValue = -32767.;
+LONX:raw_name = "unknown";
+LONX:Dependencies = "N/A" ;
+LONX:OutputRate = XX ;
+
+Float avlata ;
+avlata:long_name = "Applanix a-410 accel (body-axis lateral component(real-time)";
+avlata:Status = "AV410 real-time variable" ;
+avlata:units = "meter/sec^2";
+avlata:Package = "AV-410 Real-Time ";
+avlata:matlab_name = "avlata" ;
+avlata:missing_value = -32767.;
+avlata:FillValue = -32767.;
+avlata:raw_name = "unknown";
+avlata:Dependencies = "N/A" ;
+avlata:OutputRate = XX ;
+
+Float avnorma ;
+avnorma:long_name = "Applanix a-410 accel (body-axis vertical component(real-time)";
+avnorma:Status = "AV410 real-time variable" ;
+avnorma:units = "meter/sec^2";
+avnorma:Package = "AV-410 Real-Time ";
+avnorma:matlab_name = "avnorma" ;
+avnorma:missing_value = -32767.;
+avnorma:FillValue = -32767.;
+avnorma:raw_name = "unknown";
+avnorma:Dependencies = "N/A" ;
+avnorma:OutputRate = XX ;
+
+Float avrollr ;
+avrollr:long_name = "Applanix a-410 angle rate (body x-axis  component(real-time)";
+avrollr:Status = "AV410 real-time variable" ;
+avrollr:units = "radian/sec";
+avrollr:standard_name = "platform_roll_rate" ;
+avrollr:Package = "AV-410 Real-Time ";
+avrollr:matlab_name = "avrollr" ;
+avrollr:missing_value = -32767.;
+avrollr:FillValue = -32767.;
+avrollr:raw_name = "unknown";
+avrollr:Dependencies = "N/A" ;
+avrollr:OutputRate = XX ;
+
+Float avpitchr ;
+avpitchr:long_name = "Applanix a-410 angle rate (body y-axis component(real-time)";
+avpitchr:Status = "AV410 real-time variable" ;
+avpitchr:units = "radian/sec";
+avpitchr:standard_name = "platform_pitch_rate" ;
+avpitchr:Package = "AV-410 Real-Time ";
+avpitchr:matlab_name = "avpitchr" ;
+avpitchr:missing_value = -32767.;
+avpitchr:FillValue = -32767.;
+avpitchr:raw_name = "unknown";
+avpitchr:Dependencies = "N/A" ;
+avpitchr:OutputRate = XX ;
+
+Float avyawr ;
+avyawr:long_name = "Applanix a-410 angle rate (body z-axis component(real-time)";
+avyawr:Status = "AV410 real-time variable" ;
+avyawr:units = "radian/sec";
+avyawr:standard_name = "platform_yaw_rate" ;
+avyawr:Package = "AV-410 Real-Time ";
+avyawr:matlab_name = "avyawr" ;
+avyawr:missing_value = -32767.;
+avyawr:FillValue = -32767.;
+avyawr:raw_name = "unknown";
+avyawr:Dependencies = "N/A" ;
+avyawr:OutputRate = XX ;
+
+Float avwander ;
+avwander:long_name = "Applanix a-410 awander angle (real-time)";
+avwander:Status = "AV410 real-time variable" ;
+avwander:units = "radians";
+avwander:standard_name = "platform_wander_angle" ;
+avwander:Package = "AV-410 Real-Time ";
+avwander:matlab_name = "avwander" ;
+avwander:missing_value = -32767.;
+avwander:FillValue = -32767.;
+avwander:raw_name = "unknown";
+avwander:Dependencies = "N/A" ;
+avwander:OutputRate = XX ;
+
+Float avplatformheading ;
+avplatformheading:long_name = "Applanix a-410 platformheading angle (real-time)";
+avplatformheading:Status = "AV410 real-time variable" ;
+avplatformheading:units = "radians";
+avplatformheading:standard_name = "platform_platformheading_angle" ;
+avplatformheading:Package = "AV-410 Real-Time ";
+avplatformheading:matlab_name = "avplatformheading" ;
+avplatformheading:missing_value = -32767.;
+avplatformheading:FillValue = -32767.;
+avplatformheading:raw_name = "unknown";
+avplatformheading:Dependencies = "N/A" ;
+avplatformheading:OutputRate = XX ;
+
+
+Float avnposrms ;
+avnposrms:long_name = "Applanix av-410 north position RMS real-time";
+avnposrms:Status = "AV410 real-time variable" ;
+avnposrms:units = "meter";
+avnposrms:Package = "AV-410 Real-Time ";
+avnposrms:matlab_name = "avnposrms" ;
+avnposrms:missing_value = -32767.;
+avnposrms:FillValue = -32767.;
+avnposrms:raw_name = "unknown";
+avnposrms:Dependencies = "N/A" ;
+avnposrms:OutputRate = 1 ;
+
+Float aveposrms ;
+aveposrms:long_name = "Applanix av-410 east position RMS real-time";
+aveposrms:Status = "AV410 real-time variable" ;
+aveposrms:units = "meter";
+aveposrms:Package = "AV-410 Real-Time ";
+aveposrms:matlab_name = "aveposrms" ;
+aveposrms:missing_value = -32767.;
+aveposrms:FillValue = -32767.;
+aveposrms:raw_name = "unknown";
+aveposrms:Dependencies = "N/A" ;
+aveposrms:OutputRate = 1 ;
+
+
+Float avdposrms ;
+avdposrms:long_name = "Applanix av-410 down position RMS real-time";
+avdposrms:Status = "AV410 real-time variable" ;
+avdposrms:units = "meter";
+avdposrms:Package = "AV-410 Real-Time ";
+avdposrms:matlab_name = "avdposrms" ;
+avdposrms:missing_value = -32767.;
+avdposrms:FillValue = -32767.;
+avdposrms:raw_name = "unknown";
+avdposrms:Dependencies = "N/A" ;
+avdposrms:OutputRate = 1 ;
+
+
+Float avnvelrms ;
+avnvelrms:long_name = "Applanix av-410 north velocity RMS real-time";
+avnvelrms:Status = "AV410 real-time variable" ;
+avnvelrms:units = "meter/sec";
+avnvelrms:Package = "AV-410 Real-Time ";
+avnvelrms:matlab_name = "avnvelrms" ;
+avnvelrms:missing_value = -32767.;
+avnvelrms:FillValue = -32767.;
+avnvelrms:raw_name = "unknown";
+avnvelrms:Dependencies = "N/A" ;
+avnvelrms:OutputRate = 1 ;
+
+Float avevelrms ;
+avevelrms:long_name = "Applanix av-410 east velocity RMS real-time";
+avevelrms:Status = "AV410 real-time variable" ;
+avevelrms:units = "meter/sec";
+avevelrms:Package = "AV-410 Real-Time ";
+avevelrms:matlab_name = "avevelrms" ;
+avevelrms:missing_value = -32767.;
+avevelrms:FillValue = -32767.;
+avevelrms:raw_name = "unknown";
+avevelrms:Dependencies = "N/A" ;
+avevelrms:OutputRate = 1 ;
+
+Float avdvelrms ;
+avdvelrms:long_name = "Applanix av-410 down velocity RMS real-time";
+avdvelrms:Status = "AV410 real-time variable" ;
+avdvelrms:units = "meter/sec";
+avdvelrms:Package = "AV-410 Real-Time ";
+avdvelrms:matlab_name = "avdvelrms" ;
+avdvelrms:missing_value = -32767.;
+avdvelrms:FillValue = -32767.;
+avdvelrms:raw_name = "unknown";
+avdvelrms:Dependencies = "N/A" ;
+avdvelrms:OutputRate = 1 ;
+
+
+Float avrollrms ;
+avrollrms:long_name = "Applanix av-410 roll angle RMS real-time";
+avrollrms:Status = "AV410 real-time variable" ;
+avrollrms:units = "degree";
+avrollrms:Package = "AV-410 Real-Time ";
+avrollrms:matlab_name = "avrollrms" ;
+avrollrms:missing_value = -32767.;
+avrollrms:FillValue = -32767.;
+avrollrms:raw_name = "unknown";
+avrollrms:Dependencies = "N/A" ;
+avrollrms:OutputRate = 1 ;
+
+
+Float avpitchrms ;
+avpitchrms:long_name = "Applanix av-410 pitch angle RMS real-time";
+avpitchrms:Status = "AV410 real-time variable" ;
+avpitchrms:units = "degree";
+avpitchrms:Package = "AV-410 Real-Time ";
+avpitchrms:matlab_name = "avpitchrms" ;
+avpitchrms:missing_value = -32767.;
+avpitchrms:FillValue = -32767.;
+avpitchrms:raw_name = "unknown";
+avpitchrms:Dependencies = "N/A" ;
+avpitchrms:OutputRate = 1 ;
+
+
+Float avtheadrms ;
+avtheadrms:long_name = "Applanix av-410 heading angle RMS real-time";
+avtheadrms:Status = "AV410 real-time variable" ;
+avtheadrms:units = "degree";
+avtheadrms:Package = "AV-410 Real-Time ";
+avtheadrms:matlab_name = "avtheadrms" ;
+avtheadrms:missing_value = -32767.;
+avtheadrms:FillValue = -32767.;
+avtheadrms:raw_name = "unknown";
+avtheadrms:Dependencies = "N/A" ;
+avtheadrms:OutputRate = 1 ;
+
+Float avuwind ;
+avuwind:long_name = "Horizontal wind (Applanix a-410, E-W component(real-time)";
+avuwind:Status = "AV410 real-time variable" ;
+avuwind:units = "meter/sec";
+avuwind:Package = "AV-410 Real-Time ";
+avuwind:matlab_name = "avuwind" ;
+avuwind:missing_value = -32767.;
+avuwind:FillValue = -32767.;
+avuwind:raw_name = "unknown";
+avuwind:Dependencies = "N/A" ;
+avuwind:OutputRate = XX ;
+
+Float avvwind ;
+avvwind:long_name = "Horizontal wind (Applanix a-410, N-S component(real-time)";
+avvwind:Status = "AV410 real-time variable" ;
+avvwind:units = "meter/sec";
+avvwind:Package = "AV-410 Real-Time ";
+avvwind:matlab_name = "avvwind" ;
+avvwind:missing_value = -32767.;
+avvwind:FillValue = -32767.;
+avvwind:raw_name = "unknown";
+avvwind:Dependencies = "N/A" ;
+avvwind:OutputRate = XX ;
+
+Float avwwind ;
+avwwind:long_name = "Vertical wind (Applanix a-410, UP component(real-time)";
+avwwind:Status = "AV410 real-time variable" ;
+avwwind:units = "meter/sec";
+avwwind:standard_name = "upward_air_velocity" ;
+avwwind:Package = "AV-410 Real-Time ";
+avwwind:matlab_name = "avwwind" ;
+avwwind:missing_value = -32767.;
+avwwind:FillValue = -32767.;
+avwwind:raw_name = "unknown";
+avwwind:Dependencies = "N/A" ;
+avwwind:OutputRate = XX ;
+
+Float avwdir;
+avwdir:long_name = "Applanix real-time Wind direction (from)";
+avwdir:Status = "Derived Variable" ;
+avwdir:units = "degree";
+avwdir:Package = "get_avimu";
+avwdir:matlab_name = "avwdir" ;
+avwdir:Dependencies = "N/A" ;
+avwdir:raw_name = "unknown";
+avwdir:OutputRate = XX ;
+
+Float avwmag;
+avwmag:long_name = "Applanix real-time Wind magnitude";
+avwmag:Status = "Derived Variable" ;
+avwmag:units = "meter/sec";
+avwmag:Package = "get_avimu";
+avwmag:matlab_name = "avwmag" ;
+avwmag:Dependencies = "N/A" ;
+avwmag:raw_name = "unknown";
+avwmag:OutputRate = XX ;
+
+Float WWX;
+WWX:long_name = "Virtical Wind component";
+WWX:Status = "Recommended variable" ;
+WWX:units = "meter/second";
+WWX:Package = "get_avimu";
+WWX:matlab_name = "WWX" ;
+WWX:Dependencies = "N/A" ;
+WWX:raw_name = "unknown";
+WWX:OutputRate = XX ;
+
+Float WDIRX;
+WDIRX:long_name = "Wind direction";
+WDIRX:Status = "Recommended variable" ;
+WDIRX:units = "degree";
+WDIRX:Package = "get_avimu";
+WDIRX:matlab_name = "WDIRX" ;
+WDIRX:Dependencies = "N/A" ;
+WDIRX:raw_name = "unknown";
+WDIRX:OutputRate = XX ;
+
+Float WMAGX;
+WMAGX:long_name = "Wind magnitude";
+WMAGX:Status = "Recommended variable" ;
+WMAGX:units = "meter/sec";
+WMAGX:Package = "get_avimu";
+WMAGX:matlab_name = "WMAGX" ;
+WMAGX:Dependencies = "N/A" ;
+WMAGX:raw_name = "unknown";
+WMAGX:OutputRate = XX ;
+
+Float avppstat ;
+avppstat:long_name = "ApplanixStatus " ;
+avppstat:Status = "AV410 real-time variable" ;
+avppstat:units = "bit";
+avppstat:Package = "AV-410 Real-Time ";
+avppstat:matlab_name = "avppstat1" ;
+avppstat:missing_value = -32767.;
+avppstat:FillValue = -32767.;
+avppstat:raw_name = "unknown";
+avppstat:Dependencies = "N/A" ;
+avppstat:OutputRate = XX ;
+
+Float avqual ;
+avqual:long_name = "Applanix quality flag (0=NL RTK;1=WL RTK;2=FL RTK;3=Diff;4=C/A)" ;
+avqual:Status = "AV410 real-time variable" ;
+avqual:units = "bit";
+avqual:Package = "AV-410 Real-Time ";
+avqual:matlab_name = "avqual1" ;
+avqual:missing_value = -32767.;
+avqual:FillValue = -32767.;
+avqual:raw_name = "unknown";
+avqual:Dependencies = "N/A" ;
+avqual:OutputRate = 1 ;
+
+Float avppstata ;
+avppstata:long_name = "Applanix General Status A" ;
+avppstata:Status = "AV410 real-time variable" ;
+avppstata:units = "bit";
+avppstata:Package = "AV-410 Real-Time ";
+avppstata:matlab_name = "avppstata1" ;
+avppstata:missing_value = -32767.;
+avppstata:FillValue = -32767.;
+avppstata:raw_name = "unknown";
+avppstata:Dependencies = "N/A" ;
+avppstata:OutputRate = 1 ;
+
+Float avppstatb ;
+avppstatb:long_name = "Applanix General Status B" ;
+avppstatb:Status = "AV410 real-time variable" ;
+avppstatb:units = "bit";
+avppstatb:Package = "AV-410 Real-Time ";
+avppstatb:matlab_name = "avppstatb1" ;
+avppstatb:missing_value = -32767.;
+avppstatb:FillValue = -32767.;
+avppstatb:raw_name = "unknown";
+avppstatb:Dependencies = "N/A" ;
+avppstatb:OutputRate = 1 ;
+
+Float avppstatc ;
+avppstatc:long_name = "Applanix General Status C" ;
+avppstatc:Status = "AV410 real-time variable" ;
+avppstatc:units = "bit";
+avppstatc:Package = "AV-410 Real-Time ";
+avppstatc:matlab_name = "avppstatc1" ;
+avppstatc:missing_value = -32767.;
+avppstatc:FillValue = -32767.;
+avppstatc:raw_name = "unknown";
+avppstatc:Dependencies = "N/A" ;
+avppstatc:OutputRate = 1 ;
+
+Float avppfdir1 ;
+avppfdir1:long_name = "Applanix FDIR Level 1 Status" ;
+avppfdir1:Status = "AV410 real-time variable" ;
+avppfdir1:units = "bit";
+avppfdir1:Package = "AV-410 Real-Time ";
+avppfdir1:matlab_name = "avppfdir1_1" ;
+avppfdir1:missing_value = -32767.;
+avppfdir1:FillValue = -32767.;
+avppfdir1:raw_name = "unknown";
+avppfdir1:Dependencies = "N/A" ;
+avppfdir1:OutputRate = 1 ;
+
+Float avppfdir2 ;
+avppfdir2:long_name = "Applanix FDIR Level 1 Status" ;
+avppfdir2:Status = "AV410 real-time variable" ;
+avppfdir2:units = "bit";
+avppfdir2:Package = "AV-410 Real-Time ";
+avppfdir2:matlab_name = "avppfdir2_1" ;
+avppfdir2:missing_value = -32767.;
+avppfdir2:FillValue = -32767.;
+avppfdir2:raw_name = "unknown";
+avppfdir2:Dependencies = "N/A" ;
+avppfdir2:OutputRate = 1 ;
+
+Float avppfdir3 ;
+avppfdir3:long_name = "Applanix FDIR Level 1 Status" ;
+avppfdir3:Status = "AV410 real-time variable" ;
+avppfdir3:units = "bit";
+avppfdir3:Package = "AV-410 Real-Time ";
+avppfdir3:matlab_name = "avppfdir3_1" ;
+avppfdir3:missing_value = -32767.;
+avppfdir3:FillValue = -32767.;
+avppfdir3:raw_name = "unknown";
+avppfdir3:Dependencies = "N/A" ;
+avppfdir3:OutputRate = 1 ;
+
+Float avppfdir4 ;
+avppfdir4:long_name = "Applanix FDIR Level 1 Status" ;
+avppfdir4:Status = "AV410 real-time variable" ;
+avppfdir4:units = "bit";
+avppfdir4:Package = "AV-410 Real-Time ";
+avppfdir4:matlab_name = "avppfdir4_1" ;
+avppfdir4:missing_value = -32767.;
+avppfdir4:FillValue = -32767.;
+avppfdir4:raw_name = "unknown";
+avppfdir4:Dependencies = "N/A" ;
+avppfdir4:OutputRate = 1 ;
+
+Float avppfdir5 ;
+avppfdir5:long_name = "Applanix FDIR Level 1 Status" ;
+avppfdir5:Status = "AV410 real-time variable" ;
+avppfdir5:units = "bit";
+avppfdir5:Package = "AV-410 Real-Time ";
+avppfdir5:matlab_name = "avppfdir5_1" ;
+avppfdir5:missing_value = -32767.;
+avppfdir5:FillValue = -32767.;
+avppfdir5:raw_name = "unknown";
+avppfdir5:Dependencies = "N/A" ;
+avppfdir5:OutputRate = 1 ;
+
+Float avxdist;
+avxdist:long_name = "Position (east) from Applanix real-time";
+avxdist:Status = "Derived Variable" ;
+avxdist:units = "km";
+avxdist:Package = "get_gps";
+avxdist:matlab_name = "av_xdist" ;
+avxdist:raw_name = "unknown";
+avxdist:Dependencies = "N/A" ;
+avxdist:OutputRate = 1 ;
+
+Float avydist;
+avydist:long_name = "Position (north) from Applanix real-time";
+avydist:Status = "Derived Variable" ;
+avydist:units = "km";
+avydist:Package = "get_gps";
+avydist:matlab_name = "av_ydist" ;
+avydist:Dependencies = "N/A" ;
+avydist:raw_name = "unknown";
+avydist:OutputRate = 1 ;
+
+// DMT CDP is in QQQ canister.
+Float ACDP_1_QQQ ;
+ACDP_1_QQQ:long_name = "DMT CDP number (per cell)" ;
+ACDP_1_QQQ:units = "number" ;
+ACDP_1_QQQ:Category = "PMS Probe" ;
+ACDP_1_QQQ:SampledRate = CDPrate ;  ;
+ACDP_1_QQQ:FirstBin = 1 ;
+ACDP_1_QQQ:LastBin = 30 ;
+ACDP_1_QQQ:VectorLength = 28 ;
+ACDP_1_QQQ:Package = "get_varCDP";
+ACDP_1_QQQ:matlab_name = "ACDP_1" ;
+ACDP_1_QQQ:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+ACDP_1_QQQ:OutputRate = CDPrate ;
+
+Float CCDP_1_QQQ ;
+CCDP_1_QQQ:long_name = "DMT CDP concentration (per cell)" ;
+CCDP_1_QQQ:units = "cm-3" ;
+CCDP_1_QQQ:Category = "PMS Probe" ;
+CCDP_1_QQQ:SampledRate = CDPrate  ;
+CCDP_1_QQQ:FirstBin = 1 ;
+CCDP_1_QQQ:LastBin = 30 ;
+CCDP_1_QQQ:VectorLength =28 ;
+CCDP_1_QQQ:Package = "get_cdp";
+CCDP_1_QQQ:matlab_name = "CCDP_1" ;
+CCDP_1_QQQ:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+CCDP_1_QQQ:OutputRate = CDPrate ;
+
+Float cdpacc_1_QQQ ;
+cdpacc_1_QQQ:long_name = "DMT CDP Total number" ;
+cdpacc_1_QQQ:units = "number" ;
+cdpacc_1_QQQ:Category = "PMS Probe" ;
+cdpacc_1_QQQ:SampledRate = CDPrate  ;
+cdpacc_1_QQQ:Package = "get_cdp";
+cdpacc_1_QQQ:matlab_name = "CDPacc_1" ;
+cdpacc_1_QQQ:OutputRate = CDPrate ;
+
+Float cdpconc_1_QQQ ;
+cdpconc_1_QQQ:long_name = "DMT CDP Total Concentration" ;
+cdpconc_1_QQQ:units = "cm-3" ;
+cdpconc_1_QQQ:Category = "PMS Probe" ;
+cdpconc_1_QQQ:SampledRate = CDPrate  ;
+cdpconc_1_QQQ:Package = "get_cdp";
+cdpconc_1_QQQ:matlab_name = "CDPconc_1" ;
+cdpconc_1_QQQ:OutputRate = CDPrate ;
+
+Float cdplwc_1_QQQ ;
+cdplwc_1_QQQ:long_name = "DMT CDP Liquid Water Content" ;
+cdplwc_1_QQQ:units = "g m-3" ;
+cdplwc_1_QQQ:Category = "PMS Probe" ;
+cdplwc_1_QQQ:SampledRate = CDPrate  ;
+cdplwc_1_QQQ:Package = "get_cdp";
+cdplwc_1_QQQ:matlab_name = "CDPlwc_1" ;
+cdplwc_1_QQQ:OutputRate = CDPrate ;
+
+Float cdpdbar_1_QQQ ;
+cdpdbar_1_QQQ:long_name = "DMT CDP Mean Diameter" ;
+cdpdbar_1_QQQ:units = "um" ;
+cdpdbar_1_QQQ:Category = "PMS Probe" ;
+cdpdbar_1_QQQ:SampledRate = CDPrate  ;
+cdpdbar_1_QQQ:Package = "get_cdp";
+cdpdbar_1_QQQ:matlab_name = "CDPDbar_1" ;
+cdpdbar_1_QQQ:OutputRate = CDPrate ;
+
+Float cdpreff_1_QQQ ;
+cdpreff_1_QQQ:long_name = "DMT CDP Effective Radius" ;
+cdpreff_1_QQQ:units = "um" ;
+cdpreff_1_QQQ:Category = "PMS Probe" ;
+cdpreff_1_QQQ:SampledRate = CDPrate  ;
+cdpreff_1_QQQ:Package = "get_cdp";
+cdpreff_1_QQQ:matlab_name = "CDPReff_1" ;
+cdpreff_1_QQQ:OutputRate = CDPrate ;
+
+// DMT CDP is in QQQ canister (rebinned variables).
+Float ACDP_QQQ ;
+ACDP_QQQ:long_name = "DMT CDP number -- rebinned (per cell) " ;
+ACDP_QQQ:units = "number" ;
+ACDP_QQQ:Category = "PMS Probe" ;
+ACDP_QQQ:SampledRate = CDPrate  ;
+ACDP_QQQ:FirstBin = 1 ;
+ACDP_QQQ:LastBin = 27 ;
+ACDP_QQQ:VectorLength = 31 ;
+ACDP_QQQ:Package = "get_cdp";
+ACDP_QQQ:matlab_name = "ACDP" ;
+ACDP_QQQ:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+ACDP_QQQ:OutputRate = CDPrate ;
+
+Float CCDP_QQQ ;
+CCDP_QQQ:long_name = "DMT CDP concentration -- rebinned (per cell)" ;
+CCDP_QQQ:units = "cm-3" ;
+CCDP_QQQ:Category = "PMS Probe" ;
+CCDP_QQQ:SampledRate = CDPrate  ;
+CCDP_QQQ:FirstBin = 1 ;
+CCDP_QQQ:LastBin = 27;
+CCDP_QQQ:VectorLength = 31 ;
+CCDP_QQQ:Package = "get_cdp";
+CCDP_QQQ:matlab_name = "CCDP" ;
+CCDP_QQQ:CellSizes = 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0., 0.,  0.,  0.,  0.,  0.,  0.,  0.,  0.,  0. ;
+CCDP_QQQ:OutputRate = CDPrate ;
+
+Float cdpacc_QQQ ;
+cdpacc_QQQ:long_name = "DMT CDP Total number -- rebinned " ;
+cdpacc_QQQ:units = "number" ;
+cdpacc_QQQ:Category = "PMS Probe" ;
+cdpacc_QQQ:SampledRate = CDPrate  ;
+cdpacc_QQQ:Package = "get_cdp";
+cdpacc_QQQ:matlab_name = "CDPTot" ;
+cdpacc_QQQ:OutputRate = CDPrate ;
+
+Float cdpconc_QQQ ;
+cdpconc_QQQ:long_name = "DMT CDP Total Concentration -- rebinned " ;
+cdpconc_QQQ:units = "cm-3" ;
+cdpconc_QQQ:Category = "PMS Probe" ;
+cdpconc_QQQ:SampledRate = CDPrate  ;
+cdpconc_QQQ:Package = "get_cdp";
+cdpconc_QQQ:matlab_name = "CDPConc" ;
+cdpconc_QQQ:OutputRate = CDPrate ;
+
+Float cdplwc_QQQ ;
+cdplwc_QQQ:long_name = "DMT CDP Liquid Water Content -- rebinned " ;
+cdplwc_QQQ:units = "g m-3" ;
+cdplwc_QQQ:Category = "PMS Probe" ;
+cdplwc_QQQ:SampledRate = CDPrate  ;
+cdplwc_QQQ:Package = "get_cdp";
+cdplwc_QQQ:matlab_name = "CDPLWC" ;
+cdplwc_QQQ:OutputRate = CDPrate ;
+
+Float cdpdbar_QQQ ;
+cdpdbar_QQQ:long_name = "DMT CDP Mean Diameter -- rebinned " ;
+cdpdbar_QQQ:units = "um" ;
+cdpdbar_QQQ:Category = "PMS Probe" ;
+cdpdbar_QQQ:SampledRate = CDPrate  ;
+cdpdbar_QQQ:Package = "get_cdp";
+cdpdbar_QQQ:matlab_name = "CDPdbar" ;
+cdpdbar_QQQ:OutputRate = CDPrate ;
+
+Float cdpreff_QQQ ;
+cdpreff_QQQ:long_name = "DMT CDP Effective Radius -- rebinned " ;
+cdpreff_QQQ:units = "um" ;
+cdpreff_QQQ:Category = "PMS Probe" ;
+cdpreff_QQQ:SampledRate = CDPrate  ;
+cdpreff_QQQ:Package = "get_cdp";
+cdpreff_QQQ:matlab_name = "CDPReff" ;
+cdpreff_QQQ:OutputRate = CDPrate ;
+
+Float nevlwc;
+nevlwc:long_name = "Nevzorov liquid water content";
+nevlwc:units = "gram/m3";
+nevlwc:standard_name = "mass_concentration_of_cloud_liquid_water_in_air";
+nevlwc:Status = "Derived Variable" ;
+nevlwc:Package = "get_nevzorov";
+nevlwc:matlab_name = "nevlwc" ;
+nevlwc:Dependencies = "N/A" ;
+nevlwc:OutputRate = XX ;
+
+Float nevtwc;
+nevtwc:long_name = "Nevzorov total water content";
+nevtwc:units = "gram/m3";
+nevtwc:standard_name = "mass_concentration_of_condensed_water_in_air";
+nevtwc:Status = "Derived Variable" ;
+nevtwc:Package = "get_nevzorov";
+nevtwc:matlab_name = "nevtwc" ;
+nevtwc:Dependencies = "N/A" ;
+nevtwc:OutputRate = XX ;
+
+Float ps_CPT6140;
+ps_CPT6140:long_name = "Static Pressure (CPT 6140 Digital)" ;
+ps_CPT6140:Status = "Derived Variable" ;
+ps_CPT6140:units = "hPa";
+ps_CPT6140:standard_name = "air_pressure";
+ps_CPT6140:SampleRate = 50;
+ps_CPT6140:Package = "get_CPTpressure" ;
+ps_CPT6140:matlab_name = "PRES6140_" ;
+ps_CPT6140:raw_name= "PRES6140";
+ps_CPT6140:Dependencies = "N/A" ;
+ps_CPT6140:OutputRate = XX ;
+
+Float ps_CPT9000;
+ps_CPT9000:long_name = "Static Pressure (CPT 9000 Digital)" ;
+ps_CPT9000:Status = "Derived Variable" ;
+ps_CPT9000:units = "hPa";
+ps_CPT9000:standard_name = "air_pressure";
+ps_CPT9000:SampleRate = 50;
+ps_CPT9000:Package = "get_CPTpressure" ;
+ps_CPT9000:matlab_name = "PRES9000_" ;
+ps_CPT9000:raw_name= "PRES9000";
+ps_CPT9000:Dependencies = "N/A" ;
+ps_CPT9000:OutputRate = XX ;
+
+Float temp_CPT9000;
+temp_CPT9000:long_name = "Sensor temperature (CPT 9000 Digital)" ;
+temp_CPT9000:Status = "Derived Variable" ;
+temp_CPT9000:units = "Celsius";
+temp_CPT9000:standard_name = "sensor_temperature";
+temp_CPT9000:SampleRate = 50;
+temp_CPT9000:Package = "get_CPTpressure" ;
+temp_CPT9000:matlab_name = "TEMP9000_" ;
+temp_CPT9000:raw_name= "TEMP9000";
+temp_CPT9000:Dependencies = "N/A" ;
+temp_CPT9000:OutputRate = XX ;
+
+Float alicatfl;
+alicatfl:Status = "Derived Variable" ;
+alicatfl:OutputRate = XX ;
+alicatfl:matlab_name = "alicatfl" ;
+alicatfl:Package = "get_misc" ;
+
+Float p1221;
+p1221:long_name = "Rosemount 1221 pressure";
+p1221:Status = "Derived Variable" ;
+p1221:units = "hPa";
+p1221:Package = "get_misc";
+p1221:matlab_name = "p1221" ;
+p1221:raw_name = "P1221";
+p1221:Dependencies = "N/A" ;
+p1221:OutputRate = XX ;
+
+Float tas1221;
+tas1221:long_name = "True Airspeed derived from the Rosemount 1221 transducer";
+tas1221:Status = "Derived Variable" ;
+tas1221:units = "meter/sec";
+tas1221:standard_name = "platform_speed_wrt_air" ;
+tas1221:Package = "get_misc";
+tas1221:matlab_name = "tas1221" ;
+tas1221:StaticDefect="Corrected";
+tas1221:raw_name = "unknown";
+tas1221:Dependencies = "N/A" ;
+tas1221:OutputRate = XX ;
+
+Float inletsp ;
+inletsp:long_name = "Average flow speed of Rogers inlet" ;
+inletsp:units = "meter/sec" ;
+inletsp:Category = "Derived" ;
+inletsp:SampleRate = 1000 ;
+inletsp:Package = "get_inletFlow";
+inletsp:matlab_name = "inletsp" ;
+inletsp:Dependencies = "1 pinlet" ;
+inletsp:raw_name = "unknown";
+inletsp:OutputRate = XX ;
+
+Float inletflow ;
+inletflow:long_name = "Volumetric flow of Rogers inlet" ;
+inletflow:units = "liter/min" ;
+inletflow:Category = "Derived" ;
+inletflow:SampleRate = 1000 ;
+inletflow:Package = "get_inletFlow";
+inletflow:matlab_name = "inletflow" ;
+inletflow:Dependencies = "1 inletsp" ;
+inletflow:raw_name = "unknown";
+inletflow:OutputRate = XX ;
+
+
+Float vlwcref;
+vlwcref:long_name = "Nevzorov LWC reference voltage" ;
+vlwcref:Nnumber = 2.413 ;
+vlwcref:SampleAreaUnits = "cm2" ;
+vlwcref:resistance = 2.937 ;
+vlwcref:SampleArea = 0.325 ;
+vlwcref:SerialNumber = "SN003" ;
+vlwcref:CalibrationCoefficients = 0., 1. ;
+vlwcref:CalibrationDate = "2010-08-02 23:36:10.000" ;
+vlwcref:units = "volt" ;
+vlwcref:AnalogCalibration = 0.005278, 1.011648 ;
+vlwcref:AnalogCalibrationDate = "2010-03-19 16:40:31.000" ;
+vlwcref:OutputRate = XX ;
+
+Float vlwccol;
+vlwccol:SampleArea = 0.478 ;
+vlwccol:Nnumber = 2.413 ;
+vlwccol:SampleAreaUnits = "cm2" ;
+vlwccol:resistance = 2.937 ;
+vlwccol:SerialNumber = "SN003" ;
+vlwccol:CalibrationCoefficients = 0., 1. ;
+vlwccol:CalibrationDate = "2010-08-02 23:37:16.000" ;
+vlwccol:units = "volt" ;
+vlwccol:AnalogCalibration = -0.010397, 1.011935 ;
+vlwccol:AnalogCalibrationDate = "2010-03-19 16:41:55.000" ;
+vlwccol:OutputRate = XX ;
+
+Float vtwcref;
+vtwcref:long_name = "Nevzorov TWC reference voltage" ;
+vtwcref:SampleArea = 0.478 ;
+vtwcref:Nnumber = 2.284 ;
+vtwcref:resistance = 3.485 ;
+vtwcref:SampleAreaUnits = "cm2" ;
+vtwcref:SerialNumber = "SN003" ;
+vtwcref:CalibrationCoefficients = 0., 1. ;
+vtwcref:CalibrationDate = "2010-08-02 23:38:26.000" ;
+vtwcref:units = "volt" ;
+vtwcref:AnalogCalibration = 0.001876, 1.012102 ;
+vtwcref:AnalogCalibrationDate = "2010-03-19 16:44:39.000" ;
+vtwcref:OutputRate = XX ;
+
+Float vtwccol;
+vtwccol:long_name = "Nevzorov TWC collector voltage" ;
+vtwccol:SampleArea = 0.478 ;
+vtwccol:Nnumber = 2.284 ;
+vtwccol:resistance = 3.485 ;
+vtwccol:SampleAreaUnits = "cm2" ;
+vtwccol:SerialNumber = "SN003" ;
+vtwccol:CalibrationCoefficients = 0., 1. ;
+vtwccol:CalibrationDate = "2010-08-02 23:37:46.000" ;
+vtwccol:units = "volt" ;
+vtwccol:AnalogCalibration = -0.007195, 1.012325 ;
+vtwccol:AnalogCalibrationDate = "2010-03-19 16:43:19.000" ;
+vtwccol:OutputRate = XX ;
+
+
+Float ilwcref;
+ilwcref:long_name = "Nevzorov LWC reference current" ;
+ilwcref:resistance = 3.485 ;
+ilwcref:Nnumber = 2.054 ;
+ilwcref:SampleArea = 0.325 ;
+ilwcref:SampleAreaUnits = "cm2" ;
+ilwcref:SerialNumber = "SN003" ;
+ilwcref:CalibrationCoefficients = 0., 0.5 ;
+ilwcref:CalibrationDate = "2010-08-02 23:41:51.000" ;
+ilwcref:units = "amp" ;
+ilwcref:AnalogCalibration = 0.007248, 1.012216 ;
+ilwcref:AnalogCalibrationDate = "2010-03-19 16:47:16.000" ;
+ilwcref:OutputRate = XX ;
+
+Float ilwccol;
+ilwccol:long_name = "Nevzorov LWC collector current" ;
+ilwccol:resistance = 3.485 ;
+ilwccol:Nnumber = 2.054 ;
+ilwccol:SampleArea = 0.325 ;
+ilwccol:SampleAreaUnits = "cm2" ;
+ilwccol:SerialNumber = "SN003" ;
+ilwccol:CalibrationCoefficients = 0., 0.5 ;
+ilwccol:CalibrationDate = "2010-08-02 23:38:57.000" ;
+ilwccol:units = "amp" ;
+ilwccol:AnalogCalibration = -0.005463, 1.011588 ;
+ilwccol:AnalogCalibrationDate = "2010-03-19 16:45:53.000" ;
+ilwccol:OutputRate = XX ;
+
+
+Float itwcref;
+itwcref:long_name = "Nevzorov TWC reference current" ;
+itwcref:Nnumber = 2.284 ;
+itwcref:SampleAreaUnits = "cm2" ;
+itwcref:resistance = 2.362 ;
+itwcref:SampleArea = 0.478 ;
+itwcref:SerialNumber = "SN003" ;
+itwcref:CalibrationCoefficients = 0., 0.5 ;
+itwcref:CalibrationDate = "2010-08-02 23:43:35.000" ;
+itwcref:units = "amp" ;
+itwcref:AnalogCalibration = -0.003383, 1.011865 ;
+itwcref:AnalogCalibrationDate = "2010-03-19 16:49:47.000" ;
+itwcref:OutputRate = XX ;
+
+
+Float itwccol;
+itwccol:long_name = "Nevzorov TWC collector current" ;
+itwccol:resistance = 3.485 ;
+itwccol:Nnumber = 2.284 ;
+itwccol:SampleAreaUnits = "cm2" ;
+itwccol:SampleArea = 0.478 ;
+itwccol:SerialNumber = "SN003" ;
+itwccol:CalibrationCoefficients = 0., 0.5 ;
+itwccol:CalibrationDate = "2010-08-02 23:42:40.000" ;
+itwccol:units = "amp" ;
+itwccol:AnalogCalibration = -0.005675, 1.013978 ;
+itwccol:AnalogCalibrationDate = "2010-03-19 16:48:37.000" ;
+itwccol:OutputRate = XX ;
+
+// global attributes:
+
+

@@ -1,0 +1,60 @@
+I previously a netcdf file using  schema = ncinfo(ncFinal). Now I've calculated all the variables and saved them in a matfile.  Here is my routine to cload those variables in to ncFinal. Can you clean this up, improve it, and make suggestions??
+
+function load_ncFINAL(ncFINAL,matfile)
+%  
+load(matfile,'time','arcNames');
+ntime=numel(time);
+% names of variables that were processed
+arcNames=arcNames(~cellfun('isempty',arcNames));
+
+% Read names and dimension information from ncFINAL
+x=ncinfo(ncFINAL);
+NAMES={x.Variables.Name};
+DIMS={x.Variables.Dimensions};
+LENS={x.Variables.Size};
+for ii=1:numel(arcNames);
+    name=arcNames{ii}; % name from matfile
+    jj=matches(NAMES,name);
+    NAME=NAMES{jj}; % name from archive file
+    DIM={DIMS{jj}.Name};
+    LEN=LENS{jj};
+    %printf("Outputing %s to %s",name, NAME)
+    % there should be a match between processed vars and archived vars
+    if(matches(name,NAME))
+        % get output rate
+        ss=sprintf("OutputRate=ncreadatt('%s','%s','%s');",ncFINAL,name,'OutputRate');
+        eval(ss);
+        % Get variable 
+        blurf=load(matfile,name);
+        % Get variable size and calculated output rate
+        [mm,nn]=size(blurf);
+        % First dimension is output rate
+        ORate=mm/ntime;
+        % Store blurf as a structure
+        % blurf.name
+        ss=sprintf("blurf=blurf.%s;",name);eval(ss);
+        % get output rate and dimensions from archive file (should be same)
+        % 1 Hz variables have 1 dim
+        % high rate variables have 2 dims
+        %%%%[irate,dims,frate]=get_irate(ncFINAL,NAME,OutputRate);
+        if(ORate==OutputRate);
+            if(numel(LEN)==1); % 1 Hz variable
+                ss=sprintf("ncwrite('%s','%s',blurf);",ncFINAL,name);
+            elseif(numel(LEN)==3); % Cell variable
+                ss=sprintf("ncwrite('%s','%s',%s);",ncFINAL,name,'blurf');
+                blurf=reshape(permute(blurf,[2,1,3]),LEN);
+            elseif(numel(LEN)==2) ; % High rate non cell
+                ss=sprintf("ncwrite('%s','%s',%s);",ncFINAL,name,'blurf');
+                blurf=reshape(permute(blurf,[2 1]),LEN);
+            end
+            eval(ss);
+        end
+    else
+        error(["ncFINAL:  " + ...
+            "Archive and File output rates not the same \n ..." + ...
+            "This can't happen!"] ) 
+    end
+end
+return
+
+

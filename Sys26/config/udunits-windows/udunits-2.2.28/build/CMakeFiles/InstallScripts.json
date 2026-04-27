@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/udunits-2.2.28/build/cmake_install.cmake",
+		"C:/udunits-2.2.28/build/lib/cmake_install.cmake",
+		"C:/udunits-2.2.28/build/prog/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

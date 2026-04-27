@@ -1,0 +1,262 @@
+
+RATE = 
+
+    "25"
+
+Wrote 1953 rows to SQLite: .\variablesXX.db (table: variables)
+
+ans = 
+
+    "X=do_batch26('20160830a_raw.nc','PROJ','radfire16','BaseOut','20160830a_arr','Rate',25)"
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20160830a_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+       DP1Used: "dp1_boom"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        POSPAC: 0
+     PressUsed: "ps_boom"
+          PROJ: 'radfire16'
+         QUsed: "q_boom_alpha"
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26-test"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "trose"
+       RawFile: '20160830a_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'Converted 75 deg Fahrenheit to Celsius, yielding 23.89 Celsius'
+
+isThereData? Trying group AV410RT ... OK
+isThereData? Trying group AVWINDRT ... OK
+isThereData? Trying group CDP ... OK
+Updating suffixes for CDP =   ... SUCCESS
+isThereData? Trying group CPT ... Eliminated
+isThereData? Trying group HADS ... OK
+isThereData? Trying group IRtemp ... OK
+isThereData? Trying group LICOR7000 ... OK
+isThereData? Trying group LICOR7500 ... Eliminated
+isThereData? Trying group LWC100 ... OK
+isThereData? Trying group LWC301 ... Eliminated
+isThereData? Trying group MISC ... OK
+isThereData? Trying group NEVZOROV ... OK
+isThereData? Trying group PCASP1 ... Eliminated
+isThereData? Trying group PCASP2 ... Eliminated
+isThereData? Trying group TAS ... OK
+isThereData? Trying group TIME ... OK
+isThereData? Trying group WESTON ... OK
+make_schema: trying ...Working...SUCCESS!
+
+ans =
+
+    'Begin processing all:'
+
+
+procSeconds =
+
+    0.3482
+
+
+ans =
+
+     0
+
+Writing DATE ... OK
+Writing HOUR ... OK
+Writing MINUTE ... OK
+Writing SECOND ... OK
+Writing TIME ... OK
+Writing TIME14D ... OK
+Writing Time ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_TIME.mat'
+
+
+ans =
+
+    'Processed get_varTIME.m for Project: radfire16'
+
+
+procSeconds =
+
+   10.3253
+
+
+ans =
+
+     0
+
+Writing ps_hads_a ... OK
+Writing ps_hads_b ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_HADS.mat'
+
+
+ans =
+
+    'Processed get_varHADS.m for Project: radfire16'
+
+
+procSeconds =
+
+    0.1767
+
+
+ans =
+
+     0
+
+Writing ps_weston ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_CPT.mat'
+
+
+ans =
+
+    'Processed get_varCPT.m for Project: radfire16'
+
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+Writing avalt ... OK
+Writing avdposrms ... OK
+Writing avdvelrms ... OK
+Writing aveposrms ... OK
+Writing avevelrms ... OK
+Writing avewvel ... OK
+Writing avgs ... OK
+Writing avlat ... OK
+Writing avlata ... OK
+Writing avlon ... OK
+Writing avlonga ... OK
+Writing avnorma ... OK
+Writing avnposrms ... OK
+Writing avnsvel ... OK
+Writing avnvelrms ... OK
+Writing avpitch ... OK
+Writing avpitchr ... OK
+Writing avpitchrms ... OK
+Writing avroll ... OK
+Writing avrollr ... OK
+Writing avrollrms ... OK
+Writing avthead ... OK
+Writing avtheadrms ... OK
+Writing avtopo ... OK
+Writing avtrack ... OK
+Writing avxdist ... OK
+Writing avyawr ... OK
+Writing avydist ... OK
+Writing avzagl ... OK
+Writing avzell ... OK
+Writing avzmsl ... OK
+Writing avzvel ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_AV410RT.mat'
+
+
+procSeconds =
+
+   11.4758
+
+
+ans =
+
+    'Processed get_varAV410RT.m for Project: radfire16'
+
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('netcdf.getVar', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+netcdf\getVar.m', 204)" style="font-weight:bold">netcdf.getVar</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+netcdf\getVar.m',204,0)">line 204</a>)
+
+
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('internal.matlab.imagesci.nc/read', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+internal\+matlab\+imagesci\nc.m', 660)" style="font-weight:bold">internal.matlab.imagesci.nc/read</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+internal\+matlab\+imagesci\nc.m',660,0)">line 660</a>)
+                data = netcdf.getVar(gid, varid);
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ncread', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\ncread.m', 76)" style="font-weight:bold">ncread</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\ncread.m',76,0)">line 76</a>)
+vardata = ncObj.read(varName, varargin{:});
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('getdata', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\utilities\getdata.m', 58)" style="font-weight:bold">getdata</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\utilities\getdata.m',58,0)">line 58</a>)
+blurf = ncread(ncfile, Var);
+        ^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('get_varTAS', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\get_varTAS.m', 17)" style="font-weight:bold">get_varTAS</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\get_varTAS.m',17,0)">line 17</a>)
+    DPA = getdata(X.RawPath,'DPA',"OutputRate",X.procRate);
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_process1', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\do_process1.m', 15)" style="font-weight:bold">do_process1</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\do_process1.m',15,0)">line 15</a>)
+        eval(gets{ii});
+        ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Defaults0', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m', 228)" style="font-weight:bold">Defaults0</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',228,0)">line 228</a>)
+X=do_process1(X);
+  ^^^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\radfire16\do_batch26.m', 83)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\radfire16\do_batch26.m',83,0)">line 83</a>)
+X = Defaults0(X);
+    ^^^^^^^^^^^^
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 50)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',50,0)">line 50</a>)
+        eval(RUNS(ii));
+        ^^^^^^^^^^^^^^
+} 
+cd test26
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('cd')" style="font-weight:bold">cd</a>
+Unable to change current folder to 'C:\Users\rodi\Github\kingair-Sys26-test\radfire16\test26' (Name is nonexistent or not a folder).
+} 
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\radfire16'
+
+cd ..
+edit do_all
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+cd ../kingair-Sys26/
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26'
+
+edit do_all
+cd test26
+edit do_batch26
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\test26'
+
+edit do_batch26
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\test26'
+
+cd ..
+edit do_all
+do_all
