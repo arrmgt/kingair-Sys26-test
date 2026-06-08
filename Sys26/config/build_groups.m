@@ -18,7 +18,7 @@ TarcOriginal = readtable(xlsarc);
 
 %% ------------------------------------------------------------------------
 % 3. Stack RAW spreadsheet (long format)
-% -------------------------------------------------------------------------
+% --------------------------------------TarcOriginal = readtable(xlsarc, Range='A1:U50');-----------------------------------
 
 TrawLong = stack(TrawOriginal, ...
     TrawOriginal.Properties.VariableNames, ...
@@ -71,6 +71,11 @@ Ttable = Ttable(:, {'group','rawname','arcname'});
 groupList = unique(string(TrawOriginal.Properties.VariableNames));
 arcList = unique(Ttable.arcname);
 
+% remove eddy dissipation rates from winds calculations
+%   if processing rate <20
+if(X.procRate<20)  
+    arcList = arcList(~contains(arcList,["AVedr", "avEDR"]));
+end
 M = false(numel(arcList), numel(groupList));
 
 for k = 1:height(Ttable)

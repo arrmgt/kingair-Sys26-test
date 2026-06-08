@@ -1,0 +1,1 @@
+  -L"C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/udunits2-build/lib"  ../lib/libudunits2.a -lexpat-install/lib/libexpat.a -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 

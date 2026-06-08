@@ -1,8 +1,8 @@
 function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 % AIRDATA
-%
 % Compute moist-air thermodynamic and airspeed quantities from aircraft
-% measurements, using MKS units, compressible flow, and moist thermodynamics.
+% measurements, using MKS units, compressible flow, and moist
+% thermodynamics.
 % Includes pressure correction, humidity effects, true airspeed, Mach,
 % virtual/density altitude
 %
@@ -15,9 +15,9 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 % -------------------------------------------------------------------------
 % REQUIRED INPUTS  (arrays or scalars, same size)
 %
-%   Ps_meas : Measured static pressure from port (hPa) not corrected
-%   Pt      : Measured Pitot / total pressure (hPa) not corrected
-%   Tm      : Measured probe (sensor) temperature (K) not corrected
+%   Ps_meas : Measured static pressure from port (hPa) 
+%   Pt      : Measured Pitot / total pressure (hPa)
+%   Tm      : Measured probe (sensor) temperature (K) 
 %   recovf  : Probe recovery factor (dimensionless, required)
 %   Td      : Dewpoint temperature (K)
 %
@@ -26,7 +26,8 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 %
 %   'dPs_corr' : Static pressure correction (hPa), scalar or array
 %                Ps_corr = Ps_meas + dPs_corr is used in all calculations
-%   'Z_gps'    : GPS altitude (m) used to initialize Zhypsometric calc.
+%                If not entered, inputs assumed to be already corrected.
+%   'Z_gps'    : GPS altitude (m) used to initialize Zhydrostatic calc.
 %
 % -------------------------------------------------------------------------
 % OUTPUT:  Structure OUT containing the following fields
@@ -72,7 +73,7 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 %   Zp         : Standard pressure altitude (0–11 km model) [m]
 %   Zp_ft      : Pressure altitude [ft]
 %   Zp_trop    : Tropopause-aware pressure altitude (to 20 km) [m]
-%   Zhypso     : Geometric altitude via hypsometric equation [m]
+%   Zhydro     : Geometric altitude via hysrostatic equation [m]
 %   Zgph       : Geopotential height [m]
 %   Zvirt      : Virtual-temperature-based height [m]
 %   Zdens      : Density altitude [m]
@@ -111,7 +112,7 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 
 % ---------- Parse static pressure error (hPa) ----------
 p = inputParser;
-addParameter(p, 'dPs_corr', 0, @(x)isnumeric(x)); 
+addParameter(p, 'dPs_corr', [], @(x)isnumeric(x)); 
 addParameter(p, 'Z_gps', 0, @(x)isnumeric(x)); 
 parse(p, varargin{:});
 Opts = p.Results;
@@ -120,9 +121,13 @@ Opts = p.Results;
 % ---------- And check input data ----------------------
 kk0 = 1:numel(Ps_meas);
 dPs_corr = Opts.dPs_corr;
-kk = find (~isnan(dPs_corr) & ~isinf(dPs_corr) ...
-    & abs(dPs_corr)<15 & abs(gradient(dPs_corr))<10 );
-dPs_corr = interp1(kk,Opts.dPs_corr(kk),kk0',"linear",0);
+if ~isempty(dPs_corr)
+    kk = find (~isnan(dPs_corr) & ~isinf(dPs_corr) ...
+        & abs(dPs_corr)<15 & abs(gradient(dPs_corr))<10 );
+    dPs_corr = interp1(kk,Opts.dPs_corr(kk),kk0',"linear",0);
+else
+    dPs_corr = zeros(size(Ps_meas));
+end
 
 kk = find (~isnan(Ps_meas) & ~isinf(Ps_meas) ...
     & Ps_meas>100 & Ps_meas<1200 & abs(gradient(Ps_meas))<10 );
@@ -168,7 +173,7 @@ OUT = BASE;
 OUT.Ps_meas = Ps_meas;   % Keep both
 OUT.Ps_corr =  dPs_corr;
 OUT.dPs_corr = Opts.dPs_corr;
-OUT.DZhyps = OUT.Zhyps - Opts.Z_gps;
+OUT.DZhydro = OUT.Zhydro - Opts.Z_gps;
 
 end 
 
@@ -278,12 +283,12 @@ for i = 1:numel(Ps)
     end
 end
 
-% Hypsometric altitude (moist)
-    Zhyps = ZHypsometric(Zgps(1), Ps, Ts, 'Mixing_Ratio', w);
+% Hydrostatic altitude (moist) -- integral of hydrostatic equation
+    Zhydro = ZHydrostatic(Zgps(1), Ps, Ts, 'Mixing_Ratio', w);
 % Virtual altitude
     Zvirt = (Rd .* Tv ./ g) .* log(P0_hPa ./ Ps);
 % Geopotential height
-    Zgph  = Zhyps;
+    Zgph  = Zhydro;
 
 % Density Altitude
     Zdens = (1 - (rho./rho0).^(1/0.2349)) .* (T0./L);
@@ -329,7 +334,7 @@ S.theta_e = theta_e;
 S.Zp       = Zp;
 S.Zp_ft    = Zp_ft;
 S.Zp_trop  = Zp_trop;
-S.Zhyps    = Zhyps;
+S.Zhydro    = Zhydro;
 S.Zvirt    = Zvirt;
 S.Zgph     = Zgph;
 S.Zdens    = Zdens;
@@ -376,7 +381,7 @@ S.units.theta_e = 'K';
 S.units.Zp       = 'm';
 S.units.Zp_ft    = 'ft';
 S.units.Zp_trop  = 'm';
-S.units.Zhyps    = 'm';
+S.units.Zhydro    = 'm';
 S.units.Zvirt    = 'm';
 S.units.Zgph     = 'm';
 S.units.Zdens    = 'm';

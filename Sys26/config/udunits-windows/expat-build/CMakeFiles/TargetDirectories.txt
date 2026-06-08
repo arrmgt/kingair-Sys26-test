@@ -1,0 +1,9 @@
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/expat.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/package.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/package_source.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/edit_cache.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/rebuild_cache.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/list_install_components.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/install.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/install/local.dir
+C:/Users/rodi/Github/kingair-Sys26/Sys26/config/udunits-windows/expat-build/CMakeFiles/install/strip.dir

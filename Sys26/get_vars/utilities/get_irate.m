@@ -49,7 +49,7 @@ try
             error('get_irate: unknown input %s',varargin)
         end
         % If orate was entered, change to frate if irate<orate
-        if exists('orate','var') & irate <= orate ;
+        if exist('orate','var') && irate <= orate 
             frate=irate;
             varargout{3}=frate;
         else

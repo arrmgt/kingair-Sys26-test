@@ -67,7 +67,7 @@ Tac=Tstart:seconds(1):Tend;
 currentTime = datetime('now', 'TimeZone', 'UTC','InputFormat' ...
     ,'yyyy-MM-dd HH:mm:ss');
 date_created=datestr(currentTime, 'dd-mmm-yyyy HH:MM:SS +0000');
-start_time = datetime(Tac(1),'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
+start_time = datetime(Tac(1),  'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
 end_time   = datetime(Tac(end),'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
 % datestr format different thatn datetime(!)
 tstart=datestr(Tac(1),'yyyy-mm-dd HH:MM:SS +0000'); 
@@ -94,7 +94,7 @@ TIME14D=(yr.*10000000000+mo.*100000000.+da.*1000000.+HOUR.*10000.+MINUTE.*100.+S
 
 Time=int32(Time);
 TIME=int32(TIME);
-TIME14D=int32(TIME14D);
+TIME14D=int64(TIME14D);
 DATE = int32(DATE);
 HOUR=int32(HOUR');
 MINUTE=int32(MINUTE');
@@ -115,10 +115,15 @@ TT1=datetime('now');
 procSeconds=seconds(TT1-TT)
 save(matfile,'-append','procSeconds')
 
+% Save all seconds in datetime variable
+datetimeAll = Tac(:);
+save(matfile,'-append','datetimeAll');
+
 load_ncFINAL(X.ncFINAL,matfile);
 ;
-time_att=sprintf("seconds since %s",newyear);
-ncwriteatt(X.ncFINAL,'TIME','units',time_att);
+ncwriteatt(X.ncFINAL,'TIME','long_name','UTC time encoded as HHMMSS');
+ncwriteatt(X.ncFINAL,'TIME','units','HHMMSS');
+ncwriteatt(X.ncFINAL,'TIME','format','HHMMSS');
 ncwriteatt(X.ncFINAL,'TIME','OutputRate',1);
 
 sprintf('Processed get_varTIME.m for Project: %s',X.PROJ)

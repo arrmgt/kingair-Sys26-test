@@ -20,10 +20,12 @@ orate=X.procRate;
 Rate=orate;
 rawfile=X.RawPath;
 
-[pitoff,rolloff,hedoff,bfactor,afactor,Qfactor] = AV410_factors(X.ncFINAL);
+[pitoff,rolloff,hedoff,bfactor,afactor,PStaticOffset] = AV410_factors(X.ncFINAL);
 
 matTAS=fullfile(X.tempdir,sprintf("%s_TAS.mat", X.BaseName));
-load(matTAS,'TASX','alpha','beta');
+load(matTAS,'TASX','alpha','beta','Qimpact' ...
+    ,'Zhyps','Zgps','diffGPShyps' ...
+    , 'PSX');
 matAV410PP=fullfile(X.tempdir,sprintf("%s_AV410PP.mat",X.BaseName));
 load(matAV410PP);
 
@@ -41,7 +43,11 @@ kk=find(TASX>30);
 % Moment arm from IMU to boom tip
 IMU2NBarm = ncreadatt(X.ncFINAL,'/','AWinds.MomentArm');
 
+% Wind ajustment factors
+[pitoff,rolloff,hedoff,bfactor,afactor,Qfactor]= ...
+AV410_factors(X.ncFINAL);
 
+kk=find(TASX>30);
 vearth.ew=AVewvel(kk);
 vearth.ns=AVnsvel(kk);
 vearth.z=AVzvel(kk);
@@ -56,8 +62,8 @@ att0.hedoff=hedoff;
 
 OMEGA=[AVrollr,AVpitchr,AVyawr];
 vair.tas=TASX(kk);
-vair.alpha=alpha(kk);% matlab has functions named alpha and beta
-vair.beta=beta(kk);
+vair.alpha=alpha(kk)*pi/180;
+vair.beta=beta(kk)*pi/180;
 vair.afactor=afactor;
 vair.bfactor=bfactor;
 vair.omega=OMEGA(kk,:);
@@ -73,17 +79,18 @@ AVwwindf = zeroz;
 AVux = zeroz;
 AVvy = zeroz;
 
-[uwind,vwind,wwind,wdir,wmag,wwindf,ux,vy,VG,VA]= ...
-calc_winds(orate,att0,vair,vearth);
 
-AVuwind(kk)=uwind;
-AVvwind(kk)=vwind;
-AVwwind(kk)=wwind;
-AVwdir(kk)=wdir;
-AVwmag(kk)=wmag;
-AVwwindf(kk)=wwindf;
-AVux(kk)=ux;
-AVvy(kk)=vy;
+[uwind,vwind,wwind,wdir,wmag,wwindf,ux,vy,VG,VA,Wind_frd]= ...
+    calc_winds(orate,att0,vair,vearth);
+
+AVuwind(kk) = uwind;
+AVvwind(kk) = vwind;
+AVwwind(kk) = wwind;
+AVwdir(kk)  = wdir;
+AVwmag(kk)  = wmag;
+AVwwindf(kk)= wwindf;
+AVux(kk)    = ux;
+AVvy(kk)    = vy;
 
 % Recommended values
 WDIRX=AVwdir;
@@ -93,15 +100,22 @@ ncwriteatt(X.ncFINAL,'WDIRX','Sensor','Applanix post-processed');
 ncwriteatt(X.ncFINAL,'WMAGX','Sensor','Applanix post-processed');
 ncwriteatt(X.ncFINAL,'WWX','Sensor','Applanix post-processed');
 
-% select frequency band, with respect to fny
-fs50 = 50;
-fny = fs50/2;
-f1=fny/2;
-f2= fny;
-[epsiux,epsivy,epsiwi,sighatu,sighatv,sighatw,uwf,vwf]= ...
+% Eddy dissipatation rate
+if X.procRate>20 % only if high-rate processing
+    % Eddy Dissipation Rate calculation for orate  =  25 Hz
+    fny = X.procRate/2;
+    % select frequency band, with respect to fny
+    f1 = fny/10;
+    f2 =  fny;
+    [~,~,epsiwi] =  ...
     EddyDissipationRate(TASX,AVux,AVvy,AVwwind,f1,f2,X.procRate);
-AVedr = epsiwi.^(1/3);
+    AVedr  =  epsiwi.^(1/3);
+else
+    AVedr = zeros(size(Time));
+end
 
+[irate,dims,frate]=get_irate(X.ncFINAL,'tas','OutputRate', ...
+    X.procRate);
 ss1="'orate','Rate','rawfile','arcNames','rawNames','Time','vair','vearth','att0'";
 for ii=1:numel(arcNames);
     ss1=sprintf("%s,'%s'",ss1,arcNames{ii});

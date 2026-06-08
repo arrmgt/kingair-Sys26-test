@@ -58,7 +58,7 @@ blurf = cumsum(blurf,1);
 blurf = diff([zeros(1,ncells);blurf(nsYY:mdecim:end,:)],1,1);% at frate 
 
 [minterp,mdecim]=interp_decim(orate,frate);
-Tas=decimateByFactors(Ninterp(tasXX,minterp),mdecim,'FIR');
+Tas=changeRate(tasXX,orate,frate);
 
 CDP_SV = (SampleArea*1.e-2)*(Tas*1.e2);  %per second
 

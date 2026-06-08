@@ -13,7 +13,6 @@ if(nargin>2)
   if(isempty(mr)),mr=0;end;
   q=mr./(1+mr);
  else
-  q=0;
   mr=0;
 end
 
@@ -33,11 +32,13 @@ Rm = Yd.*Rd  + Yv.*Rv;
 gamma = Cp ./ Cv;
 k=(gamma-1)./gamma; % R/Cp
 
+m = 0.01*ones(size(qc));
+kk=find(qc>20 & qc < 100 & ps >300 & ps < 1200);
+fact=(qc(kk)./ps(kk)+1).^k(kk)-1;
+m2=2./(gamma(kk)-1).*fact;
+m(kk)=sqrt(m2);
 
-fact=(qc./ps+1).^k-1;
-m2=2./(gamma-1).*fact;
-m2(find(m2<0))=0;
-m=sqrt(m2);
+end
 
 function mach_sim
 % Using symbolic toolbox
@@ -51,3 +52,5 @@ Ta = Tm/(1+r*(fact-1));
 tas2=2*Cp*Ta*(fact-1);
 Vs2 = gmma*R*Ta;
 M2=tas2/Vs2
+
+end

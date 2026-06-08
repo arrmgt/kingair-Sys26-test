@@ -20,6 +20,18 @@ conn = sqlite(dbFile,'connect');
 % Probe suffix configuration
     S = probeConfig();
 
+% Keep only groups in rawGROUPS
+keep = rawGROUPS;   % cell array of names
+%      
+vars = Ptable.Properties.VariableNames;
+keepExisting = keep(ismember(keep, vars));
+varsToKeep = ['arcname', keepExisting];
+% remove columns not in varsToKeep
+Ptable(:, ~ismember(vars, varsToKeep)) = [];
+
+% Keep only rows whose group value is in keep
+Ttable = Ttable( ismember(Ttable.group, keep), : );
+
 for ii = 1:numel(rawGROUPS)
     GROUP = string(rawGROUPS(ii));
     % RAW variable templates for this group
@@ -44,7 +56,6 @@ for ii = 1:numel(rawGROUPS)
     jdx = matches(rawNames0,rawNames2);
     fprintf('isThereData\? Trying group %s ... ',GROUP)
     if any(jdx)
-
         rawNamesX = extractBefore2_(rawNames0(jdx),'_');
         idx = contains(Ttable.rawname, rawNamesX);
         fprintf("OK\n");

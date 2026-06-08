@@ -1,8 +1,5 @@
 function get_varICING(X)
 % get the XX Hz Rosemount 871 icing data
-%$Id: get_icingXX.m,v 1.5 2012/02/20 13:53:13 rodi Exp $
-%$Source: /home/cvs/kingair/Sys09/get_icingXX.m,v $
-%Project $Name: trans2am21_qc0 $ ($Revision: 1.5 $)
 
 TT=datetime('now');% save processing start time
 
@@ -58,7 +55,7 @@ if(~isempty(kk))
     RIPEV = interp1(kk,RIPEV(kk),[1:numel(RIPEV)]','linear',0);
 end
 [ninterp,ndecim] = interp_decim(irate,orate);
-RIPEV = decimateByFactors(Ninterp(RIPEV,ninterp),ndecim,'FIR');
+RIPEV = changeRate(RIPE,irate,orate);
 
 % Output voltage
 Var='VRIP'
@@ -70,7 +67,7 @@ if(~isempty(kk))
     VRIP = interp1(kk,VRIP(kk),[1:numel(VRIP)]','linear',0);
 end
 [ninterp,ndecim] = interp_decim(irate,orate);
-VRIP = decimateByFactors(Ninterp(VRIP,ninterp),ndecim,'FIR');
+VRIP = changeRate(VRIP,irate,orate);
 
 % process cumulative number of "trips" (variable rid_cycles)
 jj=length(RIPEV);

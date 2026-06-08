@@ -11,10 +11,9 @@ try
     rawTimeVar = 'time';
 catch
     Time = ncread(X.RawPath,'Time');
-    rawTimeVar = 'Time';
+    rawTimeVar = 'Time'
 end
 FillValue = X.FillValue;
-
 C=phycon;
 Tzero=C.Tzero;
 time_len=X.time_len; %length of time array
@@ -65,8 +64,7 @@ for ii=1:numel(rawNames)
             var1='avtheadrms';
         otherwise
             var1=['av' lower(var0(2:end))]; % e.g. AXXXX-->avXXXX
-     end
-    %%%%%sprintf("[%s %s]",var0,var1), %debug
+    end
     try
         units1 = ncreadatt(X.RawPath,var0,'units');
     catch
@@ -76,17 +74,20 @@ for ii=1:numel(rawNames)
     ss=sprintf("blurf=ncread(X.RawPath,'%s');",var0);
         eval(ss)
     blurf=blurf(:); 
-
-    OutputRate = ncreadatt(X.ncFINAL,var1,'OutputRate');
-    [ninterp,ndecim]=interp_decim(rawRate,OutputRate);
-    if(contains(units1,'deg') & contains(var0,'AHEAD'));
-        blurf=changeRateWrapped(blurf,ninterp,ndecim,'degree');
-    else
-        blurf=decimateByFactors(Ninterp(blurf(:),ninterp),ndecim,'FIR');
-    end
+    
     % check and  gaps
     gg = find(~isnan(blurf) & blurf>FillValue);
     blurf = interp1(gg,blurf(gg),1:numel(blurf),'linear',0)';
+
+    OutputRate = ncreadatt(X.ncFINAL,var1,'OutputRate');
+    if(contains(units1,'deg') & contains(var0,'AHEAD'));
+        sin1 = changeRate(sin(blurf.*pi/180),rawRate,OutputRate);
+        cos1 = changeRate(cos(blurf.*pi/180),rawRate,OutputRate);
+        blurf = atan2(sin1,cos1).*180/pi;
+    else
+        blurf = changeRate(blurf,rawRate,OutputRate);
+    end
+    
     % Get desired output units
     try
         ss=sprintf("units2=ncreadatt(X.ncFINAL,'%s','%s');",var1,'units');eval(ss)
@@ -101,6 +102,7 @@ for ii=1:numel(rawNames)
     eval(ss)
     blurf = convertUnits(blurf,units1,units2);
 end 
+avthead = wrapTo360(avthead);
 
 % Ellipsoid height
 avzell = avalt;
@@ -108,10 +110,19 @@ avzell = avalt;
 % MSL Height
 zgeoid=get_geoid(X.egm,avlat,avlon,FillValue);
 avzmsl=avzell-zgeoid; % ellipsoid height - geoid offset
+kk = find( ~isnan(avzmsl) & ~isnan(zgeoid) & avzmsl>0);
+avzmsl = interp1(kk, avzmsl(kk), [1:numel(avzmsl)]', 'linear', 0);
 
 % Ground Speed
 avgs=sqrt(avnsvel.^2+avewvel.^2);
+
+% aircraft coords, z down
 avzvel=-avzvel;
+
+% NCAR/EOL "ncplot" needs these to plot X-Y track
+GALT = avzmsl;
+GLON = avlon;
+GLAT = avlat;
 
 % Center coordinate for distances
 glat0=ncreadatt(X.ncFINAL,'/','CenterCoordLat0');
@@ -147,8 +158,8 @@ end
 InputRate = numel(avlat)/numel(Time);
 OutputRate = ncreadatt(X.ncFINAL,'avxdist','OutputRate');
 [ninterp,ndecim]=interp_decim(InputRate,OutputRate);
-avxdist=decimateByFactors(Ninterp(avxdist,ninterp),ndecim,'FIR');
-avydist=decimateByFactors(Ninterp(avydist,ninterp),ndecim,'FIR');
+avxdist = changeRate(avxdist,InputRate/OutputRate,OutputRate);
+avydist = changeRate(avydist,InputRate/OutputRate,OutputRate);
 
 ncFINAL=X.ncFINAL;
 

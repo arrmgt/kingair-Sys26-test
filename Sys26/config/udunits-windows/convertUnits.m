@@ -4,9 +4,12 @@ function y = convertUnits(x, fromUnit, toUnit)
     if isempty(xml_path)
         error("UDUNITS2_XML_PATH is not set");
     end
+    if contains(fromUnit,'unknown') | contains(toUnit,'unknown')
+        x = y;
+    end
     y = mex_udunits2(x, fromUnit, toUnit, xml_path);
     if isnan(y)
-	x = y;
+	    x = y;
     end
 end
 

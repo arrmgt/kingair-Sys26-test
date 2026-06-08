@@ -13,11 +13,9 @@ gets = X.get_vars;
 for ii=1:numel(gets)
     try
         eval(gets{ii});
-        sprintf('SUCCESS with running %s %s',gets{ii},X.PROJ)
     catch ME
         sprintf('Problem with running %s %s\n %s',gets{ii},X.PROJ,ME.message)
         error(ME.identifier)
-        break
     end
 end
 

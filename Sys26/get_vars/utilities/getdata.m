@@ -35,7 +35,7 @@ function [x, irate, nmiss, units0] = getdata(ncfile, Var, varargin)
 p = inputParser;
 addParameter(p, "OutputRate",[], @(x)isnumeric(x)&&isscalar(x));
 addParameter(p, "UnitsOut", "unknown", @(s)ischar(s)||isstring(s));
-addParameter(p, "FillValue", -32767, @(x)isnumeric(x)&&isscalar(x));
+addParameter(p, "FillValue", [], @(x)isnumeric(x)&&isscalar(x));
 parse(p, varargin{:});
 Opts = p.Results;
 orate = Opts.OutputRate;
@@ -73,11 +73,7 @@ switch nd
         blurf(blurf<0)=0;
         % interp and decimate if needed
         if ~isempty(orate)
-            [ninterp, ndecim] = interp_decim(irate, orate);
-            for ch=1:vec
-                x = Ninterp(blurf(:,ch), ninterp, 'linear');
-                blurf = decimateByFactors(x, ndecim, 'FIR');
-            end
+            blurf = changeRate(x, irate, orate);
         end
         x=blurf;
         nmiss = [];
@@ -96,27 +92,28 @@ catch
 end
 
 % Fill missing data
-kk = find(blurf ~= fill & ~isnan(blurf));
-if numel(kk) < numel(blurf) & ~isempty(kk)
-    blurf = double(blurf);
-    blurf = interp1(kk, blurf(kk), 1:numel(blurf), 'spline', fill);
-    nmiss = numel(blurf) - numel(kk);
-else
-    nmiss = 0;
+nmiss = 0;
+if ~isempty(fill)
+    kk = find(~isempty(fill) & blurf ~= fill & ~isnan(blurf));
+    if numel(kk) < numel(blurf) & ~isempty(kk)
+        blurf = double(blurf);
+        blurf = interp1(kk, blurf(kk), 1:numel(blurf), 'spline', fill);
+    end
 end
 
-% Unwrap angular data
-if ~isempty(units0) && (contains(units0,'deg','IgnoreCase',true) || contains(units0,'rad','IgnoreCase',true))
-    x = unwrap_wrap(blurf, 1, 1, fill, units0);
-else
-    x = blurf;
-end
+x = blurf;
 
 % Resample to output rate
 if ~isempty(orate)
-    [ninterp, ndecim] = interp_decim(irate, orate);
-    x = Ninterp(x, ninterp, 'linear');
-    x = decimateByFactors(x, ndecim, 'FIR');
+    x = fillmissing(x, 'previous');   % or 'spline', 'pchip', 'nearest'
+    if any(isnan(x(:)))
+        pct = 100 * sum(isnan(x(:))) / numel(x);
+        warning('decimate_new: input contains %.1f%% NaN values. Interpolating before filtering.', pct);
+        if pct > 10
+            error(sprintf("changeRate:  too many missings %i %%",pct))
+        end
+    end
+    x = changeRate(x, irate, orate);
     x = x(:); % ensure column vector
 end
 

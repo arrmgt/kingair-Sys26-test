@@ -1,4 +1,4 @@
-function [uwind,vwind,wwind,wdir,wmag,wwindf,ux,vy,VG,VA]=calc_winds(rate,att0,vair,vearth)
+function [uwind,vwind,wwind,wdir,wmag,wwindf,ux,vy,VG,VA,Wind_frd]=calc_winds(rate,att0,vair,vearth)
 %
 % Calculate 3D wind components
 %
@@ -47,16 +47,25 @@ att0=[ROLL,PITCH,THEAD]';
 [VG,VA]=get_vg(  ...
     BETA,ALPHA,TAS,att0,OMEGA,arm,bfactor,afactor,rolloff,pitoff,hedoff);
 
-UWIND = VG(:,1) - VEW;
-VWIND = VG(:,2) - VNS;
-WWIND = VG(:,3) - VZ;
+UWIND0 =  VEW - VG(:,1);
+VWIND0 =  VNS - VG(:,2);
+WWIND0 =  VZ  - VG(:,3);
+
+% remove outliers
+[x,TFrm,TFoutlier] = rmoutliers(UWIND0,'movmedian',100*rate);
+zz = find(~TFoutlier);
+UWIND = interp1(zz,UWIND0(zz),[1:numel(UWIND0)]','spline');
+VWIND = interp1(zz,VWIND0(zz),[1:numel(UWIND0)]','spline');
+WWIND = interp1(zz,WWIND0(zz),[1:numel(UWIND0)]','spline');
+
+% Wind components in aircraft coordinates:
+Wind_frd = enu2frd(att0,[UWIND,VWIND,WWIND]);
 
 % calcuclate horizontal wind componets relative to aircraft heading
 cthead=cos(THEAD);
 sthead=sin(THEAD);
-UX=UWIND.*sthead+VWIND.*cthead;
-VY=-UWIND.*cthead+VWIND.*sthead;
-
+UX = UWIND.*sthead+VWIND.*cthead;
+VY = -UWIND.*cthead+VWIND.*sthead;
 %High pass filter vertical wind to >1 min period (~60 km)
 tPeriod=1.*60;
 fny=rate./2;
@@ -79,5 +88,5 @@ ux=UX;
 vy=VY;
 wdir=WDIR;
 wmag=WMAG;
-'blurf'
-;
+
+end

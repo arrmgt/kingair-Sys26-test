@@ -45,7 +45,7 @@ SECOND:units = "seconds" ;
 SECOND:Package = "get_varTIME.m" ;
 SECOND:OutputRate = 1 ;
 
-Integer32 TIME14D;
+Integer64 TIME14D;
 TIME14D:long_name = "TIME yyyymmddhhmmss GMT" ;
 TIME14D:Status = "Derived Variable" ;
 TIME14D:units = "yyyymmddhhmmss" ;
@@ -82,37 +82,6 @@ BIAS:InstrumentDescription = "Co-pilot Indicated Airspeed" ;
 BIAS:Package = "get_misc" ;
 BIAS:OutputRate = XX ;
 
-Float dp1_boom;
-dp1_boom:long_name = "R858 Center Port - Boom Static" ;
-dp1_boom:units = "hPa" ;
-dp1_boom:SampleRate = 1000 ;
-dp1_boom:type = "analog" ;
-dp1_boom:Package = "get_varTAS" ;
-dp1_boom:OutputRate = XX ;
-
-Float dp1_ship;
-dp1_ship:long_name = "R858 Center Port - Ship Static" ;
-dp1_ship:units = "hPa" ;
-dp1_ship:SampleRate = 1000 ;
-dp1_ship:channel = 5 ;
-dp1_ship:type = "analog" ;
-dp1_ship:Package = "get_varTAS" ;
-dp1_ship:OutputRate = XX ;
-
-Float dpr_beta;
-dpr_beta:long_name = "R858  Center Port - Right Port" ;
-dpr_beta:units = "hPa" ;
-dpr_beta:type = "analog" ;
-dpr_beta:Package = "get_varTAS" ;
-dpr_beta:OutputRate = XX ;
-
-Float dpr_alpha;
-dpr_alpha:long_name = "R858  Center Port - Bottom Port" ;
-dpr_alpha:units = "hPa" ;
-dpr_alpha:type = "analog" ;
-dpr_alpha:Package = "get_varTAS" ;
-dpr_alpha:OutputRate = XX ;
-
 Float dpa;
 dpa:long_name = "R858 Bottom - Top Port" ;
 dpa:units = "hPa" ;
@@ -128,31 +97,16 @@ dpb:type = "analog" ;
 dpb:Package = "get_misc" ;
 dpb:OutputRate = XX ;
 
-Float ps_ship;
-ps_ship:long_name = "Rosemount 1332B1 Ship Static Pressure" ;
-ps_ship:units = "hPa" ;
-ps_ship:type = "analog" ;
-ps_ship:Package = "get_varTAS" ;
-ps_ship:OutputRate = XX ;
-
-Float ps_boom;
-ps_boom:long_name = "Rosemount 1332B1 Ship Static Pressure" ;
-ps_boom:units = "hPa" ;
-ps_boom:type = "analog" ;
-ps_boom:Package = "get_varTAS" ;
-ps_boom:OutputRate = XX ;
-
-Float ptotal_boom;
-ptotal_boom:long_name = "Rosemount 1332B1 Center Port Total Pressure" ;
-ptotal_boom:units = "hPa" ;
-ptotal_boom:type = "analog" ;
-ptotal_boom:Package = "get_varTAS" ;
-ptotal_boom:OutputRate = XX ;
+Float ship_pcor ;
+ship_pcor:long_name = "Static pressure correction from ship calculation" ;
+ship_pcor:units = "mb" ;
+ship_pcor:Package = "get_varTAS" ;
+ship_pcor:OutputRate = XX ;
 
 Float boom_pcor ;
 boom_pcor:long_name = "Static pressure correction from boom calculation" ;
 boom_pcor:units = "mb" ;
-boom_pcor:Package = "cone_pcor" ;
+boom_pcor:Package = "get_varTAS" ;
 boom_pcor:OutputRate = XX ;
 
 Float pmb;
@@ -286,22 +240,6 @@ rh:standard_name = "relative_humidity";
 rh:Package = "get_misc" ;
 rh:OutputRate = XX ;
 
-Float q_impact;
-q_impact:long_name = "Impact pressure (corrected)";
-q_impact:Status = "Derived Variable" ;
-q_impact:units = "hPa";
-q_impact:Package = "cvwind" ;
-q_impact:StaticDefect="Corrected";
-q_impact:OutputRate = XX ;
-
-Float q_dynamic;
-q_dynamic:long_name = "Dynamic pressure (corrected)";
-q_dynamic:Status = "Derived Variable" ;
-q_dynamic:units = "hPa";
-q_dynamic:Package = "cvwind" ;
-q_dynamic:StaticDefect="Corrected";
-q_dynamic:OutputRate = XX ;
-
 Float tas;
 tas:long_name = "True Airspeed ";
 tas:Status = "Derived Variable" ;
@@ -347,20 +285,6 @@ ztrue:units = "meters";
 ztrue:Package = "cvwind";
 ztrue:StaticDefect="Corrected";
 ztrue:OutputRate = XX ;
-
-Float alpha;
-alpha:long_name = "Attack angle (corrected)";
-alpha:Status = "Derived Variable" ;
-alpha:units = "radians";
-alpha:Package = "cvwind";
-alpha:OutputRate = XX ;
-
-Float beta;
-beta:long_name = "Sideslip angle (corrected)";
-beta:Status = "Derived Variable" ;
-beta:units = "radians";
-beta:Package = "cvwind";
-beta:OutputRate = XX ;
 
 Float li75cool;
 li75cool:long_name = "LI-7500 Cooler" ;
@@ -903,436 +827,7 @@ rhli70:Package = "get_7000licor";
 rhli70:OutputRate = XX;
 
 
-// PMS FSSP is in FS1 canister. Edit to change.
-Float AFSSP_FSA ;
-AFSSP_FSA:units = "counts" ;
-AFSSP_FSA:long_name = "FSSP-100 Raw Accumulation (per cell)" ;
-AFSSP_FSA:Category = "PMS Probe" ;
-AFSSP_FSA:missing_value = -32767. ;
-AFSSP_FSA:SampledRate = 10 ;
-AFSSP_FSA:OutputRate = YY ;
-AFSSP_FSA:VectorLength = 16 ;
-AFSSP_FSA:SerialNumber = "_FSA22" ;
-AFSSP_FSA:FirstBin = 1 ;
-AFSSP_FSA:LastBin = 15 ;
-AFSSP_FSA:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
-25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
-1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
-25., 27., 29., 31.,
-.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
-12.5, 13.5, 14.5, 15.5,
-.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
-4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75 ;
-AFSSP_FSA:CellSizeUnits = "micrometers" ;
-AFSSP_FSA:Density = 1. ;
-AFSSP_FSA:PLWfactor = 1.e-06 ;
-AFSSP_FSA:DBZfactor = 1000000. ;
 
-// PMS 200X is in XX1 canister. Edit to change.
-Float A200X_LXA ;
-A200X_LXA:units = "counts" ;
-A200X_LXA:long_name = "200X Raw Accumulation (per cell)" ;
-A200X_LXA:Category = "PMS Probe" ;
-A200X_LXA:missing_value = -32767. ;
-A200X_LXA:SampledRate = 10 ;
-A200X_LXA:OutputRate = YY ;
-A200X_LXA:VectorLength = 16 ;
-A200X_LXA:SerialNumber = "" ;
-A200X_LXA:FirstBin = 1 ;
-A200X_LXA:LastBin = 15 ;
-A200X_LXA:CellSizes = 6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25,
-93.75, 106.25, 118.75, 131.25, 143.75, 156.25, 168.75, 181.25, 193.75f ;
-//A200X_LXA:CellSizes = 12.5, 25., 37.5, 50., 62.5, 75., 87.5, 100.,
-// 112.5, 125., 137.5, 150., 162.5, 175., 187.5, 9999. ;
-A200X_LXA:nDiodes = 23 ;
-A200X_LXA:Resolution = 12.5;
-A200X_LXA:Magnification = 16. ;
-A200X_LXA:ResponseTime = 0.35f ;
-A200X_LXA:ArmDistance = 61. ;
-A200X_LXA:CellSizeUnits = "micrometers" ;
-A200X_LXA:Density = 1. ;
-A200X_LXA:PLWfactor = 1.e-09f ;
-A200X_LXA:DBZfactor = 1000. ;
-
-//Following are Derived Varibles from PMS optical array probes.
-Float C200X_LXA ;
-C200X_LXA:units = "liter-1" ;
-C200X_LXA:long_name = "200X concentration (per cell)" ;
-C200X_LXA:Category = "PMS Probe" ;
-C200X_LXA:missing_value = -32767. ;
-C200X_LXA:SampledRate = 10 ;
-C200X_LXA:OutputRate = YY ;
-C200X_LXA:VectorLength = 16 ;
-C200X_LXA:SerialNumber = "" ;
-C200X_LXA:CellSizes = 6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25,
-93.75, 106.25, 118.75, 131.25, 143.75, 156.25, 168.75, 181.25, 193.75f ;
-//C200X_LXA:CellSizes = 12.5, 25., 37.5, 50., 62.5, 75., 87.5, 100.,
-// 112.5, 125., 137.5, 150., 162.5, 175., 187.5, 9999. ;
-C200X_LXA:FirstBin = 1 ;
-C200X_LXA:LastBin = 15 ;
-C200X_LXA:Resolution = 12.5;
-C200X_LXA:nDiodes = 23 ;
-C200X_LXA:Magnification = 16. ;
-C200X_LXA:ResponseTime = 0.35f ;
-C200X_LXA:ArmDistance = 61. ;
-C200X_LXA:CellSizeUnits = "micrometers" ;
-C200X_LXA:Density = 1. ;
-C200X_LXA:PLWfactor = 1.e-09f ;
-C200X_LXA:DBZfactor = 1000. ;
-
-
-Float CFSSP_FSA ;
-CFSSP_FSA:units = "cm-3" ;
-CFSSP_FSA:long_name = "FSSP-100 Accumulation (per cell)" ;
-CFSSP_FSA:Category = "PMS Probe" ;
-CFSSP_FSA:missing_value = -32767. ;
-CFSSP_FSA:SampledRate = 10 ;
-CFSSP_FSA:OutputRate = YY ;
-CFSSP_FSA:VectorLength = 16 ;
-CFSSP_FSA:SerialNumber = "_FSA22" ;
-CFSSP_FSA:Package = "get_fssp";
-CFSSP_FSA:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
-25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
-1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
-25., 27., 29., 31.,
-.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
-12.5, 13.5, 14.5, 15.5,
-.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
-4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75 ;
-CFSSP_FSA:FirstBin = 1 ;
-CFSSP_FSA:LastBin = 15 ;
-CFSSP_FSA:CellSizeUnits = "micrometers" ;
-CFSSP_FSA:Density = 1. ;
-CFSSP_FSA:PLWfactor = 1.e-06f ;
-CFSSP_FSA:DBZfactor = 1000000. ;
-
-Float FRNG_FSA ;
-FRNG_FSA:units = "none" ;
-FRNG_FSA:long_name = "FSSP-100 Size Range Category" ;
-FRNG_FSA:Category = "PMS Probe" ;
-FRNG_FSA:missing_value = -32767. ;
-FRNG_FSA:SampledRate = 1 ;
-FRNG_FSA:VectorLength = 1 ;
-FRNG_FSA:Package = "get_fssp";
-FRNG_FSA:OutputRate = YY ;
-
-Float CONCX_LXA;
-CONCX_LXA:units = "liter-1" ;
-CONCX_LXA:long_name = "200X Concentration (all cells)" ;
-CONCX_LXA:Category = "PMS Probe" ;
-CONCX_LXA:missing_value = -32767. ;
-CONCX_LXA:Package = "get_200x";
-CONCX_LXA:OutputRate = YY ;
-
-Float CONCF_FSA;
-CONCF_FSA:units = "cm-3" ;
-CONCF_FSA:long_name = "FSSP-100 Concentration (all cells)" ;
-CONCF_FSA:Category = "PMS Probe" ;
-CONCF_FSA:missing_value = -32767. ;
-CONCF_FSA:Package = "get_fssp";
-CONCF_FSA:OutputRate = YY ;
-
-Float FACT_FSA ;
-FACT_FSA:units = "none" ;
-FACT_FSA:long_name = "FSSP-100 Activity Fraction" ;
-FACT_FSA:Category = "PMS Probe" ;
-FACT_FSA:missing_value = -32767. ;
-FACT_FSA:SampledRate = 50 ;
-FACT_FSA:OutputRate = YY ;
-FACT_FSA:Package = "get_fssp";
-
-Float FRST_FSA ;
-FRST_FSA:units = "counts" ;
-FRST_FSA:long_name = "FSSP-100 Fast Resets" ;
-FRST_FSA:Category = "PMS Probe" ;
-FRST_FSA:missing_value = -32767. ;
-FRST_FSA:SampledRate = 50 ;
-FRST_FSA:OutputRate = YY ;
-FRST_FSA:Package = "get_fssp";
-
-Float FSTB_FSA ;
-FSTB_FSA:units = "counts" ;
-FSTB_FSA:long_name = "FSSP-100 Total Strobes" ;
-FSTB_FSA:Category = "PMS Probe" ;
-FSTB_FSA:missing_value = -32767. ;
-FSTB_FSA:SampledRate = 50 ;
-FSTB_FSA:OutputRate = YY ;
-FSTB_FSA:Package = "get_fsspXX.m";
-
-Float FGSTB_FSA ;
-FGSTB_FSA:units = "counts" ;
-FGSTB_FSA:long_name = "FSSP-100 Gated Strobes" ;
-FGSTB_FSA:Category = "PMS Probe" ;
-FGSTB_FSA:missing_value = -32767. ;
-FGSTB_FSA:SampledRate = 50 ;
-FGSTB_FSA:OutputRate = YY ;
-FGSTB_FSA:Package = "get_fsspXX.m";
-
-Float DBARX_LXA;
-DBARX_LXA:units = "um" ;
-DBARX_LXA:long_name = "200X Mean Particle Diameter" ;
-DBARX_LXA:Category = "PMS Probe" ;
-DBARX_LXA:missing_value = -32767. ;
-DBARX_LXA:Package = "get_misc";
-DBARX_LXA:OutputRate = YY ;
-
-Float DBARF_FSA;
-DBARF_FSA:units = "um" ;
-DBARF_FSA:long_name = "FSSP-100 Mean Particle Diameter" ;
-DBARF_FSA:Category = "PMS Probe" ;
-DBARF_FSA:missing_value = -32767. ;
-DBARF_FSA:Package = "get_fssp";
-DBARF_FSA:OutputRate = YY ;
-
-Float FBMFR_FSA;
-FBMFR_FSA:units = "fraction" ;
-FBMFR_FSA:long_name = "FSSP-100 Beam Fraction" ;
-FBMFR_FSA:Category = "PMS Probe" ;
-FBMFR_FSA:missing_value = -32767. ;
-FBMFR_FSA:Package = "get_fssp";
-FBMFR_FSA:OutputRate = YY ;
-
-Float FDOFFR_FSA;
-FDOFFR_FSA:units = "fraction" ;
-FDOFFR_FSA:long_name = "FSSP-100 DOF Fraction" ;
-FDOFFR_FSA:Category = "PMS Probe" ;
-FDOFFR_FSA:missing_value = -32767. ;
-FDOFFR_FSA:Package = "get_fssp";
-FDOFFR_FSA:OutputRate = YY ;
-
-Float PLWCX_LXA;
-PLWCX_LXA:units = "gram/m3" ;
-PLWCX_LXA:long_name = "200X Water Content" ;
-PLWCX_LXA:Category = "PMS Probe" ;
-PLWCX_LXA:missing_value = -32767. ;
-PLWCX_LXA:Package = "get_misc";
-PLWCX_LXA:OutputRate = YY ;
-
-Float PLWCF_FSA;
-PLWCF_FSA:units = "gram/m3" ;
-PLWCF_FSA:long_name = "FSSP-100 Water Content" ;
-PLWCF_FSA:Category = "Derived PMS Probe" ;
-PLWCF_FSA:missing_value = -32767. ;
-PLWCF_FSA:Package = "get_fssp";
-PLWCF_FSA:OutputRate = YY ;
-
-Float REffective_FSA;
-REffective_FSA:long_name = "FSSP-100  effective radius" ;
-REffective_FSA:Category = "Derived" ;
-REffective_FSA:units = "um" ;
-REffective_FSA:SampleRate = 10 ;
-REffective_FSA:Package = "get_fssp";
-REffective_FSA:OutputRate = YY ;
-
-Float RBarVol_FSA ;
-RBarVol_FSA:long_name = "FSSP-100  Mean volume radius" ;
-RBarVol_FSA:Category = "Derived" ;
-RBarVol_FSA:units = "um" ;
-RBarVol_FSA:SampleRate = 10 ;
-RBarVol_FSA:Package = "get_fssp";
-RBarVol_FSA:OutputRate = YY ;
-
-Float SurfArea_FSA ;
-SurfArea_FSA:long_name = "FSSP-100  Particle Surface Area" ;
-SurfArea_FSA:Category = "Derived" ;
-SurfArea_FSA:units = "cm2/m3" ;
-SurfArea_FSA:SampleRate = 10 ;
-SurfArea_FSA:Package = "get_fssp";
-SurfArea_FSA:OutputRate = YY ;
-
-// PMS FSSP is in FS2 canister. Edit to change.
-Float AFSSP_FSB ;
-AFSSP_FSB:units = "counts" ;
-AFSSP_FSB:long_name = "FSSP-100 Raw Accumulation (per cell)" ;
-AFSSP_FSB:Category = "PMS Probe" ;
-AFSSP_FSB:missing_value = -32767. ;
-AFSSP_FSB:SampledRate = 10 ;
-AFSSP_FSB:OutputRate = YY ;
-AFSSP_FSB:VectorLength = 16 ;
-AFSSP_FSB:SerialNumber = "_FSA22" ;
-AFSSP_FSB:FirstBin = 1 ;
-AFSSP_FSB:LastBin = 15 ;
-AFSSP_FSB:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
-25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
-1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
-25., 27., 29., 31.,
-.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
-12.5, 13.5, 14.5, 15.5,
-.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
-4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75f ;
-AFSSP_FSB:CellSizeUnits = "micrometers" ;
-AFSSP_FSB:Density = 1. ;
-AFSSP_FSB:PLWfactor = 1.e-06f ;
-AFSSP_FSB:DBZfactor = 1000000. ;
-
-Float CFSSP_FSB ;
-CFSSP_FSB:units = "cm-3" ;
-CFSSP_FSB:long_name = "FSSP-100 Accumulation (per cell)" ;
-CFSSP_FSB:Category = "PMS Probe" ;
-CFSSP_FSB:missing_value = -32767. ;
-CFSSP_FSB:SampledRate = 10 ;
-CFSSP_FSB:OutputRate = YY ;
-CFSSP_FSB:VectorLength = 16 ;
-CFSSP_FSB:SerialNumber = "_FSA22" ;
-CFSSP_FSB:Package = "get_fssp";
-CFSSP_FSB:CellSizes = 1.5, 4.5, 7.5, 10.5, 13.5, 16.5, 19.5, 22.5, 
-25.5, 28.5, 31.5, 34.5, 37.5, 40.5, 43.5, 47.5,
-1., 3., 5., 7., 9., 11., 13., 15., 17., 19., 21., 23.,
-25., 27., 29., 31.,
-.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 9.5, 10.5, 11.5,
-12.5, 13.5, 14.5, 15.5,
-.25, .75, 1.25, 1.75, 2.25, 2.75, 3.25, 3.75, 
-4.25, 4.75, 5.25, 5.75, 6.25, 6.75, 7.25, 7.75f ;
-CFSSP_FSB:FirstBin = 1 ;
-CFSSP_FSB:LastBin = 15 ;
-CFSSP_FSB:CellSizeUnits = "micrometers" ;
-CFSSP_FSB:Density = 1. ;
-CFSSP_FSB:PLWfactor = 1.e-06f ;
-CFSSP_FSB:DBZfactor = 1000000. ;
-
-Float FRNG_FSB ;
-FRNG_FSB:units = "none" ;
-FRNG_FSB:long_name = "FSSP-100 Size Range Category" ;
-FRNG_FSB:Category = "PMS Probe" ;
-FRNG_FSB:missing_value = -32767. ;
-FRNG_FSB:SampledRate = 1 ;
-FRNG_FSB:VectorLength = 1 ;
-FRNG_FSB:Package = "get_fssp";
-FRNG_FSB:OutputRate = YY ;
-
-Float CONCF_FSB;
-CONCF_FSB:units = "cm-3" ;
-CONCF_FSB:long_name = "FSSP-100 Concentration (all cells)" ;
-CONCF_FSB:Category = "PMS Probe" ;
-CONCF_FSB:missing_value = -32767. ;
-CONCF_FSB:Package = "get_fssp";
-CONCF_FSB:OutputRate = YY ;
-
-Float FACT_FSB ;
-FACT_FSB:units = "none" ;
-FACT_FSB:long_name = "FSSP-100 Activity Fraction" ;
-FACT_FSB:Category = "PMS Probe" ;
-FACT_FSB:missing_value = -32767. ;
-FACT_FSB:SampledRate = 50 ;
-FACT_FSB:OutputRate = YY ;
-FACT_FSB:Package = "get_fssp";
-
-Float FRST_FSB ;
-FRST_FSB:units = "counts" ;
-FRST_FSB:long_name = "FSSP-100 Fast Resets" ;
-FRST_FSB:Category = "PMS Probe" ;
-FRST_FSB:missing_value = -32767. ;
-FRST_FSB:SampledRate = 50 ;
-FRST_FSB:OutputRate = YY ;
-FRST_FSB:Package = "get_fssp";
-
-Float FSTB_FSB ;
-FSTB_FSB:units = "counts" ;
-FSTB_FSB:long_name = "FSSP-100 Total Strobes" ;
-FSTB_FSB:Category = "PMS Probe" ;
-FSTB_FSB:missing_value = -32767. ;
-FSTB_FSB:SampledRate = 50 ;
-FSTB_FSB:OutputRate = YY ;
-FSTB_FSB:Package = "get_fsspXX.m";
-
-Float DBARF_FSB;
-DBARF_FSB:units = "um" ;
-DBARF_FSB:long_name = "FSSP-100 Mean Particle Diameter" ;
-DBARF_FSB:Category = "PMS Probe" ;
-DBARF_FSB:missing_value = -32767. ;
-DBARF_FSB:Package = "get_fssp";
-DBARF_FSB:OutputRate = YY ;
-
-Float FBMFR_FSB;
-FBMFR_FSB:units = "fraction" ;
-FBMFR_FSB:long_name = "FSSP-100 Beam Fraction" ;
-FBMFR_FSB:Category = "PMS Probe" ;
-FBMFR_FSB:missing_value = -32767. ;
-FBMFR_FSB:Package = "get_fssp";
-FBMFR_FSB:OutputRate = YY ;
-
-Float FDOFFR_FSB;
-FDOFFR_FSB:units = "fraction" ;
-FDOFFR_FSB:long_name = "FSSP-100 DOF Fraction" ;
-FDOFFR_FSB:Category = "PMS Probe" ;
-FDOFFR_FSB:missing_value = -32767. ;
-FDOFFR_FSB:Package = "get_fssp";
-FDOFFR_FSB:OutputRate = YY ;
-
-Float PLWCF_FSB;
-PLWCF_FSB:units = "gram/m3" ;
-PLWCF_FSB:long_name = "FSSP-100 Water Content" ;
-PLWCF_FSB:Category = "Derived PMS Probe" ;
-PLWCF_FSB:missing_value = -32767. ;
-PLWCF_FSB:Package = "get_fssp";
-PLWCF_FSB:OutputRate = YY ;
-
-Float REffective_FSB;
-REffective_FSB:long_name = "FSSP-100  effective radius" ;
-REffective_FSB:Category = "Derived" ;
-REffective_FSB:units = "um" ;
-REffective_FSB:SampleRate = 10 ;
-REffective_FSB:Package = "get_fssp";
-REffective_FSB:OutputRate = YY ;
-
-Float RBarVol_FSB ;
-RBarVol_FSB:long_name = "FSSP-100  Mean volume radius" ;
-RBarVol_FSB:Category = "Derived" ;
-RBarVol_FSB:units = "um" ;
-RBarVol_FSB:SampleRate = 10 ;
-RBarVol_FSB:Package = "get_fssp";
-RBarVol_FSB:OutputRate = YY ;
-
-Float SurfArea_FSB ;
-SurfArea_FSB:long_name = "FSSP-100  Particle Surface Area" ;
-SurfArea_FSB:Category = "Derived" ;
-SurfArea_FSB:units = "cm2/m3" ;
-SurfArea_FSB:SampleRate = 10 ;
-SurfArea_FSB:Package = "get_fssp";
-SurfArea_FSB:OutputRate = YY ;
-
-Float pvmre;
-pvmre:long_name = "PVM-100A (Gerber) effective radius" ;
-pvmre:Category = "Derived" ;
-pvmre:units = "um" ;
-pvmre:CalFactor = 0., 1. ;
-pvmre:SampleRate = 100 ;
-pvmre:module = "!IP330_1" ;
-pvmre:channel = 19 ;
-pvmre:type = "analog" ;
-pvmre:Package = "get_data";
-pvmre:OutputRate = XX ;
-
-Float pvmpsa;
-pvmpsa:long_name = "PVM-100A (Gerber) particle surface area" ;
-pvmpsa:Category = "Derived" ;
-pvmpsa:units = "cm2/m3" ;
-pvmpsa:SampleRate = 100 ;
-pvmpsa:module = "!IP330_1" ;
-pvmpsa:channel = 13 ;
-pvmpsa:type = "analog" ;
-pvmpsa:Package = "get_data";
-pvmpsa:OutputRate = XX ;
-
-Float pvmlwc;
-pvmlwc:long_name = "PVM-100A (Gerber) liquid water content" ;
-pvmlwc:Category = "Derived" ;
-pvmlwc:units = "gram/m3" ;
-pvmlwc:SampleRate = 100 ;
-pvmlwc:module = "!IP330_1" ;
-pvmlwc:channel = 16 ;
-pvmlwc:type = "analog" ;
-pvmlwc:Package = "get_data";
-pvmlwc:OutputRate = XX ;
-
-Float pvmre_c;
-pvmre_c:long_name = "PVM-100A (Gerber) effective radius (computed from lwc and psa)" ;
-pvmre_c:Category = "Derived" ;
-pvmre_c:units = "micrometer" ;
-pvmre_c:SampleRate = 100 ;
-pvmre_c:type = "analog" ;
-pvmre_c:Package = "get_data";
-pvmre_c:OutputRate = XX ;
 
 Float rlwc;
 rlwc:long_name = "Liquid water content from Rosemount 871 icing probe" ;
@@ -2866,7 +2361,6 @@ vtwccol:AnalogCalibration = -0.007195, 1.012325 ;
 vtwccol:AnalogCalibrationDate = "2010-03-19 16:43:19.000" ;
 vtwccol:OutputRate = XX ;
 
-
 Float ilwcref;
 ilwcref:long_name = "Nevzorov LWC reference current" ;
 ilwcref:resistance = 3.485 ;
@@ -2895,7 +2389,6 @@ ilwccol:AnalogCalibration = -0.005463, 1.011588 ;
 ilwccol:AnalogCalibrationDate = "2010-03-19 16:45:53.000" ;
 ilwccol:OutputRate = XX ;
 
-
 Float itwcref;
 itwcref:long_name = "Nevzorov TWC reference current" ;
 itwcref:Nnumber = 2.284 ;
@@ -2910,7 +2403,6 @@ itwcref:AnalogCalibration = -0.003383, 1.011865 ;
 itwcref:AnalogCalibrationDate = "2010-03-19 16:49:47.000" ;
 itwcref:OutputRate = XX ;
 
-
 Float itwccol;
 itwccol:long_name = "Nevzorov TWC collector current" ;
 itwccol:resistance = 3.485 ;
@@ -2924,6 +2416,208 @@ itwccol:units = "amp" ;
 itwccol:AnalogCalibration = -0.005675, 1.013978 ;
 itwccol:AnalogCalibrationDate = "2010-03-19 16:48:37.000" ;
 itwccol:OutputRate = XX ;
+
+Float q_impact;
+q_impact:long_name = "Impact pressure (corrected)";
+q_impact:Status = "Derived Variable" ;
+q_impact:units = "hPa";
+q_impact:Package = "get_varTAS" ;
+q_impact:OutputRate = XX ;
+
+Float q_boom_alpha;
+q_boom_alpha:long_name = "Impact pressure (boom dp1, dpr_alpha)";
+q_boom_alpha:Status = "Derived Variable" ;
+q_boom_alpha:units = "hPa";
+q_boom_alpha:Package = "get_varTAS" ;
+q_boom_alpha:OutputRate = XX ;
+
+Float q_boom_beta;
+q_boom_beta:long_name = "Impact pressure (boom dp1, dpr_beta)";
+q_boom_beta:Status = "Derived Variable" ;
+q_boom_beta:units = "hPa";
+q_boom_beta:Package = "get_varTAS" ;
+q_boom_beta:OutputRate = XX ;
+
+Float q_ship_alpha;
+q_ship_alpha:long_name = "Impact pressure (ship dp1, dpr_alpha)";
+q_ship_alpha:Status = "Derived Variable" ;
+q_ship_alpha:units = "hPa";
+q_ship_alpha:Package = "get_varTAS" ;
+q_ship_alpha:OutputRate = XX ;
+
+Float q_ship_beta;
+q_ship_beta:long_name = "Impact pressure (ship dp1, dpr_beta)";
+q_ship_beta:Status = "Derived Variable" ;
+q_ship_beta:units = "hPa";
+q_ship_beta:Package = "get_varTAS" ;
+q_ship_beta:OutputRate = XX ;
+
+Float QimpactX;
+QimpactX:long_name = "Impact pressure (recommended)";
+QimpactX:Status = "Derived Variable" ;
+QimpactX:units = "hPa";
+QimpactX:Package = "get_varTAS" ;
+QimpactX:OutputRate = XX ;
+
+Float dp1_boom;
+dp1_boom:long_name = "R858 Center Port - Boom Static" ;
+dp1_boom:units = "hPa" ;
+dp1_boom:SampleRate = 1000 ;
+dp1_boom:type = "analog" ;
+dp1_boom:Package = "get_varTAS" ;
+dp1_boom:OutputRate = XX ;
+
+Float dp1_ship;
+dp1_ship:long_name = "R858 Center Port - Ship Static" ;
+dp1_ship:units = "hPa" ;
+dp1_ship:SampleRate = 1000 ;
+dp1_ship:channel = 5 ;
+dp1_ship:type = "analog" ;
+dp1_ship:Package = "get_varTAS" ;
+dp1_ship:OutputRate = XX ;
+
+Float DP1X;
+DP1X:long_name = "R858 Impact pressure (recommended)" ;
+DP1X:units = "hPa" ;
+DP1X:SampleRate = 1000 ;
+DP1X:channel = 5 ;
+DP1X:type = "analog" ;
+DP1X:Package = "get_varTAS" ;
+DP1X:OutputRate = XX ;
+
+Float dpr_beta;
+dpr_beta:long_name = "R858  Center Port - Right Port" ;
+dpr_beta:units = "hPa" ;
+dpr_beta:type = "analog" ;
+dpr_beta:Package = "get_varTAS" ;
+dpr_beta:OutputRate = XX ;
+
+Float dpr_alpha;
+dpr_alpha:long_name = "R858  Center Port - Bottom Port" ;
+dpr_alpha:units = "hPa" ;
+dpr_alpha:type = "analog" ;
+dpr_alpha:Package = "get_varTAS" ;
+dpr_alpha:OutputRate = XX ;
+
+Float f_boom_alpha;
+f_boom_alpha:long_name = "R858  f-factor (boom, alpha)" ;
+f_boom_alpha:units = "dimensionless" ;
+f_boom_alpha:type = "analog" ;
+f_boom_alpha:Package = "get_varTAS" ;
+f_boom_alpha:OutputRate = XX ;ta
+
+Float f_boom_beta;
+f_boom_beta:long_name = "R858  f-factor (boom, beta)" ;
+f_boom_beta:units = "dimensionless" ;
+f_boom_beta:type = "analog" ;
+f_boom_beta:Package = "get_varTAS" ;
+f_boom_beta:OutputRate = XX ;
+
+Float f_ship_alpha;
+f_ship_alpha:long_name = "R858  f-factor (ship, alpha)" ;
+f_ship_alpha:units = "dimensionless" ;
+f_ship_alpha:type = "analog" ;
+f_ship_alpha:Package = "get_varTAS" ;
+f_ship_alpha:OutputRate = XX ;
+
+Float f_ship_beta;
+f_ship_beta:long_name = "R858  f-factor (ship, beta)" ;
+f_ship_beta:units = "dimensionless" ;
+f_ship_beta:type = "analog" ;
+f_ship_beta:Package = "get_varTAS" ;
+f_ship_beta:OutputRate = XX ;
+
+Float fq_alpha;
+fq_alpha:long_name = "R858  fq-factor (alpha)" ;
+fq_alpha:units = "hPa" ;
+fq_alpha:type = "analog" ;
+fq_alpha:Package = "get_varTAS" ;
+fq_alpha:OutputRate = XX ;
+
+Float fq_beta;
+fq_beta:long_name = "R858  fq-factor (beta)" ;
+fq_beta:units = "hPa" ;
+fq_beta:type = "analog" ;
+fq_beta:Package = "get_varTAS" ;
+fq_beta:OutputRate = XX ;
+
+Float ta_beta;
+ta_beta:long_name = "tan(alpha) (uses dpr_beta)";
+ta_beta:Status = "dimensionless" ;
+ta_beta:units = "radians";
+ta_beta:Package = "get_varTAS";
+ta_beta:OutputRate = XX ;
+
+Float ta_alpha;
+ta_alpha:long_name = "tan(alpha) (uses dpr_alpha)";
+ta_alpha:Status = "Derived Variable" ;
+ta_alpha:units = "dimensionless";
+ta_alpha:Package = "get_varTAS";
+ta_alpha:OutputRate = XX ;
+
+Float tb_beta;
+tb_beta:long_name = "tan(beta) (uses DPR)";
+tb_beta:Status = "Derived Variable" ;
+tb_beta:units = "dimensionless";
+tb_beta:Package = "get_varTAS";
+tb_beta:OutputRate = XX ;
+
+Float tb_alpha;
+tb_alpha:long_name = "tan(beta) (uses DPN)";
+tb_alpha:Status = "Derived Variable" ;
+tb_alpha:units = "dimensionless";
+tb_alpha:Package = "get_varTAS";
+tb_alpha:OutputRate = XX ;
+
+Float ps_ship;
+ps_ship:long_name = "Static pressure (uses PSA -- ship)";
+ps_ship:Status = "Derived Variable" ;
+ps_ship:units = "hPa";
+ps_ship:Package = "get_varTAS";
+ps_ship:OutputRate = XX ;
+
+Float ps_boom;
+ps_boom:long_name = "Static pressure (uses PSB -- boom)";
+ps_boom:Status = "Derived Variable" ;
+ps_boom:units = "hPa";
+ps_boom:Package = "get_varTAS";
+ps_boom:OutputRate = XX ;
+
+Float alpha;
+alpha:long_name = "Attack angle (recommended)";
+alpha:Status = "Derived Variable" ;
+alpha:units = "degree";
+alpha:Package = "get_varTAS";
+alpha:OutputRate = XX ;
+
+Float beta;
+beta:long_name = "Sideslip angle (recommended)";
+beta:Status = "Derived Variable" ;
+beta:units = "degree";
+beta:Package = "get_varTAS";
+beta:OutputRate = XX ;
+
+Float ptotal_boom;
+ptotal_boom:long_name = "Total Pressure (boom)" ;
+ptotal_boom:units = "hPa" ;
+ptotal_boom:type = "analog" ;
+ptotal_boom:Package = "get_varTAS" ;
+ptotal_boom:OutputRate = XX ;
+
+Float ptotal_ship;
+ptotal_ship:long_name = "Total Pressure (ship)" ;
+ptotal_ship:units = "hPa" ;
+ptotal_ship:type = "analog" ;
+ptotal_ship:Package = "get_varTAS" ;
+ptotal_ship:OutputRate = XX ;
+
+Float Zhydro;
+Zhydro:long_name = "Altitude from Hydrostatic eqn";
+Zhydro:units = "meter";
+Zhydro:type = "analog" ;
+Zhydro:Package = "get_varTAS" ;
+Zhydro:OutputRate = XX ;
+
 
 // global attributes:
 

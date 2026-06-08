@@ -15,12 +15,9 @@ function [schema1 X]= make_schema(X)
     NC_INT64  = netcdf.getConstant('NC_INT64');
     
     % Create NetCDF4 output file
+    cmode = bitor(netcdf.getConstant('NETCDF4'), netcdf.getConstant('CLOBBER'));
+    ncid = netcdf.create(X.ncFINAL, cmode);
     fprintf('make_schema: trying ...')
-    ncid = netcdf.create(X.ncFINAL, ...
-            bitor( ...
-           netcdf.getConstant("NETCDF4"), ...
-           netcdf.getConstant("CLOBBER")) ...
-           );
     fprintf('Working...')
 
     % Close netcdf ncid on exit
@@ -68,21 +65,18 @@ function [schema1 X]= make_schema(X)
         name = arcNames(k);
         [name1, TYPE, OutputRate, anames, atts] = ...
             readAttributesDB(X.varDB,name, X.procRate);
-        spsName = sprintf('sps%d', OutputRate);
-        spsdim = get_spsdim(ncid, spsName, OutputRate);
-        if(isempty(spsdim))
-            %%%{'make_schema:' name,OutputRate,spsdim}
-        end
         % Check for vector dimension
         vecIdx = find(strcmpi(anames, 'VectorLength'));
         if ~isempty(vecIdx)
             VLength = str2double(atts{vecIdx});
             vecdim = get_spsdim(ncid, sprintf('vec%d', VLength), VLength);
+            spsdim = get_spsdim(ncid, sprintf('sps%d', OutputRate), OutputRate);
             dims = [vecdim,spsdim,timedim];
         else
             if (OutputRate==1)
                 dims = timedim; % e.g. (time)
             else
+                spsdim = get_spsdim(ncid, sprintf('sps%d', OutputRate), OutputRate);
                 dims = [spsdim, timedim]; % e.g. (sps25, time);
             end
         end
@@ -103,19 +97,17 @@ function [schema1 X]= make_schema(X)
                 case {'Integer'}
                     varid = netcdf.defVar(ncid, name1, NC_INT, dims);
                 otherwise
-                    warning('Unknown type for variable %s. Skipping.', name);
-                    continue;
+                    error('make_schema:UnknownType', ...
+                        'Unknown type "%s" for variable %s.', TYPE, name);
             end
         catch ME
-            warning('Could not define variable %s: %s', name, ME.message);
-            netcdf.close(ncid);
-            schema1 = -1;
-            return;
+            error('make_schema:DefineVariable', ...
+                'Could not define variable %s: %s', name, ME.message);
         end
 
         if isempty(varid) || varid < 0
-            warning('Invalid varid for variable %s. Skipping.', name);
-            continue;
+            error('make_schema:InvalidVarId', ...
+                'Could not obtain a valid variable ID for %s.', name);
         end
 
         % Apply attributes
@@ -141,22 +133,56 @@ function [schema1 X]= make_schema(X)
         netcdf.endDef(ncid);
         fprintf('SUCCESS!\n')
     catch ME
-        warning("Problem with defines (make_schema.m): %s", ME.message);
-        netcdf.close(ncid);
-        cleanupObj = onCleanup(@() netcdf.close(ncid));
-        clear cleanupObj;    % prevents double-close warnings (optional)
-        schema1 = -1;
-        return;
+        error('make_schema:EndDefine', ...
+            'Problem finalizing NetCDF definitions: %s', ME.message);
     end
-
     netcdf.close(ncid);
-    cleanupObj = onCleanup(@() netcdf.close(ncid));
-
-    % Return schema info
+    clear cleanupObj;
     schema1 = ncinfo(X.ncFINAL);
+    % Return schema info
 end
 
 function safeClose(ncid)
     try, netcdf.endDef(ncid); end
     try, netcdf.close(ncid); end
+end
+
+function killBatchJobs();
+
+%  the Parallel Computing Toolbox job API to find, cancel, 
+% and remove all batch jobs. Typical sequence: 
+% find jobs on the cluster, cancel running ones, 
+% then delete job objects (this frees worker 
+% resources and removes job data).
+
+% Get default cluster
+c = parcluster;
+
+% Find all jobs submitted to that cluster (returns array of parallel.Job objects)
+jobs = findJob(c);
+
+% Show job IDs and states
+for j = jobs
+    fprintf('ID: %s  State: %s\n', j.ID, j.State);
+end
+
+% Cancel running/queued jobs
+for j = jobs
+    try
+        cancel(j);
+    catch
+        % ignore cancel errors
+    end
+end
+
+% Optionally wait a short time then delete job data
+pause(1);
+for j = jobs
+    try
+        delete(j);
+    catch
+        % ignore delete errors
+    end
+end
+
 end

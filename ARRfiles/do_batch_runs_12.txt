@@ -1,0 +1,12 @@
+X=do_batch25('20200918_raw.nc','PROJ','flux20','BaseOut','2200918_arr','Rate',25);
+X=do_batch25('20150630_raw.nc','PROJ','pecan15','BaseOut','20150630_arr','Rate',25);
+X=do_batch25('20171116c_raw.nc','PROJ','searmar17','BaseOut','20171116c_arr','Rate',25);
+X=do_batch25('20180802_raw.nc','PROJ','bbflux18','BaseOut','20180802_arr','Rate',25) 
+X=do_batch25('20220412a_raw.nc','PROJ','chacha22','BaseOut','20220412a_arr','Rate',25) 
+X=do_batch25('20190820b_raw.nc','PROJ','cheesehead19','BaseOut','20190820b_arr','Rate',25) 
+X=do_batch25('20130517_raw.nc','PROJ','copemed13','BaseOut','20130517_arr','Rate',25) 
+X=do_batch25('20200917_raw.nc','PROJ','dilbert20','BaseOut','20200917_raw_arr','Rate',25) 
+X=do_batch25('20210313_raw.nc','PROJ','dilbert21','BaseOut','20210313_arr','Rate',25) 
+X=do_batch25('20170304_raw.nc','PROJ','snowie17','BaseOut','20170304_arr','Rate',25) 
+X=do_batch25('20210723_raw.nc','PROJ','trans2am21','BaseOut','20210723_arr','Rate',25) 
+X=do_batch25('20220821_raw.nc','PROJ','trans2am22','BaseOut','20220821_arr','Rate',25) 

@@ -1,5 +1,5 @@
 function [PitchOffsetRadians,RollOffsetRadians,HeadOffsetRadians ...
-	,SideslipFactor,AttackFactor,QFactor] ...
+	,SideslipFactor,AttackFactor,PStaticOffset] ...
 	=AV410_factors(ncHEADER)
 
 PitchOffsetRadians=ncreadatt(ncHEADER,'/','AWinds.PitchOffsetRadians');
@@ -32,16 +32,16 @@ if(isempty(AttackFactor))
     AttackFactor=0;
 end
 
-QFactor=ncreadatt(ncHEADER,'/','AWinds.QFactor');
-if(isempty(QFactor))
-    QFactor=0;
+PStaticOffset=ncreadatt(ncHEADER,'/','AWinds.PStaticOffset');
+if(isempty(PStaticOffset))
+    PStaticOffset=0;
 end
 
-AttackFactor = AttackFactor;
-SideslipFactor = SideslipFactor;
-RollOffsetRadians = RollOffsetRadians;
-PitchOffsetRadians = PitchOffsetRadians;
-HeadOffsetRadians = HeadOffsetRadians;
-QFactor = QFactor;
+AttackFactor        = AttackFactor;
+SideslipFactor      = SideslipFactor;
+RollOffsetRadians   = RollOffsetRadians;
+PitchOffsetRadians  = PitchOffsetRadians;
+HeadOffsetRadians   = HeadOffsetRadians;
+PStaticOffset       = PStaticOffset;
 
-%%%%MC=close(MC);
+

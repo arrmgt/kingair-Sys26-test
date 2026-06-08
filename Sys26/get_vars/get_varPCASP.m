@@ -160,9 +160,9 @@ for ii = 1:numel(Suffixes);
     load(matTAS,'TASX','PSX','TEMPX')
     
     [minterp,mdecim]=interp_decim(orate,frate);
-    Tas = decimateByFactors(Ninterp(TASX,minterp),mdecim,'FIR');
-    Pmb = decimateByFactors(Ninterp(PSX,minterp),mdecim,'FIR');
-    Tk = decimateByFactors(Ninterp(TEMPX,minterp),mdecim,'FIR');
+    Tas = changeRate(TASX,orate,frate);
+    Pmb = changeRate(PSX,orate,frate);
+    Tk = changeRate(TEMPX,orate,frate);
     
     % Density corrected flow rate [cm3 s-1];
     

@@ -1,0 +1,974 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      -->
+<title>get_varTAS</title>
+<meta name="generator" content="MATLAB 25.2">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+<meta name="DC.date" content="2026-02-02">
+<meta name="DC.source" content="get_varTAS.m">
+<style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style>
+</head>
+<body>
+<div class="content">
+<pre class="codeinput">
+<span class="keyword">function</span> get_varTAS(X)
+
+<span class="comment">% This might be needed</span>
+clear <span class="string">ncinfo</span> <span class="string">ncreadatt</span> <span class="string">ncwriteatt</span> <span class="string">ncread</span>
+close <span class="string">all</span>
+
+<span class="comment">% Load time vector to reference length</span>
+<span class="keyword">try</span>
+    Time=ncread(X.RawPath,<span class="string">'time'</span>);
+    rawTimeVar = <span class="string">'time'</span>;
+<span class="keyword">catch</span>
+    Time = ncread(X.RawPath,<span class="string">'Time'</span>);
+    rawTimeVar = <span class="string">'Time'</span>;
+<span class="keyword">end</span>
+
+<span class="comment">% Make sure ncFINAL exists</span>
+<span class="keyword">try</span>
+    test=ncinfo(X.ncFINAL);
+<span class="keyword">catch</span>
+    error(<span class="string">'get_varTAS:  X.ncFINAL does not exist'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% Variables to be used in TAS etc.</span>
+PressUsed = X.PressUsed;
+TempUsed = X.TempUsed;
+PitotUsed =  X.PitotUsed;
+
+TT=datetime(<span class="string">'now'</span>);
+<span class="comment">% Physical constants structure</span>
+C=phycon;
+Tzero=C.Tzero;
+
+<span class="comment">% Get raw variables needed for tas group</span>
+<span class="comment">%</span>
+orate=X.procRate;
+Rate=orate;
+rawfile=X.RawPath;
+
+<span class="comment">%  Need TAS and temp and pressure groups</span>
+<span class="comment">%  See column names on Ptable structure</span>
+P = X.Ptable;
+colNames = P.Properties.VariableNames;
+wantNames={<span class="string">'TAS'</span>, <span class="string">'HADS'</span>, <span class="string">'CPT'</span>, <span class="string">'WESTON'</span>};
+mask = false(size(colNames));
+<span class="keyword">for</span> p = wantNames
+    mask = mask | contains(colNames, p{1});
+<span class="keyword">end</span>
+GROUPS = colNames(mask);
+<span class="comment">% Use pivot table and raw mapping table to get</span>
+<span class="comment">% 1. variables to be calculated;</span>
+<span class="comment">% 2. raw measurements needed from *_raw.nc</span>
+[arcNames, rawNames] = getVarsAndRawNames(X.Ptable, GROUPS, X.Ttable);
+
+<span class="keyword">if</span> ismember(GROUPS,<span class="string">'HADS'</span>)
+    matTAS=fullfile(X.tempdir,sprintf(<span class="string">"%s_HADS.mat"</span>, X.BaseName));
+    load(matTAS,<span class="string">'ps_hads_a'</span>,<span class="string">'ps_hads_b'</span>);
+<span class="keyword">end</span>
+<span class="keyword">if</span> ismember(GROUPS,<span class="string">'CPT'</span>)
+    matTAS=fullfile(X.tempdir,sprintf(<span class="string">"%s_CPT.mat"</span>, X.BaseName));
+    load(matTAS,<span class="string">'CPT6140'</span>,<span class="string">'CPT9000'</span>,<span class="string">'TEMP9000'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% Get the necessary variables from the _raw.nc file; change rate</span>
+rawfile = X.RawPath;
+<span class="keyword">for</span> ii=1:length(rawNames)
+    var1=rawNames(ii);
+    ss=sprintf(<span class="string">"blurf=ncread(rawfile,'%s');"</span>,var1);
+    <span class="keyword">try</span>
+        eval(ss)
+    <span class="keyword">catch</span>
+        {var1 <span class="string">'not found'</span>}
+        <span class="keyword">continue</span>
+    <span class="keyword">end</span>
+    [irate,dims,frate]=get_irate(rawfile,var1,orate);
+    <span class="keyword">if</span>(irate&gt;1)
+        [ninterp,ndecim]=interp_decim(irate,orate);
+        j=find(~isnan(blurf));
+        blurf=blurf(:);
+        blurf=interp1(j,blurf(j),[1:numel(blurf)],[],0);
+        blurf=changeRate(Ninterp(blurf,ninterp),ndecim,<span class="string">'FIR'</span>,X.FillValue);
+    <span class="keyword">else</span>
+        ninterp=1;
+        ndecim=1;
+    <span class="keyword">end</span>
+    ss=sprintf(<span class="string">"%s=blurf(:);"</span>,var1);eval(ss);
+<span class="keyword">end</span>
+
+<span class="comment">%  See which are available</span>
+Pressures = {};
+<span class="comment">% HADSA</span>
+<span class="keyword">if</span> exist(<span class="string">'HADSA_PER'</span>,<span class="string">'var'</span>) &amp; ~isempty(HADSA_PER)
+    ps_hads_a=get_hads(X,<span class="string">'A'</span>,HADSA_VR,HADSA_VT,HADSA_PER);
+    Pressures{end+1} = {<span class="string">'ps_hads_a'</span>};
+<span class="keyword">else</span>
+    ps_hads_a = zeros(size(BIAS));
+<span class="keyword">end</span>
+<span class="comment">% HADSB</span>
+<span class="keyword">if</span> exist(<span class="string">'HADSB_PER'</span>,<span class="string">'var'</span>) &amp; ~isempty(HADSB_PER)
+    ps_hads_b=get_hads(X,<span class="string">'B'</span>,HADSB_VR,HADSB_VT,HADSB_PER);
+    Pressures{end+1} = {<span class="string">'ps_hads_b'</span>};
+<span class="keyword">else</span>
+    ps_hads_b = zeros(size(BIAS));
+<span class="keyword">end</span>
+<span class="comment">% WESTON WDPM</span>
+<span class="keyword">if</span> exist(<span class="string">'WDPM'</span>,<span class="string">'var'</span>) &amp; ~isempty(WDPM)
+    ps_weston=WDPM;
+    Pressures{end+1} = {<span class="string">'ps_weston'</span>};
+<span class="keyword">else</span>
+    ps_weston = zeros(size(BIAS));
+<span class="keyword">end</span>
+<span class="comment">% CPT 6140</span>
+<span class="keyword">if</span> exist(<span class="string">'PRES6140'</span>,<span class="string">'var'</span>) &amp; ~isempty(PRES6140)
+    ps_CPT6140=PRES6140;
+    Pressures{end+1} = {<span class="string">'ps_CPT6140'</span>};
+<span class="keyword">else</span>
+    ps_CPT6140 = zeros(size(BIAS));
+<span class="keyword">end</span>
+<span class="comment">% CPT 9000 pressure</span>
+<span class="keyword">if</span> exist(<span class="string">'PRES9000'</span>,<span class="string">'var'</span>) &amp; ~isempty(PRES9000)
+    ps_CPT9000=PRES9000;
+    Pressures{end+1} = {<span class="string">'ps_CPT9000'</span>};
+<span class="keyword">else</span>
+    ps_CPT9000 = zeros(size(BIAS));
+<span class="keyword">end</span>
+<span class="comment">% CPT 9000 temperature</span>
+<span class="keyword">if</span> exist(<span class="string">'TEMP9000'</span>,<span class="string">'var'</span>) &amp; ~isempty(TEMP9000)
+    temp_CPT9000=TEMP9000;
+<span class="keyword">else</span>
+    temp_CPT9000 = zeros(size(BIAS));
+<span class="keyword">end</span>
+
+<span class="comment">% Which should be used (call it PSM)</span>
+varUsed=[];
+Pressures = string(Pressures);
+jj = find(matches(Pressures,PressUsed));
+ss = sprintf(<span class="string">"PSM = %s;"</span>,Pressures{jj});
+eval(ss);
+
+<span class="comment">% Indicated airspeeds [knots]</span>
+aias=q2ias(AIAS);
+bias=q2ias(BIAS);
+
+<span class="comment">% humidity (TDPEDGE or TDPEGG (EG&amp;G)dbcont</span>
+<span class="keyword">if</span>(cell_find(arcNames,<span class="string">'tdp'</span>))
+    <span class="keyword">try</span>
+        tdp=TDPEDGE; <span class="comment">% in centigrade</span>
+        ncwriteatt(X.ncFINAL,<span class="string">'tdp'</span>,<span class="string">'Sensor'</span>,<span class="string">'Edgetech'</span>);
+    <span class="keyword">catch</span>
+        <span class="keyword">try</span> <span class="comment">% OK, try this</span>
+            blurf=ncread(X.RawPath,<span class="string">'TDP'</span>);TDP=blurf(:);
+            tdp=TDP; <span class="comment">%  EG&amp;G</span>
+            ncwriteatt(X.ncFINAL,<span class="string">'tdp'</span>,<span class="string">'Sensor'</span>,<span class="string">'EG&amp;G'</span>);
+        <span class="keyword">catch</span>
+            <span class="string">"getvarTAS: No depoint found"</span>
+            <span class="keyword">return</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    kk=find(tdp&lt;0);
+    tdp0=tdp;
+    tdp1=tdp;
+    <span class="comment">% Assume Frost Point sensed if tdp&lt;0 C</span>
+    <span class="keyword">if</span>(~isempty(kk))
+        tdp(kk) = dew(tdp(kk)); <span class="comment">% Frost point is sensed</span>
+        <span class="comment">% tdp1(kk) = frostpoint_to_dewpoint(tdp1(kk));</span>
+    <span class="keyword">end</span>
+    TDPK=tdp+Tzero;
+<span class="keyword">end</span>
+
+<span class="comment">% Air speed vector and pressure correction</span>
+<span class="comment">% get flow angles and static pressure correction</span>
+<span class="comment">%</span>
+<span class="keyword">if</span>(mean(DPA)&lt;0); <span class="comment">%Sanity check</span>
+    DPA=-DPA;
+<span class="keyword">end</span>
+DPB=-DPB; <span class="comment">% Always</span>
+
+<span class="comment">% Attitude angles and pressure correction (Sys09 version)</span>
+<span class="comment">% addpath(fullfile(X.Source,'mfiles858','mfiles858_0'));</span>
+<span class="comment">% These are from Sys09</span>
+rmpath(fullfile(X.Repo,<span class="string">'Sys26'</span>,<span class="string">'Old-files-keep-for-now'</span>));
+addpath(fullfile(X.Repo,<span class="string">'Sys26'</span>,<span class="string">'Old-files-keep-for-now/mfiles858_0'</span>));
+kk = find( ~isnan(AIAS) &amp; ~isinf(AIAS) &amp; AIAS&gt;0);
+AIAS = interp1(kk,AIAS(kk),[1:numel(AIAS)]',<span class="string">'spline'</span>,0);
+kk = find( ~isnan(DPR) &amp; ~isinf(DPR) &amp; DPR&gt;0);
+DPR = interp1(kk,DPR(kk),[1:numel(DPR)]',<span class="string">'spline'</span>,0);
+kk = find( ~isnan(TRF+Tzero) &amp; ~isinf(TRF+Tzero) &amp; TRF+Tzero&gt;0);
+TRF = interp1(kk,TRF,[1:numel(TRF)]',<span class="string">'spline'</span>,0);
+
+TA = tanAlpha(DPA,DPB,DPR);
+TB = tanBeta(DPB,DPR);
+alpha=atan(TA); <span class="comment">% radians</span>
+beta=atan(TB);
+<span class="comment">%  Matlab has function alpha and beta.  Next is a workaround</span>
+alphaa = alpha;
+betaa = beta;
+<span class="comment">% Output variables</span>
+dpb=DPB;
+dpa=DPA;
+dpr=DPR;
+
+<span class="comment">% R858 flow angle calibration factors</span>
+[pitoff,rolloff,hedoff,bfactor,afactor,Qfactor] = AV410_factors(X.ncFINAL);
+<span class="comment">%</span>
+<span class="comment">% Mixing Ratio:</span>
+mr=0;
+vaporPressure=sat_vapor_pressure_GG(TDPK); <span class="comment">% Use Goff-Gratch</span>
+<span class="comment">%  Iteration needed for higher humidity levels</span>
+<span class="comment">%     since mr needed for boom_pcor</span>
+<span class="keyword">for</span> jj=1:3
+    boom_pcor = cone_pcor(AIAS,DPB,DPA,DPR,PSM,mr);
+    mr=(C.Mv./C.Md).*vaporPressure./(PSM - boom_pcor - vaporPressure); <span class="comment">% g/g</span>
+    mean(mr)
+<span class="keyword">end</span>
+[boom_pcor,qc0,fcoef] = cone_pcor(AIAS,DPB,DPA,DPR,PSM,mr);
+q_impact = qc0 * (1+Qfactor);  <span class="comment">% This is a residual residual static error</span>
+
+<span class="comment">% Apply pressure corrections</span>
+<span class="keyword">for</span> jj=1:numel(Pressures);
+    <span class="keyword">if</span>(exist(Pressures{jj}))
+        ss=sprintf(<span class="string">"%s = %s - boom_pcor;"</span>,Pressures{jj},Pressures{jj});
+        eval(ss)
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Compute moist-air thermodynamic and airspeed quantities using measured:</span>
+<span class="comment">%   - Ps_meas  : Measured static pressure (hPa)PSX</span>
+<span class="comment">%   - Pt       : Pitot (total) pressure (hPa)</span>
+<span class="comment">%   - Tm       : Measured probe temperature (K)</span>
+<span class="comment">%   - r        : Probe recovery factor (dimensionless, required)</span>
+<span class="comment">%   - Td       : Dewpoint temperature (K)</span>
+<span class="comment">% Static-pressure correction (name,value pair)</span>
+<span class="comment">%   "dPs_corr", pcor</span>
+<span class="comment">% q_impact is impact (stagnation) pressure</span>
+<span class="comment">% q_dyn = dynamic pressure = 1/2*rho*V^2;</span>
+<span class="comment">% q_dyn = q_impact if incompressible.</span>
+PSX = PSM - boom_pcor;
+
+<span class="comment">% Total pressure</span>
+<span class="comment">%  Pt = q_impact + Ps;</span>
+pTotal = q_impact + PSX; <span class="comment">%</span>
+
+clear <span class="string">TASX</span>
+<span class="comment">% Get moist air properties and airspeeds</span>
+<span class="keyword">if</span> exist(<span class="string">"TRF"</span>)
+    <span class="comment">%recovery factor</span>
+    r=0.6425;
+    Tmeas = TRF + Tzero; <span class="comment">% Uncorrected</span>
+    ADatTRF = airdata(PSM, pTotal, Tmeas, r, TDPK, <span class="string">"dPs_corr"</span>,boom_pcor);
+    trf = ADatTRF.Ts;
+    <span class="keyword">if</span> X.TempUsed == <span class="string">'trf'</span>
+        ADat = ADatTRF;
+        TEMPX = trf;
+        TASX = ADat.TAS;
+    <span class="keyword">end</span>
+    units=ncreadatt(X.ncFINAL,<span class="string">'trf'</span>,<span class="string">'units'</span>);
+    trf=convertUnits(trf,ADat.units.Ts,units);
+<span class="keyword">end</span>
+<span class="keyword">if</span> exist(<span class="string">"TROSE"</span>)
+    <span class="comment">%recovery factor</span>
+    r=0.97;
+    Tmeas = TROSE + Tzero; <span class="comment">% Uncorrected</span>
+    ADatTROSE = airdata(PSM, pTotal, Tmeas, r, TDPK, <span class="string">"dPs_corr"</span>,boom_pcor);
+    trose = ADatTROSE.Ts;
+    <span class="keyword">if</span> X.TempUsed == <span class="string">'trose'</span>
+        ADat = ADatTROSE;
+        TEMPX = trose;
+        TASX = ADat.TAS;
+    <span class="keyword">end</span>
+    units=ncreadatt(X.ncFINAL,<span class="string">'trose'</span>,<span class="string">'units'</span>);
+    trose=convertUnits(trose,ADat.units.Ts,units);
+<span class="keyword">end</span>
+
+<span class="comment">% Sanity check</span>
+<span class="keyword">if</span> ~exist(<span class="string">"TASX"</span>)
+    error(<span class="string">"get_varTAS:  No TempUsed variable found"</span>)
+<span class="keyword">end</span>
+
+units=ncreadatt(X.ncFINAL,<span class="string">'tas'</span>,<span class="string">'units'</span>);
+tas = convertUnits(TASX,ADat.units.TAS,units);
+
+<span class="comment">% Pressure altitude</span>
+PALT = ADat.Zp;
+    units=ncreadatt(X.ncFINAL,<span class="string">'PALT'</span>,<span class="string">'units'</span>);
+    PALT = convertUnits(PALT,ADat.units.Zp,units);
+<span class="comment">% Relative Humidity</span>
+    rh = ADat.RH; <span class="comment">% fraction</span>
+    units=ncreadatt(X.ncFINAL,<span class="string">'rh'</span>,<span class="string">'units'</span>);
+    <span class="keyword">if</span> units == <span class="string">'percent'</span> &amp; ADat.units.RH == <span class="string">"1"</span>
+        rh = rh.*100;
+    <span class="keyword">end</span>
+<span class="comment">% Mixing Ratio: leave as kg/kg  for  now</span>
+    mr = ADat.w; <span class="comment">% kg/kg</span>
+    units=ncreadatt(X.ncFINAL,<span class="string">'mr'</span>,<span class="string">'units'</span>);
+    mr = convertUnits(mr,ADat.units.w,<span class="string">'kg/kg'</span>);
+<span class="comment">% Dry theta</span>
+    thetad = ADat.thetad;
+    units=ncreadatt(X.ncFINAL,<span class="string">'thetad'</span>,<span class="string">'units'</span>);
+    thetad = convertUnits(thetad,ADat.units.thetad,<span class="string">'Kelvin'</span>);
+<span class="comment">% Thetae</span>
+    thetae = ADat.theta_e;
+    units=ncreadatt(X.ncFINAL,<span class="string">'thetae'</span>,<span class="string">'units'</span>);
+    thetae = convertUnits(thetae,ADat.units.theta_e,<span class="string">'Kelvin'</span>);
+<span class="comment">% Lifted Condensation Level LCL temp and pressure</span>
+    TLCL = ADat.TLCL;
+    units=ncreadatt(X.ncFINAL,<span class="string">'TLCL'</span>,<span class="string">'units'</span>);
+    TLCL = convertUnits(TLCL,ADat.units.TLCL,<span class="string">'Kelvin'</span>);
+    PLCL = ADat.PLCL;
+    units=ncreadatt(X.ncFINAL,<span class="string">'PLCL'</span>,<span class="string">'units'</span>);
+    PLCL = convertUnits(PLCL,ADat.units.PLCL,<span class="string">'hPa'</span>);
+
+ncwriteatt(X.ncFINAL,<span class="string">'tas'</span>,<span class="string">'TempUsed'</span>,X.TempUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'tas'</span>,<span class="string">'PressUsed'</span>,X.PressUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'TASX'</span>,<span class="string">'TempUsed'</span>,X.TempUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'TASX'</span>,<span class="string">'PressUsed'</span>,X.PressUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'thetad'</span>,<span class="string">'PressUsed'</span>,X.PressUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'thetae'</span>,<span class="string">'TempUsed'</span>,X.TempUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+ncwriteatt(X.ncFINAL,<span class="string">'thetae'</span>,<span class="string">'PressUsed'</span>,X.PressUsed,<span class="string">'Datatype'</span>,<span class="string">'char'</span>);
+
+<span class="comment">% Eddy Dissipation Rate from TAS</span>
+<span class="comment">%</span>
+<span class="comment">% Get TAS components @ 50 Hz from raw.nc file</span>
+fs50 = 50;
+fny=fs50/2;
+f1 = 10;
+f2 = 25;
+
+<span class="comment">%  Estimate Eddy Dissipation Rate ^ 1/3 power at 1 Hz;</span>
+[tasx,tasy,tasz] = get_uvw(X,fs50); <span class="comment">% aircraft-relative TAS components</span>
+Tas = rssq([tasx,tasy,tasz],2); <span class="comment">% root sum of squares</span>
+[epsiux,epsivy,epsiwi,varhatu,varhatv,varhatw,uwf,vwf] = <span class="keyword">...</span>
+    EddyDissipationRate(Tas,tasx,tasy,tasz,f1,f2,fs50);
+edrTAS=epsiwi.^.333;
+
+<span class="comment">%%%% New boom measurements</span>
+    randz = randn(size(TASX));
+    dp1New858 = randz;
+    dp2New858 = randz;
+    psaNew858 = randz;
+    psbNew858 = randz;
+    ptbNew858 = pTotal;
+    dpnNew858 = dpra_sim(fcoef,q_impact,TA,TB);
+<span class="comment">%%%%%%%%%%%%%%%%</span>
+
+Rate=X.procRate;Sps_hads_a=sprintf(<span class="string">'sps%i'</span>,Rate);
+time=ncread(X.RawPath,rawTimeVar);
+xlsfile=fullfile(X.Source,X.PROJ,<span class="string">'../config/defines3.xlsx'</span>);
+
+Rate=X.procRate;
+SPS=sprintf(<span class="string">'sps%i'</span>,Rate);
+time=ncread(X.RawPath,rawTimeVar);
+
+[irate,dims,frate]=get_irate(X.ncFINAL,<span class="string">'tas'</span>,X.procRate);
+
+ss1=<span class="string">"'orate','Rate','rawfile','arcNames','rawNames','alphaa','betaa','TEMPX','PSX','Time','ss1'"</span>;
+<span class="keyword">for</span> ii=1:numel(arcNames);
+    <span class="keyword">if</span>(numel(arcNames{ii})&gt;1)
+        ss1=sprintf(<span class="string">"%s,'%s'"</span>,ss1,arcNames{ii});
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% Write variables out to matfile</span>
+matfile=fullfile(X.tempdir,sprintf(<span class="string">"%s_TAS.mat"</span>,X.BaseName));
+delete(matfile)
+
+ss=sprintf(<span class="string">"save(matfile,%s);"</span>,ss1);
+eval(ss);
+
+TT1=datetime(<span class="string">'now'</span>);
+procSeconds=seconds(TT1-TT)
+save(matfile,<span class="string">'-append'</span>,<span class="string">'procSeconds'</span>,<span class="string">'TT'</span>,<span class="string">'TT1'</span>)
+;
+load_ncFINAL(X.ncFINAL,matfile);
+sprintf(<span class="string">'Processed get_varTAS.m for Project: %s'</span>,X.PROJ)
+
+<span class="keyword">end</span>
+
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="comment">%</span>
+<span class="comment">% Calculate TAS components in aircraft coords at 50 Hz</span>
+<span class="comment">%</span>
+<span class="comment">%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%</span>
+<span class="keyword">function</span> [compx,compy,compz] = get_uvw(X,rate)
+
+RawPath=X.RawPath;
+TempUsed = X.TempUsed;
+PressUsed = X.PressUsed;
+<span class="comment">% 1000 Hz variable</span>
+[TEMPK] = getdata(RawPath,upper(TempUsed),rate)+273.15;
+[DPA] = getdata(RawPath,<span class="string">'DPA'</span>,rate);
+<span class="keyword">if</span>(mean(DPA)&lt;0)
+    DPA=-DPA;
+<span class="keyword">end</span>
+[DPB] = getdata(RawPath,<span class="string">'DPB'</span>,rate); <span class="comment">%reversed</span>
+DPB = - DPB; <span class="comment">% always</span>
+[DPR] = getdata(RawPath,<span class="string">'DPR'</span>,rate);
+[AIAS] = getdata(RawPath,<span class="string">'AIAS'</span>,rate);
+<span class="keyword">switch</span> PressUsed
+    <span class="keyword">case</span> <span class="string">'ps_hads_a'</span>
+        HADSA_VR  = getdata(RawPath,<span class="string">'HADSA_VR'</span>,rate);
+        HADSA_VT  = getdata(RawPath,<span class="string">'HADSA_VT'</span>,rate);
+        HADSA_PER = getdata(RawPath,<span class="string">'HADSA_PER'</span>,rate);
+        PMB = get_hads(X,<span class="string">'A'</span>,HADSA_VR,HADSA_VT,HADSA_PER);
+
+    <span class="keyword">case</span> <span class="string">'ps_hads_b'</span>
+        HADSB_VR  = getdata(RawPath,<span class="string">'HADSB_VR'</span>,rate);
+        HADSB_VT  = getdata(RawPath,<span class="string">'HADSB_VT'</span>,rate);
+        HADSB_PER = getdata(RawPath,<span class="string">'HADSB_PER'</span>,rate);
+        PMB = get_hads(X,<span class="string">'B'</span>,HADSB_VR,HADSB_VT,HADSB_PER);
+
+    <span class="keyword">case</span> <span class="string">'WDPM'</span>
+        PMB = getdata(RawPath,<span class="string">'WDPM'</span>,rate);
+
+    <span class="keyword">case</span> <span class="string">'ps_CPT6140'</span>
+        PMB = getdata(RawPath,<span class="string">'PRES6140'</span>,rate);
+
+    <span class="keyword">otherwise</span>
+        <span class="string">'blurf'</span>
+<span class="keyword">end</span>
+
+ii=find(PMB&gt;=300 | ~isnan(PMB));
+PMB = interp1(ii,PMB(ii),1:numel(PMB),<span class="string">'spline'</span>,300)';
+
+[pcorc,q_impact,tb,ta] = cone_pcor(AIAS,DPB,DPA,DPR,PMB);
+ii=find(q_impact&gt; 50 |  ~isnan(q_impact));
+q_impact = interp1(ii,q_impact(ii),1:numel(q_impact),<span class="string">'spline'</span>,10)';
+
+[TasHR]=tasf(q_impact,PMB,TEMPK); <span class="comment">% m/s</span>
+ii=find(TasHR&gt;=50 | ~isnan(TasHR));
+TasHR = interp1(ii,TasHR(ii),1:numel(TasHR),<span class="string">'spline'</span>,10)';
+
+va=tas2va(TasHR,atan(ta),atan(tb));
+
+compx = va(:,1);
+compy = va(:,2);
+compz = va(:,3);
+
+<span class="keyword">end</span>
+</pre>
+<pre class="codeoutput error">Not enough input arguments.
+
+Error in get_varTAS (line 12)
+    Time = ncread(X.RawPath,'Time');
+                  ^^^^^^^^^</pre>
+<p class="footer">
+<br>
+<a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2025b</a>
+<br>
+</p>
+</div>
+<!--
+##### SOURCE BEGIN #####
+function get_varTAS(X)
+
+% This might be needed
+clear ncinfo ncreadatt ncwriteatt ncread
+close all
+
+% Load time vector to reference length
+try
+    Time=ncread(X.RawPath,'time');
+    rawTimeVar = 'time';
+catch
+    Time = ncread(X.RawPath,'Time');
+    rawTimeVar = 'Time';
+end
+
+% Make sure ncFINAL exists
+try
+    test=ncinfo(X.ncFINAL);
+catch
+    error('get_varTAS:  X.ncFINAL does not exist'); 
+end
+
+% Variables to be used in TAS etc.
+PressUsed = X.PressUsed;
+TempUsed = X.TempUsed;
+PitotUsed =  X.PitotUsed;
+
+TT=datetime('now');
+% Physical constants structure
+C=phycon;
+Tzero=C.Tzero;
+
+% Get raw variables needed for tas group
+%
+orate=X.procRate;
+Rate=orate;
+rawfile=X.RawPath;
+
+%  Need TAS and temp and pressure groups
+%  See column names on Ptable structure
+P = X.Ptable;
+colNames = P.Properties.VariableNames;
+wantNames={'TAS', 'HADS', 'CPT', 'WESTON'};
+mask = false(size(colNames));
+for p = wantNames
+    mask = mask | contains(colNames, p{1});
+end
+GROUPS = colNames(mask);
+% Use pivot table and raw mapping table to get 
+% 1. variables to be calculated;
+% 2. raw measurements needed from *_raw.nc
+[arcNames, rawNames] = getVarsAndRawNames(X.Ptable, GROUPS, X.Ttable);
+
+if ismember(GROUPS,'HADS')
+    matTAS=fullfile(X.tempdir,sprintf("%s_HADS.mat", X.BaseName));
+    load(matTAS,'ps_hads_a','ps_hads_b');
+end
+if ismember(GROUPS,'CPT')
+    matTAS=fullfile(X.tempdir,sprintf("%s_CPT.mat", X.BaseName));
+    load(matTAS,'CPT6140','CPT9000','TEMP9000');
+end
+
+% Get the necessary variables from the _raw.nc file; change rate
+rawfile = X.RawPath;
+for ii=1:length(rawNames)
+    var1=rawNames(ii);
+    ss=sprintf("blurf=ncread(rawfile,'%s');",var1);
+    try
+        eval(ss)
+    catch
+        {var1 'not found'}
+        continue
+    end
+    [irate,dims,frate]=get_irate(rawfile,var1,orate);
+    if(irate>1)
+        [ninterp,ndecim]=interp_decim(irate,orate);
+        j=find(~isnan(blurf));
+        blurf=blurf(:);
+        blurf=interp1(j,blurf(j),[1:numel(blurf)],[],0);
+        blurf=changeRate(Ninterp(blurf,ninterp),ndecim,'FIR',X.FillValue);
+    else
+        ninterp=1;
+        ndecim=1;
+    end
+    ss=sprintf("%s=blurf(:);",var1);eval(ss);
+end
+
+%  See which are available
+Pressures = {};
+% HADSA
+if exist('HADSA_PER','var') & ~isempty(HADSA_PER)
+    ps_hads_a=get_hads(X,'A',HADSA_VR,HADSA_VT,HADSA_PER);
+    Pressures{end+1} = {'ps_hads_a'};
+else
+    ps_hads_a = zeros(size(BIAS)); 
+end
+% HADSB
+if exist('HADSB_PER','var') & ~isempty(HADSB_PER)
+    ps_hads_b=get_hads(X,'B',HADSB_VR,HADSB_VT,HADSB_PER);
+    Pressures{end+1} = {'ps_hads_b'};
+else
+    ps_hads_b = zeros(size(BIAS)); 
+end
+% WESTON WDPM
+if exist('WDPM','var') & ~isempty(WDPM)
+    ps_weston=WDPM;
+    Pressures{end+1} = {'ps_weston'};
+else
+    ps_weston = zeros(size(BIAS)); 
+end
+% CPT 6140
+if exist('PRES6140','var') & ~isempty(PRES6140)
+    ps_CPT6140=PRES6140;
+    Pressures{end+1} = {'ps_CPT6140'};
+else
+    ps_CPT6140 = zeros(size(BIAS)); 
+end
+% CPT 9000 pressure
+if exist('PRES9000','var') & ~isempty(PRES9000)
+    ps_CPT9000=PRES9000;
+    Pressures{end+1} = {'ps_CPT9000'};
+else
+    ps_CPT9000 = zeros(size(BIAS));
+end
+% CPT 9000 temperature
+if exist('TEMP9000','var') & ~isempty(TEMP9000)
+    temp_CPT9000=TEMP9000;
+else
+    temp_CPT9000 = zeros(size(BIAS));
+end
+
+% Which should be used (call it PSM)
+varUsed=[];
+Pressures = string(Pressures);
+jj = find(matches(Pressures,PressUsed));
+ss = sprintf("PSM = %s;",Pressures{jj});
+eval(ss);
+
+% Indicated airspeeds [knots]
+aias=q2ias(AIAS);
+bias=q2ias(BIAS);
+
+% humidity (TDPEDGE or TDPEGG (EG&G)dbcont
+if(cell_find(arcNames,'tdp'))
+    try
+        tdp=TDPEDGE; % in centigrade
+        ncwriteatt(X.ncFINAL,'tdp','Sensor','Edgetech');
+    catch
+        try % OK, try this
+            blurf=ncread(X.RawPath,'TDP');TDP=blurf(:);
+            tdp=TDP; %  EG&G
+            ncwriteatt(X.ncFINAL,'tdp','Sensor','EG&G');
+        catch
+            "getvarTAS: No depoint found"
+            return
+        end
+    end
+    kk=find(tdp<0);
+    tdp0=tdp;
+    tdp1=tdp;
+    % Assume Frost Point sensed if tdp<0 C
+    if(~isempty(kk))
+        tdp(kk) = dew(tdp(kk)); % Frost point is sensed
+        % tdp1(kk) = frostpoint_to_dewpoint(tdp1(kk));
+    end
+    TDPK=tdp+Tzero;
+end
+
+% Air speed vector and pressure correction
+% get flow angles and static pressure correction
+%
+if(mean(DPA)<0); %Sanity check
+    DPA=-DPA;
+end
+DPB=-DPB; % Always
+
+% Attitude angles and pressure correction (Sys09 version)
+% addpath(fullfile(X.Source,'mfiles858','mfiles858_0'));
+% These are from Sys09
+rmpath(fullfile(X.Repo,'Sys26','Old-files-keep-for-now'));
+addpath(fullfile(X.Repo,'Sys26','Old-files-keep-for-now/mfiles858_0'));
+kk = find( ~isnan(AIAS) & ~isinf(AIAS) & AIAS>0);
+AIAS = interp1(kk,AIAS(kk),[1:numel(AIAS)]','spline',0);
+kk = find( ~isnan(DPR) & ~isinf(DPR) & DPR>0);
+DPR = interp1(kk,DPR(kk),[1:numel(DPR)]','spline',0);
+kk = find( ~isnan(TRF+Tzero) & ~isinf(TRF+Tzero) & TRF+Tzero>0);
+TRF = interp1(kk,TRF,[1:numel(TRF)]','spline',0);
+
+TA = tanAlpha(DPA,DPB,DPR);
+TB = tanBeta(DPB,DPR);
+alpha=atan(TA); % radians
+beta=atan(TB);
+%  Matlab has function alpha and beta.  Next is a workaround
+alphaa = alpha;
+betaa = beta;
+% Output variables
+dpb=DPB;
+dpa=DPA;
+dpr=DPR;
+
+% R858 flow angle calibration factors
+[pitoff,rolloff,hedoff,bfactor,afactor,Qfactor] = AV410_factors(X.ncFINAL);
+% 
+% Mixing Ratio:
+mr=0;
+vaporPressure=sat_vapor_pressure_GG(TDPK); % Use Goff-Gratch
+%  Iteration needed for higher humidity levels
+%     since mr needed for boom_pcor
+for jj=1:3
+    boom_pcor = cone_pcor(AIAS,DPB,DPA,DPR,PSM,mr);
+    mr=(C.Mv./C.Md).*vaporPressure./(PSM - boom_pcor - vaporPressure); % g/g
+    mean(mr)
+end
+[boom_pcor,qc0,fcoef] = cone_pcor(AIAS,DPB,DPA,DPR,PSM,mr);
+q_impact = qc0 * (1+Qfactor);  % This is a residual residual static error
+
+% Apply pressure corrections
+for jj=1:numel(Pressures);
+    if(exist(Pressures{jj}))
+        ss=sprintf("%s = %s - boom_pcor;",Pressures{jj},Pressures{jj});
+        eval(ss)
+    end
+end
+
+% Compute moist-air thermodynamic and airspeed quantities using measured:
+%   - Ps_meas  : Measured static pressure (hPa)PSX
+%   - Pt       : Pitot (total) pressure (hPa)
+%   - Tm       : Measured probe temperature (K)
+%   - r        : Probe recovery factor (dimensionless, required)
+%   - Td       : Dewpoint temperature (K)
+% Static-pressure correction (name,value pair)
+%   "dPs_corr", pcor
+% q_impact is impact (stagnation) pressure 
+% q_dyn = dynamic pressure = 1/2*rho*V^2;
+% q_dyn = q_impact if incompressible.
+PSX = PSM - boom_pcor;
+
+% Total pressure 
+%  Pt = q_impact + Ps;
+pTotal = q_impact + PSX; % 
+
+clear TASX
+% Get moist air properties and airspeeds
+if exist("TRF")
+    %recovery factor
+    r=0.6425;
+    Tmeas = TRF + Tzero; % Uncorrected
+    ADatTRF = airdata(PSM, pTotal, Tmeas, r, TDPK, "dPs_corr",boom_pcor);
+    trf = ADatTRF.Ts;
+    if X.TempUsed == 'trf'
+        ADat = ADatTRF;
+        TEMPX = trf;
+        TASX = ADat.TAS;
+    end
+    units=ncreadatt(X.ncFINAL,'trf','units');
+    trf=convertUnits(trf,ADat.units.Ts,units);
+end
+if exist("TROSE")
+    %recovery factor
+    r=0.97;
+    Tmeas = TROSE + Tzero; % Uncorrected
+    ADatTROSE = airdata(PSM, pTotal, Tmeas, r, TDPK, "dPs_corr",boom_pcor);
+    trose = ADatTROSE.Ts;
+    if X.TempUsed == 'trose'
+        ADat = ADatTROSE;
+        TEMPX = trose;
+        TASX = ADat.TAS;
+    end
+    units=ncreadatt(X.ncFINAL,'trose','units');
+    trose=convertUnits(trose,ADat.units.Ts,units);
+end
+
+% Sanity check
+if ~exist("TASX")
+    error("get_varTAS:  No TempUsed variable found")
+end
+
+units=ncreadatt(X.ncFINAL,'tas','units');
+tas = convertUnits(TASX,ADat.units.TAS,units);
+
+% Pressure altitude
+PALT = ADat.Zp;
+    units=ncreadatt(X.ncFINAL,'PALT','units');
+    PALT = convertUnits(PALT,ADat.units.Zp,units);
+% Relative Humidity 
+    rh = ADat.RH; % fraction
+    units=ncreadatt(X.ncFINAL,'rh','units');
+    if units == 'percent' & ADat.units.RH == "1"
+        rh = rh.*100;
+    end
+% Mixing Ratio: leave as kg/kg  for  now
+    mr = ADat.w; % kg/kg
+    units=ncreadatt(X.ncFINAL,'mr','units');
+    mr = convertUnits(mr,ADat.units.w,'kg/kg');
+% Dry theta
+    thetad = ADat.thetad;
+    units=ncreadatt(X.ncFINAL,'thetad','units');
+    thetad = convertUnits(thetad,ADat.units.thetad,'Kelvin');
+% Thetae
+    thetae = ADat.theta_e;
+    units=ncreadatt(X.ncFINAL,'thetae','units');
+    thetae = convertUnits(thetae,ADat.units.theta_e,'Kelvin');
+% Lifted Condensation Level LCL temp and pressure
+    TLCL = ADat.TLCL;
+    units=ncreadatt(X.ncFINAL,'TLCL','units');
+    TLCL = convertUnits(TLCL,ADat.units.TLCL,'Kelvin');
+    PLCL = ADat.PLCL;
+    units=ncreadatt(X.ncFINAL,'PLCL','units');
+    PLCL = convertUnits(PLCL,ADat.units.PLCL,'hPa');
+
+ncwriteatt(X.ncFINAL,'tas','TempUsed',X.TempUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'tas','PressUsed',X.PressUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'TASX','TempUsed',X.TempUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'TASX','PressUsed',X.PressUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'thetad','PressUsed',X.PressUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'thetae','TempUsed',X.TempUsed,'Datatype','char');
+ncwriteatt(X.ncFINAL,'thetae','PressUsed',X.PressUsed,'Datatype','char');
+
+% Eddy Dissipation Rate from TAS
+%
+% Get TAS components @ 50 Hz from raw.nc file
+fs50 = 50;
+fny=fs50/2;
+f1 = 10;
+f2 = 25;
+
+%  Estimate Eddy Dissipation Rate ^ 1/3 power at 1 Hz;
+[tasx,tasy,tasz] = get_uvw(X,fs50); % aircraft-relative TAS components
+Tas = rssq([tasx,tasy,tasz],2); % root sum of squares
+[epsiux,epsivy,epsiwi,varhatu,varhatv,varhatw,uwf,vwf] = ...
+    EddyDissipationRate(Tas,tasx,tasy,tasz,f1,f2,fs50);
+edrTAS=epsiwi.^.333;
+
+%%%% New boom measurements
+    randz = randn(size(TASX));
+    dp1New858 = randz;
+    dp2New858 = randz;
+    psaNew858 = randz;
+    psbNew858 = randz;
+    ptbNew858 = pTotal;
+    dpnNew858 = dpra_sim(fcoef,q_impact,TA,TB);
+%%%%%%%%%%%%%%%%
+
+Rate=X.procRate;Sps_hads_a=sprintf('sps%i',Rate);
+time=ncread(X.RawPath,rawTimeVar);
+xlsfile=fullfile(X.Source,X.PROJ,'../config/defines3.xlsx');
+
+Rate=X.procRate;
+SPS=sprintf('sps%i',Rate);
+time=ncread(X.RawPath,rawTimeVar);
+
+[irate,dims,frate]=get_irate(X.ncFINAL,'tas',X.procRate);
+
+ss1="'orate','Rate','rawfile','arcNames','rawNames','alphaa','betaa','TEMPX','PSX','Time','ss1'";
+for ii=1:numel(arcNames);
+    if(numel(arcNames{ii})>1)
+        ss1=sprintf("%s,'%s'",ss1,arcNames{ii});
+    end
+end
+
+% Write variables out to matfile
+matfile=fullfile(X.tempdir,sprintf("%s_TAS.mat",X.BaseName));
+delete(matfile)
+
+ss=sprintf("save(matfile,%s);",ss1);
+eval(ss);
+
+TT1=datetime('now');
+procSeconds=seconds(TT1-TT)
+save(matfile,'-append','procSeconds','TT','TT1')
+;
+load_ncFINAL(X.ncFINAL,matfile);
+sprintf('Processed get_varTAS.m for Project: %s',X.PROJ)
+
+end
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Calculate TAS components in aircraft coords at 50 Hz
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [compx,compy,compz] = get_uvw(X,rate)
+
+RawPath=X.RawPath;
+TempUsed = X.TempUsed;
+PressUsed = X.PressUsed;
+% 1000 Hz variable
+[TEMPK] = getdata(RawPath,upper(TempUsed),rate)+273.15;
+[DPA] = getdata(RawPath,'DPA',rate);
+if(mean(DPA)<0)
+    DPA=-DPA;
+end
+[DPB] = getdata(RawPath,'DPB',rate); %reversed
+DPB = - DPB; % always
+[DPR] = getdata(RawPath,'DPR',rate);
+[AIAS] = getdata(RawPath,'AIAS',rate); 
+switch PressUsed
+    case 'ps_hads_a'
+        HADSA_VR  = getdata(RawPath,'HADSA_VR',rate);
+        HADSA_VT  = getdata(RawPath,'HADSA_VT',rate);
+        HADSA_PER = getdata(RawPath,'HADSA_PER',rate);
+        PMB = get_hads(X,'A',HADSA_VR,HADSA_VT,HADSA_PER);
+
+    case 'ps_hads_b'
+        HADSB_VR  = getdata(RawPath,'HADSB_VR',rate);
+        HADSB_VT  = getdata(RawPath,'HADSB_VT',rate);
+        HADSB_PER = getdata(RawPath,'HADSB_PER',rate);
+        PMB = get_hads(X,'B',HADSB_VR,HADSB_VT,HADSB_PER);
+
+    case 'WDPM'
+        PMB = getdata(RawPath,'WDPM',rate);
+
+    case 'ps_CPT6140'
+        PMB = getdata(RawPath,'PRES6140',rate);
+
+    otherwise
+        'blurf'
+end
+
+ii=find(PMB>=300 | ~isnan(PMB));
+PMB = interp1(ii,PMB(ii),1:numel(PMB),'spline',300)';
+
+[pcorc,q_impact,tb,ta] = cone_pcor(AIAS,DPB,DPA,DPR,PMB);
+ii=find(q_impact> 50 |  ~isnan(q_impact));
+q_impact = interp1(ii,q_impact(ii),1:numel(q_impact),'spline',10)';
+
+[TasHR]=tasf(q_impact,PMB,TEMPK); % m/s
+ii=find(TasHR>=50 | ~isnan(TasHR));
+TasHR = interp1(ii,TasHR(ii),1:numel(TasHR),'spline',10)';
+
+va=tas2va(TasHR,atan(ta),atan(tb));
+
+compx = va(:,1);
+compy = va(:,2);
+compz = va(:,3);
+
+end
+
+
+
+##### SOURCE END #####
+-->
+</body>
+</html>

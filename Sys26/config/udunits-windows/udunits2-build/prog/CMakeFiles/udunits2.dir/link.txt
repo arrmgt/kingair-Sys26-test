@@ -1,0 +1,3 @@
+"C:\Program Files\mingw64\bin\cmake.exe" -E rm -f CMakeFiles\udunits2.dir/objects.a
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\ar.exe qc CMakeFiles\udunits2.dir/objects.a @CMakeFiles\udunits2.dir\objects1.rsp
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc.exe -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\udunits2.dir/objects.a -Wl,--no-whole-archive -o udunits2.exe -Wl,--out-implib,libudunits2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\udunits2.dir\linkLibs.rsp

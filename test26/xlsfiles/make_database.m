@@ -10,7 +10,7 @@ function make_database(textFile)
 
 dbFile = 'variablesXX.db'; % Created db file (e.g. variablesXX.db)
 tableName = 'variables'; % Table name (e.g. 'variables');
-configDir = './'; % Set the configuration directory for file paths
+configDir = pwd; % Set the configuration directory for file paths
 
 %% Parse file into a table T (multiple variable blocks supported)
 txt = fileread(fullfile(configDir,textFile));
@@ -136,4 +136,5 @@ tarName=fullfile(configDir,"tables.tar");
 fclose('all');
 pause(0.5);
 delete(tarName)
-tar(tarName,{'PROCESSED-VARS.xlsx','RAW-VARS.xlsx','variablesXX.db'});
+names = tar(tarName,{'PROCESSED-VARS.xlsx','RAW-VARS.xlsx','variablesXX.db'});
+end

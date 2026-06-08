@@ -26,6 +26,8 @@ reclen=10;
 fid=fopen(fname,'r');
 x0=fread(fid,'real*8');
 [mm,nn0]=size(x0');
-nn=floor(nn0/reclen)*reclen;
-x=reshape(x0(1:nn)',reclen,nn/reclen);
+nn=floor(nn0/reclen);
+x=reshape(x0(1:nn*reclen)',reclen,nn);
 fid=fclose(fid);
+
+end

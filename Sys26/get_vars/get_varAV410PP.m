@@ -57,16 +57,16 @@ Rate=orate;
 [mm,nn]=size(imudata);
 nImuVar=mm;
 GPSTime0=imudata(1,:)';
-Lat0=imudata(2,:)'*180./pi;  
-Lon0=imudata(3,:)'*180./pi;  
+Lat0=imudata(2,:)';  
+Lon0=imudata(3,:)';  
 Ell0=imudata(4,:)';  
 VX0=imudata(5,:)';
 VY0=imudata(6,:)';
 VZ0=imudata(7,:)';   
-Roll0=imudata(8,:)'*180./pi;
-Pitch0=imudata(9,:)'*180./pi;
-PlatformHead0=imudata(10,:)'*180./pi;
-WanderAngle0=imudata(11,:)'*180./pi;
+Roll0=imudata(8,:)';
+Pitch0=imudata(9,:)';
+PlatformHead0=imudata(10,:)';
+WanderAngle0=imudata(11,:)';
 Xaccel0=imudata(12,:)';
 Yaccel0=imudata(13,:)';
 Zaccel0=imudata(14,:)';
@@ -97,48 +97,58 @@ G = aircraftTime2gpsTime(time,GPSunits,GPSformat);
 weekStart = G.week(1);
 tow1 = G.gpsSeconds - weekStart * 604800;
 
-deltat=1/200;
+PPrate = 200;
+deltat=1/PPrate;
 t_ac_gps = [(tow1(1):deltat:(tow1(end)+1-deltat)) - G.leapSeconds(1)]';
 t01=t_ac_gps;  % aircraft GPS time
 t00=imudata(1,:)'; % Applanix GPS time
 
 % Syncronize aircraft and GPS times
-Lat=interp1(t00,Lat0,t01,'nearest',0);
-Lon=interp1(t00,Lon0,t01,'nearest',0);
-Ell=interp1(t00,Ell0,t01,'nearest',0);
-VX=interp1(t00,VX0,t01,'nearest',0);
-VY=interp1(t00,VY0,t01,'nearest',0);
-VZ=interp1(t00,VZ0,t01,'nearest',0);
-Roll=interp1(t00,Roll0,t01,'nearest',0);
-Pitch=interp1(t00,Pitch0,t01,'nearest',0);
-PlatformHead=interp1(t00,PlatformHead0,t01,'nearest',0);
-WanderAngle=interp1(t00,WanderAngle0,t01,'nearest',0);
-Xaccel=interp1(t00,Xaccel0,t01,'nearest',0);
-Yaccel=interp1(t00,Yaccel0,t01,'nearest',0);
-Zaccel=interp1(t00,Zaccel0,t01,'nearest',0);
-Xangr=interp1(t00,Xangr0,t01,'nearest',0);
-Yangr=interp1(t00,Yangr0,t01,'nearest',0);
-Zangr=interp1(t00,Zangr0,t01,'nearest',0);
+Lat=interp1(t00,Lat0,t01,'pchip',0);
+Lon=interp1(t00,Lon0,t01,'pchip',0);
+Ell=interp1(t00,Ell0,t01,'pchip',0);
+VX=interp1(t00,VX0,t01,'pchip',0);
+VY=interp1(t00,VY0,t01,'pchip',0);
+VZ=interp1(t00,VZ0,t01,'pchip',0);
+Roll=interp1(t00,Roll0,t01,'pchip',0);
+Pitch=interp1(t00,Pitch0,t01,'pchip',0);
+PlatformHead=interp1(t00,PlatformHead0,t01,'pchip',0);
+WanderAngle=interp1(t00,WanderAngle0,t01,'pchip',0);
+Xaccel=interp1(t00,Xaccel0,t01,'pchip',0);
+Yaccel=interp1(t00,Yaccel0,t01,'pchip',0);
+Zaccel=interp1(t00,Zaccel0,t01,'pchip',0);
+Xangr=interp1(t00,Xangr0,t01,'pchip',0);
+Yangr=interp1(t00,Yangr0,t01,'pchip',0);
+Zangr=interp1(t00,Zangr0,t01,'pchip',0);
 
-% True heading and ground velocities from platform and wander angles
-Head=PlatformHead-WanderAngle;
-swa=sin(WanderAngle*pi/180.);
-cwa=cos(WanderAngle*pi/180.);
+% The standard navigation record casts the computed velocity 
+% in a wander angle frame that is locally level but not necessarily 
+% aligned with true North. If the X‐axis of the wander angle frame 
+% points North, then the Y‐axis points West and the Z‐axis points Up. 
+% The standard navigation record includes the wander angle that allows 
+% transformation of the computed velocity components to 
+% North, East and Up, shown below:
+%
+% PlatformHeading is sometimes noisy
+H0 = unwrap(PlatformHead-WanderAngle); %True Heading
+[x,TFrm,TFoutlier] = rmoutliers(H0,'movmedian',100*PPrate);
+zz = find(~TFoutlier);
+Head = wrap(interp1(zz,H0(zz),[1:numel(H0)]','spline'));
+swa=sin(WanderAngle);
+cwa=cos(WanderAngle);
 VNorth=VX.*cwa-VY.*swa;
 VEast=-VX.*swa-VY.*cwa;
 VUp=VZ;
 
-AV_lat=Lat;
-AV_lon=Lon;
+AV_lat=Lat * 180/pi;
+AV_lon=Lon * 180/pi;
 AV_Ell=Ell;
 AV_Roll=Roll;
 AV_Pitch=Pitch;
 AV_Head=Head;
-hh=find(AV_Head<0);
-AV_Head(hh)=AV_Head(hh)+360;    
 AV_vew=VEast;
 AV_vns=VNorth;
-AV_vz=VUp;
+AV_vz= VUp; 
 AV_pitchr=Yangr;
 AV_rollr=Xangr;
 AV_yawr=Zangr;
@@ -151,34 +161,46 @@ nn=1:nac;
 kkfill=find(AV_norma==0); %indices of filled values
 kknotfill=setxor(nn,kkfill); % not filled 
 
-AVewvel=decimateByFactors(Ninterp(AV_vew,ninterp,'linear',0),ndecim,'FIR',0);
-AVnsvel=decimateByFactors(Ninterp(AV_vns,ninterp,'linear',0),ndecim,'FIR',0);
-AVzvel=decimateByFactors(Ninterp(AV_vz,ninterp,'linear',0),ndecim,'FIR',0);
+AVewvel = changeRate(AV_vew,irate,orate);
+AVnsvel = changeRate(AV_vns,irate,orate);
+AVzvel  = changeRate(AV_vz, irate,orate);
 
-AVroll=decimateByFactors(Ninterp(AV_Roll,ninterp,'linear',0),ndecim,'FIR',0);
-AVpitch=decimateByFactors(Ninterp(AV_Pitch,ninterp,'linear',0),ndecim,'FIR',0);
+% aircraft coords, z down
+AVzvel=-AVzvel;
+
+AVroll  = changeRate(AV_Roll, irate,orate);
+AVpitch = changeRate(AV_Pitch,irate,orate);
 
 % wrapped variables treated differently
-AVlat=changeRateWrapped(AV_lat,ninterp,ndecim,'degree');
-LAT=AVlat;
-LATC=AVlat;
+sin1    = changeRate(sin(AV_lat.*pi/180),irate,orate);
+cos1    = changeRate(cos(AV_lat.*pi/180),irate,orate);
+AVlat   = atan2(sin1,cos1).*180/pi;
 
-AVlon=changeRateWrapped(AV_lon,ninterp,ndecim,'degree');
-if(AVlon >180); % make -180:180
-    AVlon=AVlon-360;
-end
-LON=AVlon;
-LONC=AVlon;
+sin1    = changeRate(sin(AV_lon.*pi/180),irate,orate);
+cos1    = changeRate(cos(AV_lon.*pi/180),irate,orate);
+AVlon   = atan2(sin1,cos1)*180/pi;
+AVlon   = wrapTo180(AVlon);
 
-AVthead=changeRateWrapped(AV_Head,ninterp,ndecim,'degree');
+sin1    = changeRate(sin(AV_Head),irate,orate);
+cos1    = changeRate(cos(AV_Head),irate,orate);
+AVthead = atan2(sin1,cos1);
 
-% Ellipsoid heihgt
-AVzell=decimateByFactors(Ninterp(AV_Ell,ninterp,'linear',0),ndecim,'FIR',0);
+
+% Ellipsoid height
+AVzell=changeRate(AV_Ell,irate,orate);
 
 % MSL Height
-zgeoid=get_geoid(X.egm,AVlat,AVlon,0);
-AVzmsl=AVzell-zgeoid;
-AVzmsl(AVlat==0)=0;
+% MSL Height
+zgeoid = get_geoid(X.egm,AVlat,AVlon,X.FillValue);
+AVzmsl = AVzell-zgeoid; % ellipsoid height - geoid of
+AValt  = AVzmsl;
+ALTX   = AVzmsl;
+
+% Ground Speed
+AVgs=sqrt(AVnsvel.^2+AVewvel.^2);
+
+% aircraft coords, z down
+AVzvel=-AVzvel;
 
 kk = find(AVlat == 0);
 AVewvel(kk) = 0;
@@ -187,20 +209,29 @@ AVnsvel(kk) = 0;
 kkk1=find(AVewvel~=0);
 % Track angle
 AVtrack=0*ones(size(AVewvel));
-AVtrack(kkk1)=atan2(AVewvel(kkk1),AVnsvel(kkk1)).*180/pi;
-jj=find(AVtrack(kkk1)<0);AVtrack(kkk1(jj))=AVtrack(kkk1(jj))+360;
+AVtrack(kkk1)=wrapTo360(atan2(AVewvel(kkk1),AVnsvel(kkk1)).*180/pi);
+
 
 % Ground speed
 AVgs=0*ones(size(AVewvel));
 AVgs(kkk1)=sqrt(AVewvel(kkk1).^2+AVnsvel(kkk1).^2);
 
-AVrollr=decimateByFactors(Ninterp(AV_rollr,ninterp,'linear',0),ndecim,'FIR',0);
-AVpitchr=decimateByFactors(Ninterp(AV_pitchr,ninterp,'linear',0),ndecim,'FIR',0);
-AVyawr=decimateByFactors(Ninterp(AV_yawr,ninterp,'linear',0),ndecim,'FIR',0);
+AVrollr=changeRate(AV_rollr,irate,orate);
+AVpitchr=changeRate(AV_pitchr,irate,orate);
+AVyawr=changeRate(AV_yawr,irate,orate);
 
-AVlonga=decimateByFactors(Ninterp(AV_longa,ninterp,'linear',0),ndecim,'FIR',0);
-AVlata=decimateByFactors(Ninterp(AV_lata,ninterp,'linear',0),ndecim,'FIR',0);
-AVnorma=decimateByFactors(Ninterp(AV_norma,ninterp,'linear',0),ndecim,'FIR',0);
+AVlonga=changeRate(AV_longa,irate,orate);
+AVlata=changeRate(AV_lata,irate,orate);
+AVnorma=changeRate(AV_norma,irate,orate);
+
+% NCAR/EOL "ncplot" needs these to plot X-Y track
+GALT = AVzmsl;
+GLON = AVlon;
+GLAT = AVlat;
+
+ALTX = AVzmsl;
+LONX = AVlon;
+LATX = AVlat;
 
 kkk2=find(AVlat~=0 & AVlon~=0);
 AVxdist=0*ones(size(AVlat));
@@ -220,7 +251,7 @@ if(MAP==0),%if matlab mapping toolbox not available
     MAPPROJ='simple';
     avxdist=(AVlat-glat0).*ckmdeg;
     AVydist=(AVlon-glon0).*ckmdeg.*cos(AVlatXX.*pi./180);
-else
+else,
     MAPPROJ='eqaazim';
     geoid=almanac('earth','ellipsoid','kilometers');
     wgs84 = wgs84Ellipsoid("m");;
@@ -231,15 +262,11 @@ else
     mstruct.origin=[glat0 glon0 0];
     mstruct.geoid=geoid;
     [AVxdist,AVydist]=projfwd(mstruct,AVlat,AVlon);
-end;
+end
 
 AVtopo = zeros(size(AVroll));
 AVzagl = zeros(size(AVroll));
 
-
-ALTX=AVzmsl;
-LATX=AVlat;
-LONX=AVlon;
 ncwriteatt(X.ncFINAL,'LATX','Sensor','Applanix post-processed');
 ncwriteatt(X.ncFINAL,'LONX','Sensor','Applanix post-processed');
 ncwriteatt(X.ncFINAL,'ALTX','Sensor','Applanix post-processed');
@@ -254,6 +281,10 @@ ncwriteatt(X.ncFINAL,'AVzagl','database','aster');
 %%%%%% Store store in output nc file
 %%%%%% All angle variables are in radians at this point
 
+AVpitch = AVpitch.*180/pi;
+AVroll = AVroll.*180/pi;
+AVthead = wrapTo2Pi(AVthead).*180/pi;
+
 ss1="'orate','Rate','rawfile','arcNames','rawNames','AVzell','AVzmsl','AVtrack','AVxdist','AVydist','Time'";
 for ii=1:numel(arcNames);
     if(numel(arcNames{ii})>1)
@@ -261,6 +292,7 @@ for ii=1:numel(arcNames);
         ss1=sprintf("%s,'%s'",ss1,arcNames{ii}); 
     end
 end
+
 
 % Write variables out to matfile
 matfile=fullfile(X.tempdir,sprintf("%s_AV410PP.mat",X.BaseName));

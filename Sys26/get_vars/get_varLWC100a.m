@@ -29,7 +29,7 @@ Var='LWC100'
 irate=1000;
 [ninterp,ndecim]=interp_decim(irate,orate);
 blurf=ncread(X.RawPath,Var);
-DMT=decimateByFactors(Ninterp(blurf(:),ninterp),ndecim,'FIR');
+DMT=changeRate(blurf(:),irate,orate);
 nmiss=0;
 ncwriteatt(X.ncFINAL,'lwc100','MissingValues',nmiss);
 

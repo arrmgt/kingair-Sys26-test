@@ -1,13 +1,30 @@
+[Warning: File 'fname' not found.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 38)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',38,0)">line 38</a>)] 
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
 
-RATE = 
+ans =
 
-    "25"
+    'cleaning up'
 
-Wrote 1953 rows to SQLite: .\variablesXX.db (table: variables)
+
+ans =
+
+    'done'
+
 
 ans = 
 
-    "X=do_batch26('20160830a_raw.nc','PROJ','radfire16','BaseOut','20160830a_arr','Rate',25)"
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
 
 
 X = 
@@ -15,48 +32,1168 @@ X =
   <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
 
          aster: "P:\MATLAB-DATA2\kingair_data\"
-       BaseOut: '20160830a_arr'
+       BaseOut: '_arr'
           Data: "P:\MATLAB-DATA2\kingair_data\"
-       DP1Used: "dp1_boom"
            egm: "P:\MATLAB-DATA2\kingair_data\"
      FillValue: -32767
          locPP: "av410out"
          ncLOC: 'Data'
-        POSPAC: 0
-     PressUsed: "ps_boom"
-          PROJ: 'radfire16'
-         QUsed: "q_boom_alpha"
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
           Rate: 25
-          Repo: "C:\Users\rodi\Github\kingair-Sys26-test"
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
     scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
            SYS: "windows"
-      TempUsed: "trose"
-       RawFile: '20160830a_raw.nc'
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 78)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',78,0)">line 78</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 79)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',79,0)">line 79</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 80)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',80,0)">line 80</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\utilities] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 81)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',81,0)">line 81</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 82)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',82,0)">line 82</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\gps_funs] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 83)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',83,0)">line 83</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 84)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',84,0)">line 84</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\mfiles858] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 85)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',85,0)">line 85</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\lwc301_funs] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 86)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',86,0)">line 86</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\vapor_press_functions] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 87)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',87,0)">line 87</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_windows] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 88)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',88,0)">line 88</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_linux] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('path', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m', 109)" style="font-weight:bold">path</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\path.m',109,0)">line 109</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('addpath', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m', 96)" style="font-weight:bold">addpath</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\general\addpath.m',96,0)">line 96</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 89)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',89,0)">line 89</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 53)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',53,0)">line 53</a>)] 
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 56)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',56,0)">line 56</a>)
+do_all(): PROJ test26
+} 
+do_all('RATE',25,'Source','kingair-Sys26-test')
+{do_all is not found in the current folder or on the MATLAB path, but exists in:
+    C:\Users\rodi\Github\kingair-Sys26-test
+    C:\Users\rodi\Github\kingair-Sys26-work
+    C:\Users\rodi\Github\GPS-Applanix\Applanix\test26
+
+Change the MATLAB current folder or add its folder to the MATLAB path.
+} 
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+cd ..
+do_all('RATE',25,'Source','kingair-Sys26-test')
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
       procRate: 25
 
 
 ans =
 
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',56,1)">56  </a>        error(sprintf("do_all(): PROJ %s",PROJ))
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+fullfile(Source,PROJ,'xlsfiles')
+
+ans = 
+
+    "c:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles"
+
+cd(fullfile(Source,PROJ,'xlsfiles'));
+make_database('variablesXX-1.txt');
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+cd(fullfile(Source,PROJ));
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+cleanup;
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+RUNS(ii)
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+dbstep
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 56)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',56,0)">line 56</a>)
+do_all(): PROJ test26
+} 
+cd ..
+do_all('RATE',25,'Source','kingair-Sys26-test')
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',56,1)">56  </a>        error(sprintf("do_all(): PROJ %s",PROJ))
+   cd(fullfile(Source,PROJ,'xlsfiles'));
+        make_database('variablesXX-1.txt')
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+        cd(fullfile(Source,PROJ));
+        cleanup;
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+RUNS(ii)
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+wpd
+{Unrecognized function or variable 'wpd'.
+} 
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+eval(RUNS(ii));
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Defaults0', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m', 26)" style="font-weight:bold">Defaults0</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',26,0)">line 26</a>)
+Problem with udunits
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 92)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',92,0)">line 92</a>)
+X = Defaults0(X);
+    ^^^^^^^^^^^^
+} 
+dbquit
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+cd ../Sys26/config/udunits-windows
+make_mex
+Verbose mode is on.
+... Looking for compiler 'MinGW64 Compiler (C)' ...
+... Looking for environment variable 'MW_MINGW64_LOC' ...Yes ('C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset').
+... Looking for file 'C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc.exe' ...Yes.
+... Looking for folder 'C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset' ...Yes.
+... Looking for environment variable 'MW_MINGW64_LOC' ...Yes ('C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset').
+... Executing command 'C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -dumpversion' ...Yes ('8.1.0').
+Found installed compiler 'MinGW64 Compiler (C)'.
+Set PATH = C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin;C:\Program Files\MATLAB\R2025b\extern\include\win64;C:\Program Files\MATLAB\R2025b\extern\include;C:\Program Files\MATLAB\R2025b\simulink\include;C:\Program Files\MATLAB\R2025b\lib\win64;C:\Users\rodi\AppData\Roaming\MobaXterm\slash\bin;C:\Users\rodi\AppData\Roaming\MobaXterm\slash\bin;C:\Users\rodi\AppData\Roaming\MobaXterm\slash\bin;C:\WINDOWS;C:\WINDOWS\system32;C:\Program Files\Python314\Scripts;C:\Program Files\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\PuTTY;C:\Program Files\MATLAB\R2025b\bin;C:\Program Files\MATLAB\R2025a\runtime\win64;C:\Program Files\MATLAB\R2025a\bin;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X64;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X86;C:\Program Files\dotnet;C:\Program Files (x86)\Common Files\Pulse Secure\TNC Client Plugin;C:\Program Files\netCDF 4.9.2\bin;C:\Program Files\Git\cmd;C:\Program Files\mingw64\bin;C:\Program Files\Git LFS;C:\Program Files\Tailscale;C:\Program Files\Python314\Scripts;C:\Program Files\Python314;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\PuTTY;C:\Program Files\MATLAB\R2025b\bin;C:\Program Files\MATLAB\R2025a\runtime\win64;C:\Program Files\MATLAB\R2025a\bin;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X64;C:\Program Files (x86)\Pulse Secure\VC142.CRT\X86;C:\Program Files\dotnet;C:\Program Files (x86)\Common Files\Pulse Secure\TNC Client Plugin;C:\Program Files\netCDF 4.9.2\bin;C:\Program Files\Git\cmd;C:\Program Files\mingw64\bin;C:\Program Files\Git LFS;C:\Users\rodi\AppData\Local\Microsoft\WindowsApps;C:\ProgramData\arr\GitHubDesktop\bin;C:\Users\rodi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\Python314\Scripts;C:\Users\rodi\AppData\Local\Pandoc;C:\WINDOWS\sysnative
+Set INCLUDE = C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\include;;
+Set LIB = C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\lib;;
+Set MW_TARGET_ARCH = win64;
+Set LIBPATH = C:\Program Files\MATLAB\R2025b\extern\lib\win64;
+Options file details
+-------------------------------------------------------------------
+	Compiler location: C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset
+	Options file: C:\Users\rodi\AppData\Roaming\MathWorks\MATLAB\R2025b\mex_C_win64.xml
+	CMDLINE2 : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -m64 -Wl,--no-undefined -shared -static -s -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/exportsmexfileversion.def" C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj   -ludunits2  -lexpat   -Ludunits2-build\lib  -Lexpat-install\lib   -L"C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -o mex_udunits2.mexw64
+	CC : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+	COMPILER : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+	DEFINES : -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE 
+	MATLABMEX : -DMATLAB_MEX_FILE 
+	CFLAGS : -fexceptions -fno-omit-frame-pointer
+	INCLUDE : -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64"
+	COPTIMFLAGS : -O2 -fwrapv -DNDEBUG
+	CDEBUGFLAGS : -g
+	LD : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+	LINKER : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+	LDTYPE : -shared -static
+	LDFLAGS : -m64 -Wl,--no-undefined
+	LINKEXPORT : -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/mexFunction.def"
+	LINKEXPORTVER : -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/exportsmexfileversion.def"
+	LIBLOC : C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64
+	LINKLIBS : -ludunits2  -lexpat   -Ludunits2-build\lib  -Lexpat-install\lib   -L"C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas
+	LDOPTIMFLAGS : -s
+	LDDEBUGFLAGS : -g
+	OBJEXT : .obj
+	LDEXT : .mexw64
+	SETENV : set COMPILER=C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+                set CXXCOMPILER=C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\g++
+                set COMPFLAGS=-c -fexceptions -fno-omit-frame-pointer -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE 
+                set CXXCOMPFLAGS=-c -fexceptions -fno-omit-frame-pointer -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -DMATLAB_MEX_FILE 
+                set OPTIMFLAGS=-O2 -fwrapv -DNDEBUG
+                set DEBUGFLAGS=-g
+                set LINKER=C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc
+                set CXXLINKER=C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\g++
+                set LINKFLAGS=-m64 -Wl,--no-undefined -shared -static -ludunits2 -llibudunits2  -lexpat -llibexpat   -Ludunits2-build\lib  -Lexpat-install\lib   -L"C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/mexFunction.def"
+                set LINKDEBUGFLAGS=-g
+                set NAME_OUTPUT=-o "%OUTDIR%%MEX_NAME%%MEX_EXT%"
+	MINGWROOT : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset
+	VERSION : 8.1.0
+	MATLABROOT : C:\Program Files\MATLAB\R2025b
+	ARCH : win64
+	SRC : "C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows\mex_udunits2.c";"C:\Program Files\MATLAB\R2025b\extern\version\c_mexapi_version.c"
+	OBJ : C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj;C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj
+	OBJS : C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj 
+	SRCROOT : C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows\mex_udunits2
+	DEF : C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.def
+	EXP : "mex_udunits2.exp"
+	LIB : "mex_udunits2.lib"
+	EXE : mex_udunits2.mexw64
+	ILK : "mex_udunits2.ilk"
+	TEMPNAME : mex_udunits2
+	EXEDIR : 
+	EXENAME : mex_udunits2
+	MANIFEST : "mex_udunits2.mexw64.manifest"
+	OPTIM : -O2 -fwrapv -DNDEBUG
+	LINKOPTIM : -s
+	CMDLINE1_0 : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -c -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG "C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows\mex_udunits2.c" -o C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj
+	CMDLINE1_1 : C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -c -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG "C:\Program Files\MATLAB\R2025b\extern\version\c_mexapi_version.c" -o C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj
+-------------------------------------------------------------------
+Building with 'MinGW64 Compiler (C)'.
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -c -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG "C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows\mex_udunits2.c" -o C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -c -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG "C:\Program Files\MATLAB\R2025b\extern\version\c_mexapi_version.c" -o C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj
+{ 
+  "bundle.symbolic_name" : "08d859c4-e208-4ecd-b335-5e4ed24f0005", 
+  "mw" : 
+  { 
+      "mex" : 
+      {
+          "apiVersion" : 0,
+          "release" : "R2025b",
+          "threadpoolSafe" : 0
+      }
+  } 
+}
+
+
+C:\Program Files\MATLAB\R2025b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_bundle.zip
+
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -m64 -Wl,--no-undefined -shared -static -s -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/exportsmexfileversion.def" C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj   -ludunits2  -lexpat   -Ludunits2-build\lib  -Lexpat-install\lib   -L"C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -o mex_udunits2.mexw64 -Wl,--format=binary -Wl,C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_bundle.zip -Wl,--format=default 
+Recompile embedded version with '-DMATLAB_MEXCMD_RELEASE=R2017b'
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -c -DMATLAB_DEFAULT_RELEASE=R2017b  -DUSE_MEX_CMD   -m64 -DMATLAB_MEX_FILE  -I"udunits-2.2.28\lib" -I"expat-install\include"  -I"C:\Program Files\MATLAB\R2025b/extern/include" -I"C:\Program Files\MATLAB\R2025b/simulink/include" -I"C:\Program Files\MATLAB\R2025b/extern\lib\win64\mingw64" -fexceptions -fno-omit-frame-pointer -O2 -fwrapv -DNDEBUG "C:\Program Files\MATLAB\R2025b\extern\version\c_mexapi_version.c" -o C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj -DMATLAB_MEXCMD_RELEASE=R2017b
+{ 
+  "bundle.symbolic_name" : "6ea07b85-5635-44de-a4bc-01f438d6c12e", 
+  "mw" : 
+  { 
+      "mex" : 
+      {
+          "apiVersion" : 730,
+          "release" : "R2025b",
+          "threadpoolSafe" : 0
+      }
+  } 
+}
+
+
+C:\Program Files\MATLAB\R2025b\bin\win64\usResourceCompiler3.exe --manifest-add C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_manifest.json --bundle-name mexVersioning --out-file C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_bundle.zip
+
+C:\ProgramData\MATLAB\SupportPackages\R2025b\3P.instrset\mingw_w64.instrset\bin\gcc -m64 -Wl,--no-undefined -shared -static -s -Wl,"C:\Program Files\MATLAB\R2025b/extern/lib/win64/mingw64/exportsmexfileversion.def" C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\mex_udunits2.obj C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\c_mexapi_version.obj   -ludunits2  -lexpat   -Ludunits2-build\lib  -Lexpat-install\lib   -L"C:\Program Files\MATLAB\R2025b\extern\lib\win64\mingw64" -llibmx -llibmex -llibmat -lm -llibmwlapack -llibmwblas -o mex_udunits2.mexw64 -Wl,--format=binary -Wl,C:\Users\rodi\AppData\Roaming\MobaXterm\slash\tmp\mex_3713703826416707_35132\\mw_mex_tempmex_bundle.zip -Wl,--format=default 
+MEX completed successfully.
+cd ../../..
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+do_all('RATE',25,'Source','kingair-Sys26-test')
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',56,1)">56  </a>        error(sprintf("do_all(): PROJ %s",PROJ))
+RUNS(ii)
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+eval(RUNS(ii))
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Defaults0', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m', 26)" style="font-weight:bold">Defaults0</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',26,0)">line 26</a>)
+Problem with udunits
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m', 92)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\test26\do_batch26.m',92,0)">line 92</a>)
+X = Defaults0(X);
+    ^^^^^^^^^^^^
+} 
+edit Defaults0
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+cd ..
+dbquit
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+do_all('RATE',25,'Source','kingair-Sys26-test')
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','_arr','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  <a href="matlab:helpPopup('struct')" style="font-weight:bold">struct</a> with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '_arr'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',25,1)">25  </a>    getenv("UDUNITS2_XML_PATH")
+dbstep
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',26,1)">26  </a>    error('Problem with udunits')
+dir(getenv("UDUNITS2_XML_PATH"))
+'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml' not found. Check the path or file permissions.
+dir('C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows')
+'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows' not found. Check the path or file permissions.
+dbquit
+ls
+
+.                   Xvalues.mat         do_batch26.m        global_atts.txt     run_batch.m         
+..                  cleanup.m           get_varAVAV410PP.m  probeConfig.m       xlsfiles            
+
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+
+edit do_batch26
+cd ..
+do_all('RATE',25,'Source','kingair-Sys26-test','REPO',fullfile(pwd,'..','..')
+ do_all('RATE',25,'Source','kingair-Sys26-test','REPO',fullfile(pwd,'..','..')
+                                                                              ↑
+{Invalid expression. When calling a function or indexing a variable, use parentheses. Otherwise, check for mismatched delimiters.
+} 
+do_all('RATE',25,'Source','kingair-Sys26-test','REPO',fullfile(pwd,'..','..'))
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 8)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',8,0)">line 8</a>)
+'REPO' is not a recognized parameter. For a list of valid name-value pair arguments, see the documentation for this function.
+} 
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+do_all('RATE',25,'Source','kingair-Sys26-test','REPO',fullfile(pwd,'..','..'))
+{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 8)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',8,0)">line 8</a>)
+'REPO' is not a recognized parameter. For a list of valid name-value pair arguments, see the documentation for this function.
+} 
+fullfile(pwd,'..','..')
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\..\..'
+
+fullfile(pwd,'..')
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test\..'
+
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+cd ..
+edit do_all
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github'
+
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github'
+
+cd kingair-Sys26-test
+edit do_all
+matlab.codetools.internal.edit.editRelativeNameOrOpen(['kingair'], ['C:\Users\rodi\Github\kingair-Sys26-test\do_all.m']);
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26-test'
+
+cd ..
+do_all()
+{do_all is not found in the current folder or on the MATLAB path, but exists in:
+    C:\Users\rodi\Github\kingair-Sys26-test
+    C:\Users\rodi\Github\kingair-Sys26-work
+    C:\Users\rodi\Github\GPS-Applanix\Applanix\test26
+
+Change the MATLAB current folder or add its folder to the MATLAB path.
+} 
+pwd
+
+ans =
+
+    'C:\Users\rodi\Github'
+
+cd kingair-Sys26-test
+do_all()
+    locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 78)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 79)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 80)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\utilities] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 81)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 82)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\gps_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 83)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 84)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\mfiles858] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 85)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\lwc301_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 86)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\vapor_press_functions] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 87)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_windows] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 88)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_linux] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 89)
+In do_all (line 58)] 
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using do_all (line 61)
+do_all(): PROJ test26
+} 
+[Warning: File 'fname' not found.] 
+[> In do_all (line 43)] 
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','kingair-Sys26-test_arrTest','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: 'kingair-Sys26-test_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 78)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 79)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 80)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\utilities] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 81)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 82)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\gps_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 83)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 84)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\mfiles858] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 85)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\lwc301_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 86)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\vapor_press_functions] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 87)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_windows] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 88)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_linux] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 89)
+In do_all (line 58)] 
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using do_all (line 61)
+do_all(): PROJ test26
+} 
+[Warning: File 'fname' not found.] 
+[> In do_all (line 43)] 
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','20260408a_arrTest','Rate',25)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20260408a_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: "C:\Users\rodi\Github\kingair-Sys26"
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 78)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 79)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 80)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\utilities] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 81)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 82)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\gps_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 83)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\av410imu] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 84)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\mfiles858] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 85)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\lwc301_funs] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 86)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\get_vars\vapor_press_functions] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 87)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_windows] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 88)
+In do_all (line 58)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits_linux] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 89)
+In do_all (line 58)] 
+
+ans =
+
+    'C:\Users\rodi\Github\kingair-Sys26\Sys26\config\udunits-windows\xml_files\udunits2.xml'
+
+{Error using do_all (line 61)
+do_all(): PROJ test26
+} 
+[Warning: File 'fname' not found.] 
+[> In do_all (line 44)] 
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','20260408a_arrTest','Rate',25,'Repo',REPO)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20260408a_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits_windows] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 88)
+In do_all (line 59)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits_linux] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 89)
+In do_all (line 59)] 
+
+ans =
+
     'Converted 75 deg Fahrenheit to Celsius, yielding 23.89 Celsius'
 
+isThereData? Trying group AV410PP ... OK
+isThereData? Trying group AV410RMS ... OK
 isThereData? Trying group AV410RT ... OK
+isThereData? Trying group AVWINDPP ... OK
 isThereData? Trying group AVWINDRT ... OK
-isThereData? Trying group CDP ... OK
-Updating suffixes for CDP =   ... SUCCESS
+isThereData? Trying group CDP ... Eliminated
 isThereData? Trying group CPT ... Eliminated
-isThereData? Trying group HADS ... OK
-isThereData? Trying group IRtemp ... OK
-isThereData? Trying group LICOR7000 ... OK
+isThereData? Trying group HADS ... Eliminated
+isThereData? Trying group IRtemp ... Eliminated
+isThereData? Trying group LICOR7000 ... Eliminated
 isThereData? Trying group LICOR7500 ... Eliminated
-isThereData? Trying group LWC100 ... OK
+isThereData? Trying group LWC100 ... Eliminated
 isThereData? Trying group LWC301 ... Eliminated
 isThereData? Trying group MISC ... OK
-isThereData? Trying group NEVZOROV ... OK
+isThereData? Trying group NEVZOROV ... Eliminated
 isThereData? Trying group PCASP1 ... Eliminated
 isThereData? Trying group PCASP2 ... Eliminated
 isThereData? Trying group TAS ... OK
 isThereData? Trying group TIME ... OK
-isThereData? Trying group WESTON ... OK
+isThereData? Trying group WESTON ... Eliminated
 make_schema: trying ...Working...SUCCESS!
 
 ans =
@@ -66,7 +1203,7 @@ ans =
 
 procSeconds =
 
-    0.3482
+    0.9336
 
 
 ans =
@@ -83,56 +1220,15 @@ Writing Time ... OK
 
 ans =
 
-    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_TIME.mat'
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TIME.mat'
 
 
 ans =
 
-    'Processed get_varTIME.m for Project: radfire16'
+    'Processed get_varTIME.m for Project: test26'
 
-
-procSeconds =
-
-   10.3253
-
-
-ans =
-
-     0
-
-Writing ps_hads_a ... OK
-Writing ps_hads_b ... OK
-
-ans =
-
-    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_HADS.mat'
-
-
-ans =
-
-    'Processed get_varHADS.m for Project: radfire16'
-
-
-procSeconds =
-
-    0.1767
-
-
-ans =
-
-     0
-
-Writing ps_weston ... OK
-
-ans =
-
-    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_CPT.mat'
-
-
-ans =
-
-    'Processed get_varCPT.m for Project: radfire16'
-
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
 
 ans =
 
@@ -176,87 +1272,1771 @@ Writing avzvel ... OK
 
 ans =
 
-    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\radfire16\temp\20160830a_arr_AV410RT.mat'
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RT.mat'
 
 
 procSeconds =
 
-   11.4758
+   15.1947
 
 
 ans =
 
-    'Processed get_varAV410RT.m for Project: radfire16'
-
-{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('netcdf.getVar', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+netcdf\getVar.m', 204)" style="font-weight:bold">netcdf.getVar</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+netcdf\getVar.m',204,0)">line 204</a>)
+    'Processed get_varAV410RT.m for Project: test26'
 
 
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('internal.matlab.imagesci.nc/read', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+internal\+matlab\+imagesci\nc.m', 660)" style="font-weight:bold">internal.matlab.imagesci.nc/read</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\+internal\+matlab\+imagesci\nc.m',660,0)">line 660</a>)
-                data = netcdf.getVar(gid, varid);
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('ncread', 'C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\ncread.m', 76)" style="font-weight:bold">ncread</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2025b\toolbox\matlab\matlab_sci\netcdf\ncread.m',76,0)">line 76</a>)
-vardata = ncObj.read(varName, varargin{:});
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('getdata', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\utilities\getdata.m', 58)" style="font-weight:bold">getdata</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\utilities\getdata.m',58,0)">line 58</a>)
-blurf = ncread(ncfile, Var);
-        ^^^^^^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('get_varTAS', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\get_varTAS.m', 17)" style="font-weight:bold">get_varTAS</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\get_vars\get_varTAS.m',17,0)">line 17</a>)
-    DPA = getdata(X.RawPath,'DPA',"OutputRate",X.procRate);
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_process1', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\do_process1.m', 15)" style="font-weight:bold">do_process1</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\do_process1.m',15,0)">line 15</a>)
-        eval(gets{ii});
-        ^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Defaults0', 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m', 228)" style="font-weight:bold">Defaults0</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\Defaults0.m',228,0)">line 228</a>)
-X=do_process1(X);
-  ^^^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_batch26', 'C:\Users\rodi\Github\kingair-Sys26-test\radfire16\do_batch26.m', 83)" style="font-weight:bold">do_batch26</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\radfire16\do_batch26.m',83,0)">line 83</a>)
-X = Defaults0(X);
-    ^^^^^^^^^^^^
-In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('do_all', 'C:\Users\rodi\Github\kingair-Sys26-test\do_all.m', 50)" style="font-weight:bold">do_all</a> (<a href="matlab: opentoline('C:\Users\rodi\Github\kingair-Sys26-test\do_all.m',50,0)">line 50</a>)
-        eval(RUNS(ii));
-        ^^^^^^^^^^^^^^
-} 
-cd test26
-{Error using <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('cd')" style="font-weight:bold">cd</a>
-Unable to change current folder to 'C:\Users\rodi\Github\kingair-Sys26-test\radfire16\test26' (Name is nonexistent or not a folder).
-} 
-pwd
+procSeconds =
+
+   42.1326
+
 
 ans =
 
-    'C:\Users\rodi\Github\kingair-Sys26-test\radfire16'
+     0
 
-cd ..
-edit do_all
-pwd
+Writing DP1X ... OK
+Writing PALT ... OK
+Writing PLCL ... OK
+Writing PSX ... OK
+Writing QimpactX ... OK
+Writing TASX ... OK
+Writing TEMPX ... OK
+Writing TLCL ... OK
+Writing Zhydro ... OK
+Writing alpha ... OK
+Writing beta ... OK
+Writing boom_pcor ... OK
+Writing dp1_boom ... OK
+Writing dp1_ship ... OK
+Writing dpa ... OK
+Writing dpb ... OK
+Writing dpr_alpha ... OK
+Writing dpr_beta ... OK
+Writing edrTAS ... OK
+Writing f_boom_alpha ... OK
+Writing f_boom_beta ... OK
+Writing f_ship_beta ... OK
+Writing ias ... OK
+Writing mr ... OK
+Writing ps_boom ... OK
+Writing ps_ship ... OK
+Writing ptotal_boom ... OK
+Writing q_boom_alpha ... OK
+Writing q_boom_beta ... OK
+Writing q_impact ... OK
+Writing q_ship_alpha ... OK
+Writing q_ship_beta ... OK
+Writing rh ... OK
+Writing ship_pcor ... OK
+Writing tas ... OK
+Writing tdp ... OK
+Writing thetad ... OK
+Writing thetae ... OK
+Writing trose ... OK
 
 ans =
 
-    'C:\Users\rodi\Github\kingair-Sys26-test'
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TAS.mat'
 
-cd ../kingair-Sys26/
-pwd
 
 ans =
 
-    'C:\Users\rodi\Github\kingair-Sys26'
+    'Processed get_varTAS.m for Project: test26'
 
-edit do_all
-cd test26
-edit do_batch26
-pwd
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N23W063_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N17W044_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N01W003_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S04E004_dem.tif
+
+procSeconds =
+
+   13.8098
+
 
 ans =
 
-    'C:\Users\rodi\Github\kingair-Sys26\test26'
+     0
 
-edit do_batch26
-pwd
+Writing ALTX ... OK
+Writing AValt ... OK
+Writing AVewvel ... OK
+Writing AVgs ... OK
+Writing AVlat ... OK
+Writing AVlata ... OK
+Writing AVlon ... OK
+Writing AVlonga ... OK
+Writing AVnorma ... OK
+Writing AVnsvel ... OK
+Writing AVpitch ... OK
+Writing AVpitchr ... OK
+Writing AVroll ... OK
+Writing AVrollr ... OK
+Writing AVthead ... OK
+Writing AVtopo ... OK
+Writing AVtrack ... OK
+Writing AVxdist ... OK
+Writing AVyawr ... OK
+Writing AVydist ... OK
+Writing AVzagl ... OK
+Writing AVzell ... OK
+Writing AVzmsl ... OK
+Writing AVzvel ... OK
+Writing LATX ... OK
+Writing LONX ... OK
 
 ans =
 
-    'C:\Users\rodi\Github\kingair-Sys26\test26'
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410PP.mat'
 
-cd ..
-edit do_all
-do_all
+
+ans =
+
+    'Processed get_varAV410PP.m for Project: test26'
+
+
+matfile = 
+
+    "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat"
+
+
+ans =
+
+     0
+
+Writing AVdposrms ... OK
+Writing AVdvelrms ... OK
+Writing AVeposrms ... OK
+Writing AVevelrms ... OK
+Writing AVnposrms ... OK
+Writing AVnvelrms ... OK
+Writing AVpitchrms ... OK
+Writing AVrollrms ... OK
+Writing AVtheadrms ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat'
+
+
+ans = 
+
+    "procSeconds = 1"
+
+
+ans =
+
+    'Processed get_varAV410RMS.m for Project: test26'
+
+
+procSeconds =
+
+    3.6203
+
+
+ans =
+
+     0
+
+Writing AVedr ... OK
+Writing AVuwind ... OK
+Writing AVux ... OK
+Writing AVvwind ... OK
+Writing AVvy ... OK
+Writing AVwdir ... OK
+Writing AVwmag ... OK
+Writing AVwwind ... OK
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDPP.mat'
+
+
+ans =
+
+    'Processed get_varAVWINDPP.m for Project: test26'
+
+
+ans =
+
+     0
+
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+Writing avEDR ... OK
+Writing avuwind ... OK
+Writing avux ... OK
+Writing avvwind ... OK
+Writing avvy ... OK
+Writing avwdir ... OK
+Writing avwmag ... OK
+Writing avwwind ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDRT.mat'
+
+
+procSeconds =
+
+    4.3184
+
+
+ans =
+
+    'Processed get_varAVWINDRT.m for Project: test26'
+
+
+ss =
+
+    'CABINP=x(:);'
+
+
+procSeconds =
+
+    2.5296
+
+
+ans =
+
+     0
+
+Writing cabinp ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_MISC.mat'
+
+
+ans =
+
+    'Processed get_varMISC.m for Project: test26'
+
+
+ans =
+
+    'End processing all: 1.6 minutes'
+
+
+X = 
+
+  struct with fields:
+
+              aster: "P:\MATLAB-DATA2\kingair_data\"
+            BaseOut: '20260408a_arrTest'
+               Data: "P:\MATLAB-DATA2\kingair_data\"
+                egm: "P:\MATLAB-DATA2\kingair_data\"
+          FillValue: -32767
+              locPP: "av410out"
+              ncLOC: 'Data'
+             NOpcor: 0
+           PcorUsed: "ship_pcor"
+             POSPAC: 1
+             PPonly: 0
+               PROJ: 'test26'
+               Rate: 25
+               Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+         scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+                SYS: "windows"
+           TempUsed: "TROSE"
+            RawFile: '20260408a_raw.nc'
+           procRate: 25
+               Home: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+             Source: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26'
+          PressUsed: "ps_ship"
+            DP1Used: "dp1_ship"
+              QUsed: "q_ship_beta"
+            udunits: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows'
+          BaseName0: '20260408a'
+       SBETbasename: "_sbet.*"
+             AVdata: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408a_sbet.out'
+        RMSbasename: "_rms.*"
+              AVrms: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408a_rms.out'
+            RawPath: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_raw.nc"
+           workPath: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+             Output: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+         outputPath: "P:\MATLAB-DATA2\kingair_data\test26\work"
+            tempdir: "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp"
+            ncFINAL: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_arrTest.c25.nc"
+                PWD: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+           BaseName: '20260408a_arrTest'
+                MAP: 1
+    localGlobalAtts: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\global_atts.txt'
+              varDB: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\variablesXX.db'
+          configDir: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config'
+             xlsraw: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\RAW-VARS.xlsx'
+             xlsarc: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\PROCESSED-VARS.xlsx'
+          rawGROUPS: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+             Ptable: [133×9 table]
+             Ttable: [1348×3 table]
+           varnames: ["ALTX"    "AValt"    "AVdposrms"    "AVdvelrms"    "AVedr"    "AVeposrms"    "AVevelrms"    …    ] (1×133 string)
+           get_vars: ["get_varTIME(X)"    "get_varAV410RT(X)"    "get_varTAS(X)"    "get_varAV410PP(X)"    …    ] (1×8 string)
+         rawTimeVar: [12861×1 double]
+           time_len: 12861
+         structVars: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408b_raw.nc','PROJ','test26','BaseOut','20260408a_arrTest','Rate',25,'Repo',REPO)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20260408a_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408b_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'Converted 75 deg Fahrenheit to Celsius, yielding 23.89 Celsius'
+
+isThereData? Trying group AV410PP ... OK
+isThereData? Trying group AV410RMS ... OK
+isThereData? Trying group AV410RT ... OK
+isThereData? Trying group AVWINDPP ... OK
+isThereData? Trying group AVWINDRT ... OK
+isThereData? Trying group CDP ... Eliminated
+isThereData? Trying group CPT ... Eliminated
+isThereData? Trying group HADS ... Eliminated
+isThereData? Trying group IRtemp ... Eliminated
+isThereData? Trying group LICOR7000 ... Eliminated
+isThereData? Trying group LICOR7500 ... Eliminated
+isThereData? Trying group LWC100 ... Eliminated
+isThereData? Trying group LWC301 ... Eliminated
+isThereData? Trying group MISC ... OK
+isThereData? Trying group NEVZOROV ... Eliminated
+isThereData? Trying group PCASP1 ... Eliminated
+isThereData? Trying group PCASP2 ... Eliminated
+isThereData? Trying group TAS ... OK
+isThereData? Trying group TIME ... OK
+isThereData? Trying group WESTON ... Eliminated
+make_schema: trying ...Working...SUCCESS!
+
+ans =
+
+    'Begin processing all:'
+
+
+procSeconds =
+
+    0.3397
+
+
+ans =
+
+     0
+
+Writing DATE ... OK
+Writing HOUR ... OK
+Writing MINUTE ... OK
+Writing SECOND ... OK
+Writing TIME ... OK
+Writing TIME14D ... OK
+Writing Time ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TIME.mat'
+
+
+ans =
+
+    'Processed get_varTIME.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+Writing avalt ... OK
+Writing avdposrms ... OK
+Writing avdvelrms ... OK
+Writing aveposrms ... OK
+Writing avevelrms ... OK
+Writing avewvel ... OK
+Writing avgs ... OK
+Writing avlat ... OK
+Writing avlata ... OK
+Writing avlon ... OK
+Writing avlonga ... OK
+Writing avnorma ... OK
+Writing avnposrms ... OK
+Writing avnsvel ... OK
+Writing avnvelrms ... OK
+Writing avpitch ... OK
+Writing avpitchr ... OK
+Writing avpitchrms ... OK
+Writing avroll ... OK
+Writing avrollr ... OK
+Writing avrollrms ... OK
+Writing avthead ... OK
+Writing avtheadrms ... OK
+Writing avtopo ... OK
+Writing avtrack ... OK
+Writing avxdist ... OK
+Writing avyawr ... OK
+Writing avydist ... OK
+Writing avzagl ... OK
+Writing avzell ... OK
+Writing avzmsl ... OK
+Writing avzvel ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RT.mat'
+
+
+procSeconds =
+
+    9.2375
+
+
+ans =
+
+    'Processed get_varAV410RT.m for Project: test26'
+
+
+procSeconds =
+
+   19.2118
+
+
+ans =
+
+     0
+
+Writing DP1X ... OK
+Writing PALT ... OK
+Writing PLCL ... OK
+Writing PSX ... OK
+Writing QimpactX ... OK
+Writing TASX ... OK
+Writing TEMPX ... OK
+Writing TLCL ... OK
+Writing Zhydro ... OK
+Writing alpha ... OK
+Writing beta ... OK
+Writing boom_pcor ... OK
+Writing dp1_boom ... OK
+Writing dp1_ship ... OK
+Writing dpa ... OK
+Writing dpb ... OK
+Writing dpr_alpha ... OK
+Writing dpr_beta ... OK
+Writing edrTAS ... OK
+Writing f_boom_alpha ... OK
+Writing f_boom_beta ... OK
+Writing f_ship_beta ... OK
+Writing ias ... OK
+Writing mr ... OK
+Writing ps_boom ... OK
+Writing ps_ship ... OK
+Writing ptotal_boom ... OK
+Writing q_boom_alpha ... OK
+Writing q_boom_beta ... OK
+Writing q_impact ... OK
+Writing q_ship_alpha ... OK
+Writing q_ship_beta ... OK
+Writing rh ... OK
+Writing ship_pcor ... OK
+Writing tas ... OK
+Writing tdp ... OK
+Writing thetad ... OK
+Writing thetae ... OK
+Writing trose ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TAS.mat'
+
+
+ans =
+
+    'Processed get_varTAS.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N23W063_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N17W044_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N01W003_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S04E004_dem.tif
+
+procSeconds =
+
+   11.7003
+
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing AValt ... OK
+Writing AVewvel ... OK
+Writing AVgs ... OK
+Writing AVlat ... OK
+Writing AVlata ... OK
+Writing AVlon ... OK
+Writing AVlonga ... OK
+Writing AVnorma ... OK
+Writing AVnsvel ... OK
+Writing AVpitch ... OK
+Writing AVpitchr ... OK
+Writing AVroll ... OK
+Writing AVrollr ... OK
+Writing AVthead ... OK
+Writing AVtopo ... OK
+Writing AVtrack ... OK
+Writing AVxdist ... OK
+Writing AVyawr ... OK
+Writing AVydist ... OK
+Writing AVzagl ... OK
+Writing AVzell ... OK
+Writing AVzmsl ... OK
+Writing AVzvel ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410PP.mat'
+
+
+ans =
+
+    'Processed get_varAV410PP.m for Project: test26'
+
+
+matfile = 
+
+    "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat"
+
+
+ans =
+
+     0
+
+Writing AVdposrms ... OK
+Writing AVdvelrms ... OK
+Writing AVeposrms ... OK
+Writing AVevelrms ... OK
+Writing AVnposrms ... OK
+Writing AVnvelrms ... OK
+Writing AVpitchrms ... OK
+Writing AVrollrms ... OK
+Writing AVtheadrms ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat'
+
+
+ans = 
+
+    "procSeconds = 1"
+
+
+ans =
+
+    'Processed get_varAV410RMS.m for Project: test26'
+
+
+procSeconds =
+
+    2.3313
+
+
+ans =
+
+     0
+
+Writing AVedr ... OK
+Writing AVuwind ... OK
+Writing AVux ... OK
+Writing AVvwind ... OK
+Writing AVvy ... OK
+Writing AVwdir ... OK
+Writing AVwmag ... OK
+Writing AVwwind ... OK
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDPP.mat'
+
+
+ans =
+
+    'Processed get_varAVWINDPP.m for Project: test26'
+
+
+ans =
+
+     0
+
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+Writing avEDR ... OK
+Writing avuwind ... OK
+Writing avux ... OK
+Writing avvwind ... OK
+Writing avvy ... OK
+Writing avwdir ... OK
+Writing avwmag ... OK
+Writing avwwind ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDRT.mat'
+
+
+procSeconds =
+
+    2.9950
+
+
+ans =
+
+    'Processed get_varAVWINDRT.m for Project: test26'
+
+
+ss =
+
+    'CABINP=x(:);'
+
+
+procSeconds =
+
+    1.3044
+
+
+ans =
+
+     0
+
+Writing cabinp ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_MISC.mat'
+
+
+ans =
+
+    'Processed get_varMISC.m for Project: test26'
+
+
+ans =
+
+    'End processing all: 1.0 minutes'
+
+
+X = 
+
+  struct with fields:
+
+              aster: "P:\MATLAB-DATA2\kingair_data\"
+            BaseOut: '20260408a_arrTest'
+               Data: "P:\MATLAB-DATA2\kingair_data\"
+                egm: "P:\MATLAB-DATA2\kingair_data\"
+          FillValue: -32767
+              locPP: "av410out"
+              ncLOC: 'Data'
+             NOpcor: 0
+           PcorUsed: "ship_pcor"
+             POSPAC: 1
+             PPonly: 0
+               PROJ: 'test26'
+               Rate: 25
+               Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+         scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+                SYS: "windows"
+           TempUsed: "TROSE"
+            RawFile: '20260408b_raw.nc'
+           procRate: 25
+               Home: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+             Source: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26'
+          PressUsed: "ps_ship"
+            DP1Used: "dp1_ship"
+              QUsed: "q_ship_beta"
+            udunits: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows'
+          BaseName0: '20260408b'
+       SBETbasename: "_sbet.*"
+             AVdata: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408b_sbet.out'
+        RMSbasename: "_rms.*"
+              AVrms: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408b_rms.out'
+            RawPath: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408b_raw.nc"
+           workPath: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+             Output: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+         outputPath: "P:\MATLAB-DATA2\kingair_data\test26\work"
+            tempdir: "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp"
+            ncFINAL: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_arrTest.c25.nc"
+                PWD: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+           BaseName: '20260408a_arrTest'
+                MAP: 1
+    localGlobalAtts: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\global_atts.txt'
+              varDB: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\variablesXX.db'
+          configDir: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config'
+             xlsraw: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\RAW-VARS.xlsx'
+             xlsarc: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\PROCESSED-VARS.xlsx'
+          rawGROUPS: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+             Ptable: [133×9 table]
+             Ttable: [1348×3 table]
+           varnames: ["ALTX"    "AValt"    "AVdposrms"    "AVdvelrms"    "AVedr"    "AVeposrms"    "AVevelrms"    …    ] (1×133 string)
+           get_vars: ["get_varTIME(X)"    "get_varAV410RT(X)"    "get_varTAS(X)"    "get_varAV410PP(X)"    …    ] (1×8 string)
+         rawTimeVar: [8709×1 double]
+           time_len: 8709
+         structVars: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    " Do_all.m: elapsed time 3.0 minutes"
+
+[Warning: File 'fname' not found.] 
+[> In do_all (line 44)] 
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','20260408a_arrTest','Rate',25,'Repo',REPO)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20260408a_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408a_raw.nc'
+      procRate: 25
+
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits_windows] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 88)
+In do_all (line 59)] 
+[Warning: Name is nonexistent or not a directory: C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits_linux] 
+[> In path (line 109)
+In addpath (line 96)
+In do_batch26 (line 89)
+In do_all (line 59)] 
+
+ans =
+
+    'Converted 75 deg Fahrenheit to Celsius, yielding 23.89 Celsius'
+
+isThereData? Trying group AV410PP ... OK
+isThereData? Trying group AV410RMS ... OK
+isThereData? Trying group AV410RT ... OK
+isThereData? Trying group AVWINDPP ... OK
+isThereData? Trying group AVWINDRT ... OK
+isThereData? Trying group CDP ... Eliminated
+isThereData? Trying group CPT ... Eliminated
+isThereData? Trying group HADS ... Eliminated
+isThereData? Trying group IRtemp ... Eliminated
+isThereData? Trying group LICOR7000 ... Eliminated
+isThereData? Trying group LICOR7500 ... Eliminated
+isThereData? Trying group LWC100 ... Eliminated
+isThereData? Trying group LWC301 ... Eliminated
+isThereData? Trying group MISC ... OK
+isThereData? Trying group NEVZOROV ... Eliminated
+isThereData? Trying group PCASP1 ... Eliminated
+isThereData? Trying group PCASP2 ... Eliminated
+isThereData? Trying group TAS ... OK
+isThereData? Trying group TIME ... OK
+isThereData? Trying group WESTON ... Eliminated
+make_schema: trying ...Working...SUCCESS!
+
+ans =
+
+    'Begin processing all:'
+
+
+procSeconds =
+
+    0.6137
+
+
+ans =
+
+     0
+
+Writing DATE ... OK
+Writing HOUR ... OK
+Writing MINUTE ... OK
+Writing SECOND ... OK
+Writing TIME ... OK
+Writing TIME14D ... OK
+Writing Time ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TIME.mat'
+
+
+ans =
+
+    'Processed get_varTIME.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+Writing avalt ... OK
+Writing avdposrms ... OK
+Writing avdvelrms ... OK
+Writing aveposrms ... OK
+Writing avevelrms ... OK
+Writing avewvel ... OK
+Writing avgs ... OK
+Writing avlat ... OK
+Writing avlata ... OK
+Writing avlon ... OK
+Writing avlonga ... OK
+Writing avnorma ... OK
+Writing avnposrms ... OK
+Writing avnsvel ... OK
+Writing avnvelrms ... OK
+Writing avpitch ... OK
+Writing avpitchr ... OK
+Writing avpitchrms ... OK
+Writing avroll ... OK
+Writing avrollr ... OK
+Writing avrollrms ... OK
+Writing avthead ... OK
+Writing avtheadrms ... OK
+Writing avtopo ... OK
+Writing avtrack ... OK
+Writing avxdist ... OK
+Writing avyawr ... OK
+Writing avydist ... OK
+Writing avzagl ... OK
+Writing avzell ... OK
+Writing avzmsl ... OK
+Writing avzvel ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RT.mat'
+
+
+procSeconds =
+
+   11.4448
+
+
+ans =
+
+    'Processed get_varAV410RT.m for Project: test26'
+
+
+procSeconds =
+
+   32.3564
+
+
+ans =
+
+     0
+
+Writing DP1X ... OK
+Writing PALT ... OK
+Writing PLCL ... OK
+Writing PSX ... OK
+Writing QimpactX ... OK
+Writing TASX ... OK
+Writing TEMPX ... OK
+Writing TLCL ... OK
+Writing Zhydro ... OK
+Writing alpha ... OK
+Writing beta ... OK
+Writing boom_pcor ... OK
+Writing dp1_boom ... OK
+Writing dp1_ship ... OK
+Writing dpa ... OK
+Writing dpb ... OK
+Writing dpr_alpha ... OK
+Writing dpr_beta ... OK
+Writing edrTAS ... OK
+Writing f_boom_alpha ... OK
+Writing f_boom_beta ... OK
+Writing f_ship_beta ... OK
+Writing ias ... OK
+Writing mr ... OK
+Writing ps_boom ... OK
+Writing ps_ship ... OK
+Writing ptotal_boom ... OK
+Writing q_boom_alpha ... OK
+Writing q_boom_beta ... OK
+Writing q_impact ... OK
+Writing q_ship_alpha ... OK
+Writing q_ship_beta ... OK
+Writing rh ... OK
+Writing ship_pcor ... OK
+Writing tas ... OK
+Writing tdp ... OK
+Writing thetad ... OK
+Writing thetae ... OK
+Writing trose ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TAS.mat'
+
+
+ans =
+
+    'Processed get_varTAS.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N23W063_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N17W044_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N01W003_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S04E004_dem.tif
+
+procSeconds =
+
+   11.5187
+
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing AValt ... OK
+Writing AVewvel ... OK
+Writing AVgs ... OK
+Writing AVlat ... OK
+Writing AVlata ... OK
+Writing AVlon ... OK
+Writing AVlonga ... OK
+Writing AVnorma ... OK
+Writing AVnsvel ... OK
+Writing AVpitch ... OK
+Writing AVpitchr ... OK
+Writing AVroll ... OK
+Writing AVrollr ... OK
+Writing AVthead ... OK
+Writing AVtopo ... OK
+Writing AVtrack ... OK
+Writing AVxdist ... OK
+Writing AVyawr ... OK
+Writing AVydist ... OK
+Writing AVzagl ... OK
+Writing AVzell ... OK
+Writing AVzmsl ... OK
+Writing AVzvel ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410PP.mat'
+
+
+ans =
+
+    'Processed get_varAV410PP.m for Project: test26'
+
+
+matfile = 
+
+    "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat"
+
+
+ans =
+
+     0
+
+Writing AVdposrms ... OK
+Writing AVdvelrms ... OK
+Writing AVeposrms ... OK
+Writing AVevelrms ... OK
+Writing AVnposrms ... OK
+Writing AVnvelrms ... OK
+Writing AVpitchrms ... OK
+Writing AVrollrms ... OK
+Writing AVtheadrms ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat'
+
+
+ans = 
+
+    "procSeconds = 1"
+
+
+ans =
+
+    'Processed get_varAV410RMS.m for Project: test26'
+
+
+procSeconds =
+
+    3.4165
+
+
+ans =
+
+     0
+
+Writing AVedr ... OK
+Writing AVuwind ... OK
+Writing AVux ... OK
+Writing AVvwind ... OK
+Writing AVvy ... OK
+Writing AVwdir ... OK
+Writing AVwmag ... OK
+Writing AVwwind ... OK
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDPP.mat'
+
+
+ans =
+
+    'Processed get_varAVWINDPP.m for Project: test26'
+
+
+ans =
+
+     0
+
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+Writing avEDR ... OK
+Writing avuwind ... OK
+Writing avux ... OK
+Writing avvwind ... OK
+Writing avvy ... OK
+Writing avwdir ... OK
+Writing avwmag ... OK
+Writing avwwind ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDRT.mat'
+
+
+procSeconds =
+
+    3.4741
+
+
+ans =
+
+    'Processed get_varAVWINDRT.m for Project: test26'
+
+
+ss =
+
+    'CABINP=x(:);'
+
+
+procSeconds =
+
+    1.2091
+
+
+ans =
+
+     0
+
+Writing cabinp ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_MISC.mat'
+
+
+ans =
+
+    'Processed get_varMISC.m for Project: test26'
+
+
+ans =
+
+    'End processing all: 1.3 minutes'
+
+
+X = 
+
+  struct with fields:
+
+              aster: "P:\MATLAB-DATA2\kingair_data\"
+            BaseOut: '20260408a_arrTest'
+               Data: "P:\MATLAB-DATA2\kingair_data\"
+                egm: "P:\MATLAB-DATA2\kingair_data\"
+          FillValue: -32767
+              locPP: "av410out"
+              ncLOC: 'Data'
+             NOpcor: 0
+           PcorUsed: "ship_pcor"
+             POSPAC: 1
+             PPonly: 0
+               PROJ: 'test26'
+               Rate: 25
+               Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+         scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+                SYS: "windows"
+           TempUsed: "TROSE"
+            RawFile: '20260408a_raw.nc'
+           procRate: 25
+               Home: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+             Source: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26'
+          PressUsed: "ps_ship"
+            DP1Used: "dp1_ship"
+              QUsed: "q_ship_beta"
+            udunits: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows'
+          BaseName0: '20260408a'
+       SBETbasename: "_sbet.*"
+             AVdata: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408a_sbet.out'
+        RMSbasename: "_rms.*"
+              AVrms: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408a_rms.out'
+            RawPath: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_raw.nc"
+           workPath: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+             Output: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+         outputPath: "P:\MATLAB-DATA2\kingair_data\test26\work"
+            tempdir: "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp"
+            ncFINAL: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_arrTest.c25.nc"
+                PWD: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+           BaseName: '20260408a_arrTest'
+                MAP: 1
+    localGlobalAtts: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\global_atts.txt'
+              varDB: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\variablesXX.db'
+          configDir: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config'
+             xlsraw: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\RAW-VARS.xlsx'
+             xlsarc: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\PROCESSED-VARS.xlsx'
+          rawGROUPS: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+             Ptable: [133×9 table]
+             Ttable: [1348×3 table]
+           varnames: ["ALTX"    "AValt"    "AVdposrms"    "AVdvelrms"    "AVedr"    "AVeposrms"    "AVevelrms"    …    ] (1×133 string)
+           get_vars: ["get_varTIME(X)"    "get_varAV410RT(X)"    "get_varTAS(X)"    "get_varAV410PP(X)"    …    ] (1×8 string)
+         rawTimeVar: [12861×1 double]
+           time_len: 12861
+         structVars: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+Wrote 1974 rows to SQLite: C:\Users\rodi\Github\kingair-Sys26-test\test26\xlsfiles\variablesXX.db (table: variables)
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    "X=do_batch26('20260408b_raw.nc','PROJ','test26','BaseOut','20260408a_arrTest','Rate',25,'Repo',REPO)"
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+X = 
+
+  struct with fields:
+
+         aster: "P:\MATLAB-DATA2\kingair_data\"
+       BaseOut: '20260408a_arrTest'
+          Data: "P:\MATLAB-DATA2\kingair_data\"
+           egm: "P:\MATLAB-DATA2\kingair_data\"
+     FillValue: -32767
+         locPP: "av410out"
+         ncLOC: 'Data'
+        NOpcor: 0
+      PcorUsed: "ship_pcor"
+        POSPAC: 1
+        PPonly: 0
+          PROJ: 'test26'
+          Rate: 25
+          Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+    scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+           SYS: "windows"
+      TempUsed: "TROSE"
+       RawFile: '20260408b_raw.nc'
+      procRate: 25
+
+
+ans =
+
+    'Converted 75 deg Fahrenheit to Celsius, yielding 23.89 Celsius'
+
+isThereData? Trying group AV410PP ... OK
+isThereData? Trying group AV410RMS ... OK
+isThereData? Trying group AV410RT ... OK
+isThereData? Trying group AVWINDPP ... OK
+isThereData? Trying group AVWINDRT ... OK
+isThereData? Trying group CDP ... Eliminated
+isThereData? Trying group CPT ... Eliminated
+isThereData? Trying group HADS ... Eliminated
+isThereData? Trying group IRtemp ... Eliminated
+isThereData? Trying group LICOR7000 ... Eliminated
+isThereData? Trying group LICOR7500 ... Eliminated
+isThereData? Trying group LWC100 ... Eliminated
+isThereData? Trying group LWC301 ... Eliminated
+isThereData? Trying group MISC ... OK
+isThereData? Trying group NEVZOROV ... Eliminated
+isThereData? Trying group PCASP1 ... Eliminated
+isThereData? Trying group PCASP2 ... Eliminated
+isThereData? Trying group TAS ... OK
+isThereData? Trying group TIME ... OK
+isThereData? Trying group WESTON ... Eliminated
+make_schema: trying ...Working...SUCCESS!
+
+ans =
+
+    'Begin processing all:'
+
+
+procSeconds =
+
+    0.3820
+
+
+ans =
+
+     0
+
+Writing DATE ... OK
+Writing HOUR ... OK
+Writing MINUTE ... OK
+Writing SECOND ... OK
+Writing TIME ... OK
+Writing TIME14D ... OK
+Writing Time ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TIME.mat'
+
+
+ans =
+
+    'Processed get_varTIME.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+Writing avalt ... OK
+Writing avdposrms ... OK
+Writing avdvelrms ... OK
+Writing aveposrms ... OK
+Writing avevelrms ... OK
+Writing avewvel ... OK
+Writing avgs ... OK
+Writing avlat ... OK
+Writing avlata ... OK
+Writing avlon ... OK
+Writing avlonga ... OK
+Writing avnorma ... OK
+Writing avnposrms ... OK
+Writing avnsvel ... OK
+Writing avnvelrms ... OK
+Writing avpitch ... OK
+Writing avpitchr ... OK
+Writing avpitchrms ... OK
+Writing avroll ... OK
+Writing avrollr ... OK
+Writing avrollrms ... OK
+Writing avthead ... OK
+Writing avtheadrms ... OK
+Writing avtopo ... OK
+Writing avtrack ... OK
+Writing avxdist ... OK
+Writing avyawr ... OK
+Writing avydist ... OK
+Writing avzagl ... OK
+Writing avzell ... OK
+Writing avzmsl ... OK
+Writing avzvel ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RT.mat'
+
+
+procSeconds =
+
+    9.1780
+
+
+ans =
+
+    'Processed get_varAV410RT.m for Project: test26'
+
+
+procSeconds =
+
+   11.2637
+
+
+ans =
+
+     0
+
+Writing DP1X ... OK
+Writing PALT ... OK
+Writing PLCL ... OK
+Writing PSX ... OK
+Writing QimpactX ... OK
+Writing TASX ... OK
+Writing TEMPX ... OK
+Writing TLCL ... OK
+Writing Zhydro ... OK
+Writing alpha ... OK
+Writing beta ... OK
+Writing boom_pcor ... OK
+Writing dp1_boom ... OK
+Writing dp1_ship ... OK
+Writing dpa ... OK
+Writing dpb ... OK
+Writing dpr_alpha ... OK
+Writing dpr_beta ... OK
+Writing edrTAS ... OK
+Writing f_boom_alpha ... OK
+Writing f_boom_beta ... OK
+Writing f_ship_beta ... OK
+Writing ias ... OK
+Writing mr ... OK
+Writing ps_boom ... OK
+Writing ps_ship ... OK
+Writing ptotal_boom ... OK
+Writing q_boom_alpha ... OK
+Writing q_boom_beta ... OK
+Writing q_impact ... OK
+Writing q_ship_alpha ... OK
+Writing q_ship_beta ... OK
+Writing rh ... OK
+Writing ship_pcor ... OK
+Writing tas ... OK
+Writing tdp ... OK
+Writing thetad ... OK
+Writing thetae ... OK
+Writing trose ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_TAS.mat'
+
+
+ans =
+
+    'Processed get_varTAS.m for Project: test26'
+
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N23W063_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N17W044_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N01W003_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00W001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_N00E000_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S01E001_dem.tif
+Unable to read heights from P:\MATLAB-DATA2\kingair_data\aster/ASTGTM_S04E004_dem.tif
+
+procSeconds =
+
+    7.8387
+
+
+ans =
+
+     0
+
+Writing ALTX ... OK
+Writing AValt ... OK
+Writing AVewvel ... OK
+Writing AVgs ... OK
+Writing AVlat ... OK
+Writing AVlata ... OK
+Writing AVlon ... OK
+Writing AVlonga ... OK
+Writing AVnorma ... OK
+Writing AVnsvel ... OK
+Writing AVpitch ... OK
+Writing AVpitchr ... OK
+Writing AVroll ... OK
+Writing AVrollr ... OK
+Writing AVthead ... OK
+Writing AVtopo ... OK
+Writing AVtrack ... OK
+Writing AVxdist ... OK
+Writing AVyawr ... OK
+Writing AVydist ... OK
+Writing AVzagl ... OK
+Writing AVzell ... OK
+Writing AVzmsl ... OK
+Writing AVzvel ... OK
+Writing LATX ... OK
+Writing LONX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410PP.mat'
+
+
+ans =
+
+    'Processed get_varAV410PP.m for Project: test26'
+
+
+matfile = 
+
+    "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat"
+
+
+ans =
+
+     0
+
+Writing AVdposrms ... OK
+Writing AVdvelrms ... OK
+Writing AVeposrms ... OK
+Writing AVevelrms ... OK
+Writing AVnposrms ... OK
+Writing AVnvelrms ... OK
+Writing AVpitchrms ... OK
+Writing AVrollrms ... OK
+Writing AVtheadrms ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AV410RMS.mat'
+
+
+ans = 
+
+    "procSeconds = 1"
+
+
+ans =
+
+    'Processed get_varAV410RMS.m for Project: test26'
+
+
+procSeconds =
+
+    2.3265
+
+
+ans =
+
+     0
+
+Writing AVedr ... OK
+Writing AVuwind ... OK
+Writing AVux ... OK
+Writing AVvwind ... OK
+Writing AVvy ... OK
+Writing AVwdir ... OK
+Writing AVwmag ... OK
+Writing AVwwind ... OK
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDPP.mat'
+
+
+ans =
+
+    'Processed get_varAVWINDPP.m for Project: test26'
+
+
+ans =
+
+     0
+
+Writing WDIRX ... OK
+Writing WMAGX ... OK
+Writing WWX ... OK
+Writing avEDR ... OK
+Writing avuwind ... OK
+Writing avux ... OK
+Writing avvwind ... OK
+Writing avvy ... OK
+Writing avwdir ... OK
+Writing avwmag ... OK
+Writing avwwind ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_AVWINDRT.mat'
+
+
+procSeconds =
+
+    3.0261
+
+
+ans =
+
+    'Processed get_varAVWINDRT.m for Project: test26'
+
+
+ss =
+
+    'CABINP=x(:);'
+
+
+procSeconds =
+
+    0.4472
+
+
+ans =
+
+     0
+
+Writing cabinp ... OK
+
+ans =
+
+    'load_ncFINAL: Finished loading matfile P:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260408a_arrTest_MISC.mat'
+
+
+ans =
+
+    'Processed get_varMISC.m for Project: test26'
+
+
+ans =
+
+    'End processing all: 0.8 minutes'
+
+
+X = 
+
+  struct with fields:
+
+              aster: "P:\MATLAB-DATA2\kingair_data\"
+            BaseOut: '20260408a_arrTest'
+               Data: "P:\MATLAB-DATA2\kingair_data\"
+                egm: "P:\MATLAB-DATA2\kingair_data\"
+          FillValue: -32767
+              locPP: "av410out"
+              ncLOC: 'Data'
+             NOpcor: 0
+           PcorUsed: "ship_pcor"
+             POSPAC: 1
+             PPonly: 0
+               PROJ: 'test26'
+               Rate: 25
+               Repo: 'C:\Users\rodi\Github\kingair-Sys26-test'
+         scratchDir: "P:\MATLAB-DATA2\kingair_data\scratch\"
+                SYS: "windows"
+           TempUsed: "TROSE"
+            RawFile: '20260408b_raw.nc'
+           procRate: 25
+               Home: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+             Source: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26'
+          PressUsed: "ps_ship"
+            DP1Used: "dp1_ship"
+              QUsed: "q_ship_beta"
+            udunits: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config\udunits-windows'
+          BaseName0: '20260408b'
+       SBETbasename: "_sbet.*"
+             AVdata: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408b_sbet.out'
+        RMSbasename: "_rms.*"
+              AVrms: 'P:\MATLAB-DATA2\kingair_data\test26\work\av410out\20260408b_rms.out'
+            RawPath: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408b_raw.nc"
+           workPath: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+             Output: "P:\MATLAB-DATA2\kingair_data\scratch\test26\work"
+         outputPath: "P:\MATLAB-DATA2\kingair_data\test26\work"
+            tempdir: "P:\MATLAB-DATA2\kingair_data\scratch\test26\temp"
+            ncFINAL: "P:\MATLAB-DATA2\kingair_data\test26\work\20260408a_arrTest.c25.nc"
+                PWD: 'C:\Users\rodi\Github\kingair-Sys26-test\test26'
+           BaseName: '20260408a_arrTest'
+                MAP: 1
+    localGlobalAtts: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\global_atts.txt'
+              varDB: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\variablesXX.db'
+          configDir: 'C:\Users\rodi\Github\kingair-Sys26-test\Sys26\config'
+             xlsraw: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\RAW-VARS.xlsx'
+             xlsarc: 'C:\Users\rodi\Github\kingair-Sys26-test\test26\PROCESSED-VARS.xlsx'
+          rawGROUPS: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+             Ptable: [133×9 table]
+             Ttable: [1348×3 table]
+           varnames: ["ALTX"    "AValt"    "AVdposrms"    "AVdvelrms"    "AVedr"    "AVeposrms"    "AVevelrms"    …    ] (1×133 string)
+           get_vars: ["get_varTIME(X)"    "get_varAV410RT(X)"    "get_varTAS(X)"    "get_varAV410PP(X)"    …    ] (1×8 string)
+         rawTimeVar: [8709×1 double]
+           time_len: 8709
+         structVars: ["AV410PP"    "AV410RMS"    "AV410RT"    "AVWINDPP"    "AVWINDRT"    "MISC"    "TAS"    "TIME"]
+
+
+ans =
+
+    'cleaning up'
+
+
+ans =
+
+    'done'
+
+
+ans = 
+
+    " Do_all.m: elapsed time 3.0 minutes"
+

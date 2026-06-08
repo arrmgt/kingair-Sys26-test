@@ -1,9 +1,8 @@
-function [pcorc,qx,tbx,tax,fcoef,XXf,betaf,machn]=cone_pcor(p1,pb,pa,pr,psm,varargin);
-%
+function [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f0]=cone_pcor(dp1,pb,pa,pr,psm,varargin);
+%     [pcorc0,fcoef,machn0,q0,tbx0,tax0,XXf,betaf,qx0,f0]=
 % Calculate flow angles and static pressure correction
-%
-%  [pcorc,qx,tbx,tax,f0,XXf,betaf,machn] = cone_pcor(X,PSM[,MR])
-%   where X is an array of pressure measurements (see  below)
+%  [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f
+%  [pcorc,qx,tbx,tax,f0,XXf,betaf,machn] = cone_pcor(dp1,pb,pa,pr,psm,varargin);
 %      PSM is uncorrected static pressure
 %      MR is mixing ratio for humidity correction [g/g] (optional)
 %
@@ -25,34 +24,34 @@ betaf = [ ...
    0.001254576494439  ...
    ];
 
-if(isempty(varargin))
-    mr = zeros(size(p1));
+if(nargin<6)
+    mr = zeros(size(dp1));
 else
     mr = varargin{1};
 end
 
-p1_min = 10; %mb
-kk = find(p1>p1_min);
-
-% These are independent of static pressure correction
-tbx = tanBeta(pb,pr);
+% These are independent of static pressure correctitbx = tanBeta(pb,pr);
 tax = tanAlpha(pa,pb,pr);
-qx0 = impactPcalc(p1,pa,pb,pr); %uncorrected
+tbx = tanBeta(pb,pr);
+qx0 = impactPcalc(dp1,pa,pb,pr); %uncorrected
 % fqx us f*q; fqx/f = q; fqx is independent of pcor
 fqx = fqCalc(pa,pb,pr);  
 
+dp1_min = 10; %mb
 % Sanity check
-kk = find ( p1>0 & qx0>0 & ((qx0+psm)./psm+1)>1 ...
-    & psm>200 & psm<1200 );
+machn=mach(qx0,psm,mr);
+
+kk = find ( dp1>dp1_min & qx0>20 & qx0<80 & ...
+    ((qx0+psm)./psm-1)>0 & psm>200 & psm<1200 );
 if ~isempty(kk)
-    p1 = interp1(kk,p1(kk),[1:numel(p1)]','linear',0);
-    qx0 = interp1(kk,qx0(kk),[1:numel(p1)]','linear',0);
-    psm = interp1(kk,psm(kk),[1:numel(p1)]','linear',0);
+    dp1 = interp1(kk,dp1(kk),[1:numel(dp1)]','linear',0);
+    qx0 = interp1(kk,qx0(kk),[1:numel(dp1)]','linear',0);
+    psm = interp1(kk,psm(kk),[1:numel(dp1)]','linear',0);
 end
 
 onez = ones(size(psm));
 % Set default f
-f0=1.68.*ones(size(p1)); % just a guess
+f0=1.68.*ones(size(dp1)); % just a guess
 %  We need mach number to get f, so we have to iterate
 pErr = fqx./f0 -qx0;  %  Error in q
 for jj=1:3 % Iterate three times
@@ -65,18 +64,18 @@ for jj=1:3 % Iterate three times
     pErr=fqx./f0-qx0;
 end
 
+% clamp the endpoints
 pcorc = pErr; 
 qx = fqx./f0;
 fcoef = f0;
-
-kk=find( p1<=p1_min | isnan(machn) |isinf(machn) );
-if(~isempty(kk));
-    pcorc(kk)=0;
-    qx(kk)=0;
-    tbx(kk)=0;
-    tax(kk)=0;
-    fcoef(kk)=0;
-end
+k1 = kk(1); k2 = kk(end);
+pErr (1:k1-1) = pErr(k1);   pErr (k2+1:end) = pErr(k2);
+qx   (1:k1-1) = qx(k1);     qx   (k2+1:end) = qx(k2);
+fcoef(1:k1-1) = fcoef(k1);  fcoef(k2+1:end) = fcoef(k2);
+tax  (1:k1-1) = tax(k1);    tax  (k2+1:end) = tax(k2);
+tbx  (1:k1-1) = tbx(k1);    tbx  (k2+1:end) = tbx(k2);
+pcorc(1:k1-1) = pcorc(k1);  pcorc(k2+1:end) = pcorc(k2);
 
 return
+
 

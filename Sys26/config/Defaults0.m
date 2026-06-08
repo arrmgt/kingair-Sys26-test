@@ -2,6 +2,16 @@ function X=Defaults0(X)
 %
 % Continue to set defaults based on settings do_batch25
 warning off
+% Input and Output mat file and archive file locations
+X.Home=fullfile(X.Repo,X.PROJ);
+% Raw data file location (*_raw.nc)
+    X.RawPath=fullfile(X.Data,X.PROJ,'work',X.RawFile);
+    try
+        ncinfo(X.RawPath);
+    catch ME
+        fprintf("%s: Raw file does not exist\n",X.RawPath)
+        error(ME.message)
+    end
 
 %************************
 % Unidata udunits: unit conversion
@@ -72,10 +82,6 @@ end
 % Fill_Value
 X.FillValue=-32767;
     
-% Input and Output mat file and archive file locations
-X.Home=fullfile(X.Repo,X.PROJ);
-% Raw data file location (*_raw.nc)
-    X.RawPath=fullfile(X.Data,X.PROJ,'work',X.RawFile);
 % Work directory
     X.workPath=fullfile(X.scratchDir,X.PROJ,'work');
 % Output file locations
@@ -160,8 +166,13 @@ cnames_raw=opts_raw.VariableNames;
 if ~X.POSPAC % remove Applanix post-processed groups
     % remove pospac variables from list for now
     % since they are not on *_raw.nc
-    mask = ~contains(cnames_raw,["PP" "AV410RMS"]) ;
+    mask = ~contains(cnames_raw,["AV410PP" "AV410RMS" "AVWINDPP"]) ;
     cnames_raw = cnames_raw(mask);
+else
+    if X.PPonly
+        mask = ~contains(cnames_raw,["AV410RT" "AVWINDRT"]) ;
+        cnames_raw = cnames_raw(mask);
+    end
 end
 X.rawGROUPS=sort(unique(cnames_raw(2:end)));
 
@@ -184,15 +195,28 @@ gets(1) = "get_varTIME(X)"; % Always first
 if any(ismember(keepGroups,"CPT"))
     gets(end+1) = "get_varCPT(X)";
 end
-if any(ismember(X.rawGROUPS,"HADS"))
-    gets(end+1) = "get_varHADS(X)";
+% Then AV410RT
+if any(ismember(keepGroups,"AV410RT"))
+    gets(end+1) = "get_varAV410RT(X)";
 end
-if any(ismember(X.rawGROUPS,"WESTON"))
-    gets(end+1) = "get_varWESTON(X)";
+% Then TAS
+if any(ismember(keepGroups,"TAS"))
+    gets(end+1) = "get_varTAS(X)";
 end
-% Then always do get_varAV410RT and get_varTAS
-gets(end+1) = "get_varAV410RT(X)";
-gets(end+1) = "get_varTAS(X)";
+if X.POSPAC
+    % Then AV410PP
+    if any(ismember(keepGroups,"AV410PP"))
+        gets(end+1) = "get_varAV410PP(X)";
+    end
+    % Then AV410RMS
+    if any(ismember(keepGroups,"AV410RMS"))
+        gets(end+1) = "get_varAV410RMS(X)";
+    end
+    % Then AVWINDPP
+    if any(ismember(keepGroups,"AVWINDPP"))
+        gets(end+1) = "get_varAVWINDPP(X)";
+    end
+end
 
 % Add the rest
 gets1 = gets0(~ismember(gets0,gets)) ;% Do multiple PCASP in one call to get_varPCASP

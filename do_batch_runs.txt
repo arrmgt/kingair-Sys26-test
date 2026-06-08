@@ -92,3 +92,5 @@ X=do_batch26('20210313_raw.nc','PROJ','dilbert21','BaseOut','20210313_arr','Rate
 X=do_batch26('20170304_raw.nc','PROJ','snowie17','BaseOut','20170304_arr','Rate',25)
 X=do_batch26('20210723_raw.nc','PROJ','trans2am21','BaseOut','20210723_arr','Rate',25)
 X=do_batch26('20220821_raw.nc','PROJ','trans2am22','BaseOut','20220821_arr','Rate',25)
+X=do_batch26('20260408a_raw.nc','PROJ','test26','BaseOut','20260408a_arr','Rate',25)
+X=do_batch26('20260408b_raw.nc','PROJ','test26','BaseOut','20260408b_arr','Rate',25)

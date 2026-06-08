@@ -45,7 +45,7 @@ SECOND:units = "seconds" ;
 SECOND:Package = "get_varTIME.m" ;
 SECOND:OutputRate = 1 ;
 
-Integer32 TIME14D;
+Integer64 TIME14D;
 TIME14D:long_name = "TIME yyyymmddhhmmss GMT" ;
 TIME14D:Status = "Derived Variable" ;
 TIME14D:units = "yyyymmddhhmmss" ;
@@ -97,10 +97,16 @@ dpb:type = "analog" ;
 dpb:Package = "get_misc" ;
 dpb:OutputRate = XX ;
 
+Float ship_pcor ;
+ship_pcor:long_name = "Static pressure correction from ship calculation" ;
+ship_pcor:units = "mb" ;
+ship_pcor:Package = "get_varTAS" ;
+ship_pcor:OutputRate = XX ;
+
 Float boom_pcor ;
 boom_pcor:long_name = "Static pressure correction from boom calculation" ;
 boom_pcor:units = "mb" ;
-boom_pcor:Package = "cone_pcor" ;
+boom_pcor:Package = "get_varTAS" ;
 boom_pcor:OutputRate = XX ;
 
 Float pmb;
@@ -138,7 +144,6 @@ ps_hads:units = "hPa";
 ps_hads:standard_name = "air_pressure";
 ps_hads:SampleRate = 100;
 ps_hads:Package = "get_hads" ;
-ps_hads:StaticDefect="Corrected";
 ps_hads:OutputRate = XX ;
 
 Float ps_hads_a;
@@ -148,7 +153,6 @@ ps_hads_a:units = "hPa";
 ps_hads_a:standard_name = "air_pressure";
 ps_hads_a:SampleRate = 100;
 ps_hads_a:Package = "get_hads" ;
-ps_hads_a:StaticDefect="Corrected";
 ps_hads_a:OutputRate = XX ;
 
 Float ps_hads_b;
@@ -158,7 +162,6 @@ ps_hads_b:units = "hPa";
 ps_hads_b:standard_name = "air_pressure";
 ps_hads_b:SampleRate = 100;
 ps_hads_b:Package = "get_hads" ;
-ps_hads_b:StaticDefect="Corrected";
 ps_hads_b:OutputRate = XX ;
 
 Float p1501;
@@ -177,7 +180,6 @@ trf:units = "Celsius";
 trf:standard_name = "air_temperature";
 trf:Package = "cvwind";
 trf:RecoveryCoefficient=.6425;
-trf:StaticDefect="Corrected";
 trf:OutputRate = XX ;
 
 Float TEMPX;
@@ -187,7 +189,6 @@ TEMPX:units = "Celsius";
 TEMPX:standard_name = "air_temperature";
 TEMPX:Package = "cvwind";
 TEMPX:RecoveryCoefficient=.6425;
-TEMPX:StaticDefect="Corrected";
 TEMPX:OutputRate = XX ;
 
 Float trose;
@@ -197,7 +198,6 @@ trose:units = "Celsius";
 trose:standard_name = "air_temperature";
 trose:Package = "cvwind" ;
 trose:RecoveryCoefficient=.97;
-trose:StaticDefect="Corrected";
 trose:OutputRate = XX ;
 
 Float tdp;
@@ -215,7 +215,6 @@ mr:Status = "Derived Variable" ;
 mr:units = "gram/kgram";
 mr:standard_name = "humidity_mixing_ratio";
 mr:Package = "get_misc" ;
-mr:StaticDefect="Corrected";
 mr:OutputRate = XX ;
 
 Float vapor;
@@ -240,7 +239,6 @@ tas:Status = "Derived Variable" ;
 tas:units = "meter/sec";
 tas:standard_name = "True Airspeed" ;
 tas:Package = "get_varTAS";
-tas:StaticDefect="Corrected";
 tas:TempUsed = "unknown";
 tas:PressUsed = "unknown";
 tas:OutputRate = XX ;
@@ -251,10 +249,19 @@ TASX:Status = "Derived Variable" ;
 TASX:units = "meter/sec";
 TASX:standard_name = "True Airspeed" ;
 TASX:Package = "get_varTAS";
-TASX:StaticDefect="Corrected";
 TASX:TempUsed = "unknown";
 TASX:PressUsed = "unknown";
 TASX:OutputRate = XX ;
+
+Float inflight;
+inflight:long_name = "Aircraft in-flight status based on true airspeed";
+inflight:Status = "Derived Variable" ;
+inflight:units = "1";
+inflight:flag_values = "0, 1";
+inflight:flag_meanings = "not_inflight inflight";
+inflight:criterion = "1 where TASX exceeds 30 meter/sec; 0 otherwise";
+inflight:Package = "get_varTAS";
+inflight:OutputRate = XX ;
 
 Float z;
 z:long_name = "Pressure altitude (Std Atm)";
@@ -277,7 +284,6 @@ ztrue:long_name = "Altitude (Hypsometric)";
 ztrue:Status = "Derived Variable" ;
 ztrue:units = "meters";
 ztrue:Package = "cvwind";
-ztrue:StaticDefect="Corrected";
 ztrue:OutputRate = XX ;
 
 Float li75cool;
@@ -459,7 +465,6 @@ edrTAS:units = "MKS";
 edrTAS:Package = "edrTAS" ;
 edrTAS:OutputRate = 1;
 
-
 Integer32 user_events ;
 user_events:long_name = "Low voltage user events" ;
 user_events:units = "bit" ;
@@ -556,7 +561,6 @@ thetad:long_name = "Potential temperature (dry)";
 thetad:Status = "Derived Variable" ;
 thetad:units = "K";
 thetad:Package = "get_misc";
-thetad:StaticDefect="Corrected";
 thetad:OutputRate = XX ;
 
 Float thetae;
@@ -564,7 +568,6 @@ thetae:long_name = "Equivalent potential temperature";
 thetae:Status = "Derived Variable" ;
 thetae:units = "K";
 thetae:Package = "get_varTAS";
-thetae:StaticDefect="Corrected";
 thetae:OutputRate = XX ;
 
 Float PLCL;
@@ -572,7 +575,6 @@ PLCL:long_name = "PLCL Lifted Condensation Level Pressure";
 PLCL:Status = "Derived Variable" ;
 PLCL:units = "hPa";
 PLCL:Package = "get_varTAS";
-PLCL:StaticDefect="Corrected";
 PLCL:OutputRate = XX ;
 
 Float TLCL;
@@ -580,7 +582,6 @@ TLCL:long_name = "TLCL Lifted Condensation Level Temperature";
 TLCL:Status = "Derived Variable" ;
 TLCL:units = "Kelvin";
 TLCL:Package = "get_varTAS";
-TLCL:StaticDefect="Corrected";
 TLCL:OutputRate = XX ;
 
 Float ralt1;
@@ -820,9 +821,6 @@ rhli70:standard_name = "relative_humidity";
 rhli70:Package = "get_7000licor";
 rhli70:OutputRate = XX;
 
-
-
-
 Float rlwc;
 rlwc:long_name = "Liquid water content from Rosemount 871 icing probe" ;
 rlwc:Category = "Derived" ;
@@ -833,7 +831,6 @@ rlwc:channel = 16 ;
 rlwc:type = "analog" ;
 rlwc:Package = "get_icing";
 rlwc:OutputRate = XX ;
-
 
 Float rid_cycles;
 rid_cycles:long_name = "Icing cycles from Rosemount 871 icing detector" ;
@@ -976,7 +973,6 @@ rhola:Category = "Derived" ;
 rhola:SampleRate = 100;
 rhola:Package = "get_lymana" ;
 rhola:OutputRate = XX ;
-
 
 // PMS PCASP (UWYO/NOAA) is in PCA canister. Edit to change.
 Float AS200_PC1 ;
@@ -1344,8 +1340,17 @@ AVlon:missing_value = -32767.;
 AVlon:FillValue = -32767.;
 AVlon:OutputRate = XX ;
 
+Float AValt ;
+AValt:long_name = "Applanix AV-410 IMU/GPS MSL altitude (post-processed)";
+AValt:Status = "AV410 post-processed variable" ;
+AValt:units = "meter";
+AValt:Package = "POSPac MMM";
+AValt:missing_value = -32767.;
+AValt:FillValue = -32767.;
+AValt:OutputRate = XX ;
+
 Float AVzmsl ;
-AVzmsl:long_name = "Applanix AV-410 orthometric (MSL) altitude (GPS corrected )";
+AVzmsl:long_name = "Applanix AV-410 (MSL) altitude (GPS corrected )";
 AVzmsl:Status = "AV410 post-processed variable" ;
 AVzmsl:units = "meter";
 AVzmsl:standard_name = "altitude" ;
@@ -1606,7 +1611,6 @@ avzvel:missing_value = -32767.;
 avzvel:FillValue = -32767.;
 avzvel:OutputRate = XX ;
 
-
 Float avgs ;
 avgs:long_name = "Applanix a-410 ground speed (real-time)";
 avgs:Status = "AV410 real-time variable" ;
@@ -1615,7 +1619,6 @@ avgs:Package = "AV-410 Real-Time ";
 avgs:missing_value = -32767.;
 avgs:FillValue = -32767.;
 avgs:OutputRate = XX ;
-
 
 Float avux ;
 avux:long_name = " horizontal wind -- longitudinal component (real-time)";
@@ -1835,7 +1838,6 @@ avplatformheading:missing_value = -32767.;
 avplatformheading:FillValue = -32767.;
 avplatformheading:OutputRate = XX ;
 
-
 Float avnposrms ;
 avnposrms:long_name = "Applanix av-410 north position RMS real-time";
 avnposrms:Status = "AV410 real-time variable" ;
@@ -1854,7 +1856,6 @@ aveposrms:missing_value = -32767.;
 aveposrms:FillValue = -32767.;
 aveposrms:OutputRate = 1 ;
 
-
 Float avdposrms ;
 avdposrms:long_name = "Applanix av-410 down position RMS real-time";
 avdposrms:Status = "AV410 real-time variable" ;
@@ -1863,7 +1864,6 @@ avdposrms:Package = "AV-410 Real-Time ";
 avdposrms:missing_value = -32767.;
 avdposrms:FillValue = -32767.;
 avdposrms:OutputRate = 1 ;
-
 
 Float avnvelrms ;
 avnvelrms:long_name = "Applanix av-410 north velocity RMS real-time";
@@ -2280,7 +2280,6 @@ tas1221:Status = "Derived Variable" ;
 tas1221:units = "meter/sec";
 tas1221:standard_name = "platform_speed_wrt_air" ;
 tas1221:Package = "get_misc";
-tas1221:StaticDefect="Corrected";
 tas1221:OutputRate = XX ;
 
 Float inletsp ;
@@ -2412,39 +2411,25 @@ itwccol:AnalogCalibrationDate = "2010-03-19 16:48:37.000" ;
 itwccol:OutputRate = XX ;
 
 Float q_impact;
-q_impact:long_name = "Impact pressure (corrected)";
+q_impact:long_name = "Impact pressure ";
 q_impact:Status = "Derived Variable" ;
 q_impact:units = "hPa";
 q_impact:Package = "get_varTAS" ;
 q_impact:OutputRate = XX ;
 
-Float q_boom_alpha;
-q_boom_alpha:long_name = "Impact pressure (boom dp1, dpr_alpha)";
-q_boom_alpha:Status = "Derived Variable" ;
-q_boom_alpha:units = "hPa";
-q_boom_alpha:Package = "get_varTAS" ;
-q_boom_alpha:OutputRate = XX ;
+Float qimpact_boom;
+qimpact_boom:long_name = "Impact pressure (boom DP2 and PS)";
+qimpact_boom:Status = "Derived Variable" ;
+qimpact_boom:units = "hPa";
+qimpact_boom:Package = "get_varTAS" ;
+qimpact_boom:OutputRate = XX ;
 
-Float q_boom_beta;
-q_boom_beta:long_name = "Impact pressure (boom dp1, dpr_beta)";
-q_boom_beta:Status = "Derived Variable" ;
-q_boom_beta:units = "hPa";
-q_boom_beta:Package = "get_varTAS" ;
-q_boom_beta:OutputRate = XX ;
-
-Float q_ship_alpha;
-q_ship_alpha:long_name = "Impact pressure (ship dp1, dpr_alpha)";
-q_ship_alpha:Status = "Derived Variable" ;
-q_ship_alpha:units = "hPa";
-q_ship_alpha:Package = "get_varTAS" ;
-q_ship_alpha:OutputRate = XX ;
-
-Float q_ship_beta;
-q_ship_beta:long_name = "Impact pressure (ship dp1, dpr_beta)";
-q_ship_beta:Status = "Derived Variable" ;
-q_ship_beta:units = "hPa";
-q_ship_beta:Package = "get_varTAS" ;
-q_ship_beta:OutputRate = XX ;
+Float qimpact_ship;
+qimpact_ship:long_name = "Impact pressure (ship DP1 and PS)";
+qimpact_ship:Status = "Derived Variable" ;
+qimpact_ship:units = "hPa";
+qimpact_ship:Package = "get_varTAS" ;
+qimpact_ship:OutputRate = XX ;
 
 Float QimpactX;
 QimpactX:long_name = "Impact pressure (recommended)";
@@ -2493,33 +2478,19 @@ dpr_alpha:type = "analog" ;
 dpr_alpha:Package = "get_varTAS" ;
 dpr_alpha:OutputRate = XX ;
 
-Float f_boom_alpha;
-f_boom_alpha:long_name = "R858  f-factor (boom, alpha)" ;
-f_boom_alpha:units = "dimensionless" ;
-f_boom_alpha:type = "analog" ;
-f_boom_alpha:Package = "get_varTAS" ;
-f_boom_alpha:OutputRate = XX ;ta
+Float f_ship;
+f_ship:long_name = "R858  f-factor ship dp1 and PS" ;
+f_ship:units = "dimensionless" ;
+f_ship:type = "analog" ;
+f_ship:Package = "get_varTAS" ;
+f_ship:OutputRate = XX ;
 
-Float f_boom_beta;
-f_boom_beta:long_name = "R858  f-factor (boom, beta)" ;
-f_boom_beta:units = "dimensionless" ;
-f_boom_beta:type = "analog" ;
-f_boom_beta:Package = "get_varTAS" ;
-f_boom_beta:OutputRate = XX ;
-
-Float f_ship_alpha;
-f_ship_alpha:long_name = "R858  f-factor (ship, alpha)" ;
-f_ship_alpha:units = "dimensionless" ;
-f_ship_alpha:type = "analog" ;
-f_ship_alpha:Package = "get_varTAS" ;
-f_ship_alpha:OutputRate = XX ;
-
-Float f_ship_beta;
-f_ship_beta:long_name = "R858  f-factor (ship, beta)" ;
-f_ship_beta:units = "dimensionless" ;
-f_ship_beta:type = "analog" ;
-f_ship_beta:Package = "get_varTAS" ;
-f_ship_beta:OutputRate = XX ;
+Float f_boom;
+f_boom:long_name = "R858  f-factor boom dp1 and PS" ;
+f_boom:units = "dimensionless" ;
+f_boom:type = "analog" ;
+f_boom:Package = "get_varTAS" ;
+f_boom:OutputRate = XX ;
 
 Float fq_alpha;
 fq_alpha:long_name = "R858  fq-factor (alpha)" ;
@@ -2550,14 +2521,14 @@ ta_alpha:Package = "get_varTAS";
 ta_alpha:OutputRate = XX ;
 
 Float tb_beta;
-tb_beta:long_name = "tan(beta) (uses dpr_beta)";
+tb_beta:long_name = "tan(beta) (uses DPR)";
 tb_beta:Status = "Derived Variable" ;
 tb_beta:units = "dimensionless";
 tb_beta:Package = "get_varTAS";
 tb_beta:OutputRate = XX ;
 
 Float tb_alpha;
-tb_alpha:long_name = "tan(beta) (uses dpr_alpha)";
+tb_alpha:long_name = "tan(beta) (uses DPN)";
 tb_alpha:Status = "Derived Variable" ;
 tb_alpha:units = "dimensionless";
 tb_alpha:Package = "get_varTAS";
@@ -2580,14 +2551,14 @@ ps_boom:OutputRate = XX ;
 Float alpha;
 alpha:long_name = "Attack angle (recommended)";
 alpha:Status = "Derived Variable" ;
-alpha:units = "radians";
+alpha:units = "degree";
 alpha:Package = "get_varTAS";
 alpha:OutputRate = XX ;
 
 Float beta;
 beta:long_name = "Sideslip angle (recommended)";
 beta:Status = "Derived Variable" ;
-beta:units = "radians";
+beta:units = "degree";
 beta:Package = "get_varTAS";
 beta:OutputRate = XX ;
 
@@ -2604,6 +2575,43 @@ ptotal_ship:units = "hPa" ;
 ptotal_ship:type = "analog" ;
 ptotal_ship:Package = "get_varTAS" ;
 ptotal_ship:OutputRate = XX ;
+
+Float PTOTALX;
+PTOTALX:long_name = "Total Pressure (recommended)/" ;
+PTOTALX:units = "hPa" ;
+PTOTALX:type = "analog" ;
+PTOTALX:Package = "get_varTAS" ;
+PTOTALX:OutputRate = XX ;
+
+Float Zhydro;
+Zhydro:long_name = "Altitude from Hydrostatic eqn";
+Zhydro:units = "meter";
+Zhydro:type = "analog" ;
+Zhydro:Package = "get_varTAS" ;
+Zhydro:OutputRate = XX ;
+
+Float BuckDewPoint;
+BuckDewPoint:long_name = ";
+BuckDewPoint:Units = "celsius";
+BuckDewPoint:OutputRate = 1;
+
+Float BuckPressure;
+BuckPressure:long_name = "Buck 1011C Pressure";
+BuckDewPoint:Units = "hPa";
+BuckPressure:OutputRate = 1;
+
+Float BuckBoardTemp; 
+BuckBoardTemp:long_name = "Buck 1011C Board Temperature";
+BuckBoardTemp:OutputRate = 1;
+
+Float BuckMirrorFlag;
+BuckMirrorFlag:long_name = "Buck 1011C Mirror Flag";
+BuckMirrorFlag:OutputRate = 1;
+
+Float BuckDataFlag;
+BuckDataFlag:long_name = "Buck 1011C Data Flag";
+BuckDataFlag:OutputRate = 1;
+
 
 
 // global attributes:

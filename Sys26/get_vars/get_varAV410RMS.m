@@ -13,10 +13,6 @@ function get_varAV410RMS(X)
 
 TT=datetime('now');% save processing start time
 
-% This might be needed
-clear ncinfo ncreadatt ncwriteatt ncread
-close all
-
 % Load time vector to reference length
 try
     Time=ncread(X.RawPath,'time');
@@ -58,13 +54,18 @@ sbetfile=X.AVdata;
 data=dataAV410(sbetfile);
 
 % Read the rms data file 
- AVrms=rmsAV410(X.AVrms);
+AVrms=rmsAV410(X.AVrms);
 
-% Convert aircraft time to GPS time
+% Get time in seconds from raw file
+time=ncread(X.RawPath,rawTimeVar);
+
+% *_raw.nc time units will look something like 
+%  'seconds since 2021-01-01 00:00:00 +0000'
+
 GPSunits=ncreadatt(X.RawPath,rawTimeVar,'units');
 % string parse time format
 GPSformat = ncreadatt(X.RawPath,rawTimeVar,'strptime_format'); 
-G = aircraftTime2gpsTime(Time,GPSunits,GPSformat);
+G = aircraftTime2gpsTime(time,GPSunits,GPSformat);
 
 % Create aircraft GPS time vector at 200 Hz
 % Applanix system outputs time of week without leapsecond
@@ -76,14 +77,15 @@ G = aircraftTime2gpsTime(Time,GPSunits,GPSformat);
 weekStart = G.week(1);
 tow1 = G.gpsSeconds - weekStart * 604800;
 
-% Create array of GPS times corresponding to aircaft time
-deltat = 1;
-t_ac_gps = [(tow1(1):deltat:tow1(end)) - G.leapSeconds(1)]';
-t01 = t_ac_gps;  % aircraft GPS time
-t00 = AVrms(1,:)'; % Applanix GPS time
-nac=length(t01);
+deltat=1;
+t_ac_gps = [(tow1(1):deltat:(tow1(end)+1-deltat)) - G.leapSeconds(1)]';
+t01=t_ac_gps;  % aircraft GPS time
 
+s = struct('name', [], 'value', [], 'units', []);
 rmsData=struct('name', [], 'units', [],'value', []);
+t00=unique(AVrms(1,:)'); % Applanix GPS time
+
+
 % Get variable information
 rmsData(1).name = "GPSTime";
 rmsData(2).name = "nposrms";
@@ -110,11 +112,7 @@ rmsData(10).units = 'degree';
 % Load data into structure
 for ii=1:numel(rmsData);
     % Syncronize aircraft and GPS times
-    try
-    rmsData(ii).value = interp1(t00,AVrms(ii,:)',t01,'nearest',0);
-    catch
-        'blurf'
-    end
+    rmsData(ii).value = interp1(t00,AVrms(ii,:),t01,'nearest',0);
 end
 
 % Convert units

@@ -1,34 +1,17 @@
-y1 = -10; y2=10;
-
-ax(1)=subplot(4,1,1)
-plot(omega(:,1)*180/pi)
-ylabel('X axis')
-v=axis;
-axis([v(1),v(2),y1,y2])
-
-
-ax(2)=subplot(4,1,2)
-plot(omega(:,2).*180/pi)
-ylabel('Y axis')
-v=axis;
-axis([v(1),v(2),y1,y2])
-
-ax(3)=subplot(4,1,3)
-plot(omega(:,3).*180/pi)
-ylabel('Z axis')
-v=axis;
-axis([v(1),v(2),y1,y2])
-
-ax(4)=subplot(4,1,4);
-plot(att1(1,:)*180/pi)
-ylabel('Roll angle')
-
-% Link axes limits: 'x', 'y', or 'xy' (use 'xy' to link both)
-linkaxes(ax, 'x')
-% Enable interactive zoom for the figure
-z = zoom(gcf);
-z.Enable = 'on';
-
-% Example axes handles ax
-% 1) Using YLimMode
-set(ax, 'YLimMode', 'auto');
+b=kaiser_lp(1000,12.5,10,.01,80);
+fields = fieldnames(raw);
+for i = 1:numel(fields);
+    figure(i)
+    x = raw.(fields{i});
+    xf = filtfilt(b,a,x);
+    [pp,ff]=spec(x(zz1000),xf(zz1000),[4096,2*4096,1/1000]);
+        loglog(ff,pp(:,1),ff,pp(:,2)), grid
+    PP.(fields{i})=pp;
+    FF.(fields{i})=ff;
+    legend("Raw","Filtered","fontsize",15,'FontWeight','bold');
+    xlabel('Frequency [Hz]','fontsize',15)
+    ylabel('PSD variance/freq unit','fontsize',15,'FontWeight','bold');
+    ss = sprintf("20260408b: %s 1000 Hz",fields{i});
+    title(ss,,'fontsize',15,'FontWeight','bold')
+    axis([v(1) v(2) 1e-10, 1e-2])
+end
