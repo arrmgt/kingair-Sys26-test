@@ -1,17 +1,18 @@
-b=kaiser_lp(1000,12.5,10,.01,80);
-fields = fieldnames(raw);
-for i = 1:numel(fields);
-    figure(i)
-    x = raw.(fields{i});
-    xf = filtfilt(b,a,x);
-    [pp,ff]=spec(x(zz1000),xf(zz1000),[4096,2*4096,1/1000]);
-        loglog(ff,pp(:,1),ff,pp(:,2)), grid
-    PP.(fields{i})=pp;
-    FF.(fields{i})=ff;
-    legend("Raw","Filtered","fontsize",15,'FontWeight','bold');
-    xlabel('Frequency [Hz]','fontsize',15)
-    ylabel('PSD variance/freq unit','fontsize',15,'FontWeight','bold');
-    ss = sprintf("20260408b: %s 1000 Hz",fields{i});
-    title(ss,,'fontsize',15,'FontWeight','bold')
-    axis([v(1) v(2) 1e-10, 1e-2])
-end
+blurf=ncread(X.RawPath,'DP1');DP1=blurf(:);
+blurf=ncread(X.RawPath,'DP2');DP2=blurf(:);
+blurf=ncread(X.RawPath,'PSA');PSA=blurf(:);
+blurf=ncread(X.RawPath,'PSB');PSB=blurf(:);
+blurf=ncread(X.RawPath,'PTB');PTB=blurf(:);
+
+
+PTOTA=DP1+PSA;
+PTOTB=DP2+PSB;
+kk=2e4:10e4;
+plot([1:numel(kk)]/60,[PTOTB(kk)-PTOTA(kk),PTB(kk)-PTOTA(kk)])
+ylabel('PTOT differences [hPa]')
+xlabel('Time [min]')
+title('20260607_raw.nc')
+grid
+legend('PTOTB-PTOTA','PTB-PTOTA','Location','southeast')
+title('20260617\_raw.nc')
+saveas(gfc,'Ptots.jpg')

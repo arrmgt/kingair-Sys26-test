@@ -43,20 +43,20 @@ addParameter(p, "BaseOut", "",             @(s)ischar(s)||isstring(s));
 if(contains(osType,"win64"));
     addParameter(p, "SYS",("windows"),     @(s)ischar(s)||isstring(s));
     % Raw data file location (*_raw.nc)
-    addParameter(p, "Data","P:\MATLAB-DATA2\kingair_data\",@(s)ischar(s)||isstring(s));
+    addParameter(p, "Data","D:\MATLAB-DATA2\kingair_data\",@(s)ischar(s)||isstring(s));
     % Final ncfile will be on X.ncLOC/PROJ/work
     addParameter(p, 'ncLOC', 'Data',       @(s)ischar(s)||isstring(s));
-    addParameter(p, "Repo","C:\Users\rodi\Github\kingair-Sys26-test",@(s)ischar(s)||isstring(s));
-    addParameter(p, "scratchDir","P:\MATLAB-DATA2\kingair_data\scratch\", @(s)ischar(s)||isstring(s));
-    addParameter(p, "aster", "P:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
-    addParameter(p, "egm", "P:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "Repo","C:\Users\alfre\Github\kingair-Sys26-work",@(s)ischar(s)||isstring(s));
+    addParameter(p, "scratchDir","D:\MATLAB-DATA2\kingair_data\scratch\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "aster", "D:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "egm", "D:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
 else
     addParameter(p, "SYS",("medicinebow"), @(s)ischar(s)||isstring(s));
     % Raw data file location (*_raw.nc)
     addParameter(p, "Data","/cluster/alcova/kingairfacility/kingair_data/",@(s)ischar(s)||isstring(s));
     % Final ncfile will be on X.ncLOC/PROJ/work
     addParameter(p, 'ncLOC', 'Data',       @(s)ischar(s)||isstring(s));
-    addParameter(p, "Repo","/home/rodi/kingair-Sys26-test",@(s)ischar(s)||isstring(s));
+    addParameter(p, "Repo","/home/rodi/kingair-Sys26-work",@(s)ischar(s)||isstring(s));
     addParameter(p, "scratchDir", "/gscratch/rodi/", @(s)ischar(s)||isstring(s));
     addParameter(p, "aster","/cluster/alcova/kingairfacility/kingair_data/", @(s)ischar(s)||isstring(s));
     addParameter(p, "egm","/cluster/alcova/kingairfacility/kingair_data/", @(s)ischar(s)||isstring(s));

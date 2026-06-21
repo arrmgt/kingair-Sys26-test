@@ -48,26 +48,26 @@ sx2=filter(b,a,uwf.*uwf);
 varu=sx2./nblock-(sx./nblock).^2;
 j=find(~isnan(varu) & ~isinf(varu) &  ~isinf(-varu));
 varu=interp1(j,varu(j),1:numel(uwf),'linear',0)';
+varu = circshift(varu,round(nblock/2));
 
 sy=filter(b,a,vwf);
 sy2=filter(b,a,vwf.*vwf);
 varv=sy2./nblock-(sy./nblock).^2;
 j=find(~isnan(varv) & ~isinf(varv) &  ~isinf(-varv));
 varv=interp1(j,varv(j),1:numel(vwf),'linear',0)';
+varv = circshift(varv,round(nblock/2));
 
 sx=filter(b,a,wwf);
 sx2=filter(b,a,wwf.*wwf);
 varw=sx2./nblock-(sx./nblock).^2;
 j=find(~isnan(varw) & ~isinf(varw) &  ~isinf(-varw));
 varw=interp1(j,varw(j),1:numel(wwf),'linear',0)';
+varw = circshift(varw,round(nblock/2));
+
 %
-nroll=nblock/rate/2;
 varhatu = changeRate(varu,rate,1);
 varhatv = changeRate(varv,rate,1);
 varhatw = changeRate(varw,rate,1);
-varhatu = circshift(varhatu,-nroll);
-varhatv = circshift(varhatv,-nroll);
-varhatw = circshift(varhatw,-nroll);
 
 tas1(tas1<0) = .1;
 % Use Feng Xia MS (2001) eqn 2.20 

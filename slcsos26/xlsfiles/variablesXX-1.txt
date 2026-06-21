@@ -2591,7 +2591,7 @@ Zhydro:Package = "get_varTAS" ;
 Zhydro:OutputRate = XX ;
 
 Float BuckDewPoint;
-BuckDewPoint:long_name = ";
+BuckDewPoint:long_name = "Buck 1011C Mirror Temperature";
 BuckDewPoint:Units = "celsius";
 BuckDewPoint:Package = "get_varTAS" ;
 BuckDewPoint:OutputRate = XX;
@@ -2610,12 +2610,18 @@ BuckBoardTemp:OutputRate = XX;
 Float BuckMirrorFlag;
 BuckMirrorFlag:long_name = "Buck 1011C Mirror Flag";
 BuckMirrorFlag:Package = "get_varTAS" ;
-BuckMirrorFlag:OutputRate =XX;
+BuckMirrorFlag:OutputRate =1;
 
 Float BuckDataFlag;
 BuckDataFlag:long_name = "Buck 1011C Data Flag";
 BuckDataFlag:Package = "get_varTAS" ;
-BuckDataFlag:OutputRate = XX;
+BuckDataFlag:OutputRate = 1;
+
+Float tdpFlag;
+tdpFlag:long_name = "Buck 1011C Status";
+tdpFlag:Package = "get_varTAS" ;
+tdpFlag:OutputRate = 1;
+
 
 Float WaterBlockRTD;
 WaterBlockRTD:long_name = "Water Block Temperature (R858)";

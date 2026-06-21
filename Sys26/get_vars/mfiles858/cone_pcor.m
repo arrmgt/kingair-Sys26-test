@@ -68,13 +68,15 @@ end
 pcorc = pErr; 
 qx = fqx./f0;
 fcoef = f0;
-k1 = kk(1); k2 = kk(end);
-pErr (1:k1-1) = pErr(k1);   pErr (k2+1:end) = pErr(k2);
-qx   (1:k1-1) = qx(k1);     qx   (k2+1:end) = qx(k2);
-fcoef(1:k1-1) = fcoef(k1);  fcoef(k2+1:end) = fcoef(k2);
-tax  (1:k1-1) = tax(k1);    tax  (k2+1:end) = tax(k2);
-tbx  (1:k1-1) = tbx(k1);    tbx  (k2+1:end) = tbx(k2);
-pcorc(1:k1-1) = pcorc(k1);  pcorc(k2+1:end) = pcorc(k2);
+if numel(kk)>10
+    k1 = kk(1); k2 = kk(end);
+    pErr (1:k1-1) = pErr(k1);   pErr (k2+1:end) = pErr(k2);
+    qx   (1:k1-1) = qx(k1);     qx   (k2+1:end) = qx(k2);
+    fcoef(1:k1-1) = fcoef(k1);  fcoef(k2+1:end) = fcoef(k2);
+    tax  (1:k1-1) = tax(k1);    tax  (k2+1:end) = tax(k2);
+    tbx  (1:k1-1) = tbx(k1);    tbx  (k2+1:end) = tbx(k2);
+    pcorc(1:k1-1) = pcorc(k1);  pcorc(k2+1:end) = pcorc(k2);
+end
 
 return
 

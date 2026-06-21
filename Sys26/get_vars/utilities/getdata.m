@@ -101,11 +101,16 @@ if ~isempty(fill)
     end
 end
 
-x = blurf;
+x = blurf(:);  % ensure columnwise
 
 % Resample to output rate
 if ~isempty(orate)
-    x = fillmissing(x, 'previous');   % or 'spline', 'pchip', 'nearest'
+    % Still passing nans
+    x = fillmissing(x, 'linear');   % or 'spline', 'pchip', 'nearest'
+    x = fillmissing(x, 'previous'); 
+    if any(isnan(x(:)))
+        x(isnan(x)) = 0;            % choose appropriate constant
+    end
     if any(isnan(x(:)))
         pct = 100 * sum(isnan(x(:))) / numel(x);
         warning('decimate_new: input contains %.1f%% NaN values. Interpolating before filtering.', pct);

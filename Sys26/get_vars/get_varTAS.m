@@ -2,41 +2,19 @@ function get_varTAS(X)
 % GET_VARTAS  Compute TAS-group variables and write to NetCDF + matfile.
 %
 %   GET_VARTAS(X) reads raw measurements from the project's *_RAW.nc file,
-%   computes True Air Speed and a set of derived thermodynamic and
-%   dynamic air-data variables, and writes the result to:
-%     - the project's final NetCDF file (variable attributes), and
-%     - a per-flight matfile <BaseName>_TAS.mat in X.tempdir, which is
-%       merged into the final NetCDF by load_ncFINAL.
+%    computes True Air Speed and  derived thermodynamic variables.
+%   Results are written to a matfile which is merged
+%    with other measurement group matfiles into the 
+%    into the final NetCDF file.
 %
-%   Required fields of the input struct X:
-%     ncFINAL   path to the final NetCDF (.nc) file (must already exist)
-%     RawPath   path to the raw NetCDF file containing measurement data
-%     procRate  processing sample rate (Hz) used by getdata
-%     Ptable    pivot table mapping output variables to raw inputs
-%     Ttable    raw mapping table
-%     rawGROUPS list of available raw measurement groups
-%     BaseName  base file name used for the matfile output
-%     tempdir   directory where the matfile is written
-%     PROJ      project name (used for the processing log line)
-%     NOpcor    logical; if true, skip static-pressure corrections
-%     PressUsed name of the static pressure source to use
-%               ("ps_ship", "ps_boom", "ps_CPT6140", or "ps_CPT9000")
-%     TempUsed  name of the temperature sensor ("trf" or "trose")
-%     DP1Used   DP1 source ("dp1_ship" or "dp1_boom")
-%     QUsed     impact-pressure source ("q_ship_alpha", "q_ship_beta",
-%               "q_boom_alpha", or "q_boom_beta")
-%     PcorUsed  pcor source ("ship_pcor" or "boom_pcor")
+%   Required fields of the input struct X are set in the 
+%         main calling program do_batch26.m
 %
-%   Outputs (saved to the matfile):
-%     A fixed core set: orate, Rate, rawfile, arcNames, rawNames,
-%     TEMPX, PSX, Time, plus procSeconds, TT, TT1, plus every
-%     local variable named in arcNames whose name is longer than
-%     one character (computed in this function).
+%   Outputs: The list arcNames are variables saved to the matfile
 %
 %   Local helpers (defined below):
-%     get_uvw, calc_pcor, upsample_data,
-%     compute_pcor_for_source, airdata_for_temp.
-
+%     get_uvw:  gets hi-rate TAS components for the EDR calculation
+%     repair_one:   clean up the end times before TO and after landing.
 
 TT=datetime('now');
 % Time attributes
@@ -67,17 +45,6 @@ info = ncinfo(X.RawPath);
 RAWNAMES = {info.Variables.Name};   
 isPresent = ismember(rawNames,RAWNAMES);
 
-% Get a reference variables at the raw rate
-%     assuming all are at 1000 sps.
-% Do sanity pre-check on a  measurement
-% Replace bad samples by interpolating from good ones (kk),
-% extrapolating at the ends with first and last good values
-PTB = getdata(X.RawPath,'PTB');
-FillValue = ncreadatt(X.RawPath,'DP2','_FillValue');
-kk  = find(PTB > 0 & PTB > FillValue ...
-    & ~isnan(PTB)  & ~isinf(PTB)  ); % Accept
-kk0 = [1:numel(PTB)]';               % All  
-
 RAW = struct();
 RATE = struct();
 % Read in data from *_raw.nc, and do some sanity checking
@@ -85,6 +52,8 @@ for k = 1:length(rawNames)
     var1 = char(rawNames(k));
     if isPresent(k)
         [blurf,irate] = getdata(X.RawPath, var1);
+        kk0=[1:numel(blurf)]';
+        kk = find(~isnan(blurf));
         blurf = interp1(kk, blurf(kk), kk0, 'linear', NaN);
         % set left-of-first to first good point 
         %     and right-of-last to last good
@@ -96,33 +65,39 @@ for k = 1:length(rawNames)
 end
 
 %**********************TEST TEST TEST
-    TEST = true
-    if TEST
-        trose1                  = changeRate(RAW.TROSE,RATE.TROSE,1);
-        RAW.BuckDewPoint        = trose1 - 10;
-        RAW.BuckPressure        = changeRate(RAW.PSA,RATE.PSA,1);
-        RAW.BuckBoardTemp       = 33.*ones(size(Time));
-        RAW.BuckMirrorFlag      = ones(size(Time));
-        RAW.BuckDataFlag        = ones(size(Time));
-        RAW.PRES9000            = changeRate(RAW.PSA,RATE.PSA,50);
-        RAW.PRES6140            = changeRate(RAW.PSA,RATE.PSA,100);
-        RATE.BuckDewPoint       = 1;
-        RATE.BuckPressure       = 1;
-        RATE.BuckBoardTemp      = 1;
-        RATE.BuckMirrorFlag     = 1;
-        RATE.BuckDataFlag       = 1;
-        RATE.PRES6140           = 100;
-        RATE.PRES9000           = 50;
+TEST = false
+if TEST
+    trose1                  = changeRate(RAW.TROSE,RATE.TROSE,1);
+    RAW.BuckDewPoint        = trose1 - 10;
+    RAW.BuckPressure        = changeRate(RAW.PSA,RATE.PSA,1);
+    RAW.BuckBoardTemp       = 33.*ones(size(Time));
+    RAW.BuckMirrorFlag      = ones(size(Time));
+    RAW.BuckDataFlag        = ones(size(Time));
+    RAW.PRES9000            = changeRate(RAW.PSA,RATE.PSA,50);
+    %%RAW.PRES6140            = changeRate(RAW.PSA,RATE.PSA,100);
+    RATE.BuckDewPoint       = 1;
+    RATE.BuckPressure       = 1;
+    RATE.BuckBoardTemp      = 1;
+    RATE.BuckMirrorFlag     = 1;
+    RATE.BuckDataFlag       = 1;
+    %%RATE.PRES6140           = 100;
+    RATE.PRES9000           = 50;
+end
+%****** END TEST
 
-        rawNames(end+1) = 'PRES9000';
-        rawNames(end+1) = 'PRES6140';
-
-        
-    end
-%**********************TEST TEST TEST
+% Is Buck TDP installed?
+if any(contains(rawNames, "Buck", "IgnoreCase", true));
+    %  Keep Buck 1011C status flags at 1 Hz (No rate-changing)
+    BuckDataFlag = RAW.BuckDataFlag;
+    BuckMirrorFlag = RAW.BuckMirrorFlag;
+    tdpFlag = BuckDataFlag + 10*BuckMirrorFlag;
+ 
+    % Remove BuckMirrorFlag and BuckDataFlag variables from rawNames
+    RAW = rmfield(RAW,{'BuckMirrorFlag','BuckDataFlag'});
+    rawNames = fieldnames(RAW);
+end
 
 %   Unpack struct fields to named locals  and change rate.
-%   Assign rawNames data to arcNames output variable names (pivot table row-by-row)
 for i = 1:length(rawNames)
     rawName = strtrim(rawNames{i});
     if isfield(RAW, rawName)
@@ -131,20 +106,11 @@ for i = 1:length(rawNames)
     end
 end
 
-% Exceptions
-PSA0 = PSA;
-PSB0 = PSB;
-tdp  = BuckDewPoint;
-
-%  Sanity check (attack angles are largely positive;
+%  Sanity check (attack angles are largely positive);
 if mean(DPA)<0
     DPA = -DPA;
 end
 
-zz = 1000:1000+30*X.procRate;
-PSoffset = mean( PSA0(zz)-PSB0(zz) ); % before takeoff
-PSA = PSA0 - PSoffset;
-PSB = PSB0;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Get static pressure corrections
@@ -156,7 +122,7 @@ PSB = PSB0;
 % Using foef, calculate pcor from 858 equations.
 ship_pcor = pcor858(ship_fcoef,DP1,DPA,DPB,DPR,PSA); %pcor858(fcoef,DP1,DPA,DPB,DPR,PSA)
 %  Assume PSB-boom_pcor = PSA-ship_pcor, and estimate boom_pcor.
-boom_pcor = PSB0 - PSA + ship_pcor;
+boom_pcor = PSB - PSA + ship_pcor;
 if exist('PRES6140','var')
     PRES6140_ship = PRES6140 - ship_pcor;
 end
@@ -202,7 +168,8 @@ end
 %%%%%%%%% Dewpoint (TDPEDGE or Buck 1011C  or ??
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if cell_find(arcNames,'tdp') % 'celsius'
+if exist('BuckDewPoint')
+    tdp = BuckDewPoint;
     % Frost point?? Then convert to dew point
     kk=find(tdp<0); 
     % Assume Frost Point sensed if tdp<0 C
@@ -376,7 +343,11 @@ correctedVars(end+1) = "pTotal";
 % 
 % Mixing Ratio:
 vaporPressure=sat_vapor_pressure_GG(TDPK); % Use Goff-Gratch
-mr=(C.Mv./C.Md).*vaporPressure./(PSX - vaporPressure); % g/g
+if exist('BuckPressure','var')
+    mr=(C.Mv./C.Md).*vaporPressure./(BuckPressure - vaporPressure); % g/g
+else
+    mr=(C.Mv./C.Md).*vaporPressure./(PSX - vaporPressure); % g/g
+end
 
 % Attack and Sideslip angles 
 units = ncreadatt(X.ncFINAL,'alpha','units');
@@ -517,19 +488,24 @@ ncwriteatt(X.ncFINAL,'thetae','PressUsed',X.PressUsed,'Datatype','char');
 %%%%%%%%%%%%% Eddy Dissipation Rate from TAS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Get TAS components at high-rate from RAW.nc file
-fs  = 60;
-fny = fs/2;
-f1  = fny/10;
-f2  =  fny;
-[tasx,tasy,tasz] = get_uvw(X,fs,RAW); % aircraft-relative TAS components
-Tas = rssq([tasx,tasy,tasz],2); % root sum of squares
-[~,~,epsiwi] = ...
-EddyDissipationRate(Tas,tasx,tasy,tasz,f1,f2,fs);
-edrTAS = epsiwi.^.333;
-
-if any(ismember(arcNames,'edrTAS'))
-    ncwriteatt(X.ncFINAL,'edrTAS','BandWidth(Hz)',[f1,f2]);
+if numel(RAW.DPA) > 10*60*1000 % 10 minutes
+    fs  = 60;
+    fny = fs/2;
+    f1  = fny/10;
+    f2  =  fny;
+    [tasx,tasy,tasz] = get_uvw(X,fs,RAW,RATE,'dPsCorr', ship_pcor); % aircraft-relative TAS components
+    Tas = rssq([tasx,tasy,tasz],2); % root sum of squares
+    [~,~,epsiwi] = ...
+    EddyDissipationRate(Tas,tasx,tasy,tasz,f1,f2,fs);
+    edrTAS = epsiwi.^.333;
+    if any(ismember(arcNames,'edrTAS'))
+        ncwriteatt(X.ncFINAL,'edrTAS','BandWidth(Hz)',[f1,f2]);
+    end
+else
+    edrTAS = zeros(size(Time));
 end
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%% Output data to matfile
@@ -570,7 +546,7 @@ end
 % Calculate TAS components in aircraft coords at 50 Hz
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [compx,compy,compz] = get_uvw(X,rate,RAW,varargin) % Helpers below
+function [compx,compy,compz] = get_uvw(X,rate,RAW,RATE,varargin) % Helpers below
 p = inputParser;
 addParameter(p, 'dPsCorr', [], @(x)isnumeric(x)); 
 parse(p, varargin{:});
@@ -586,40 +562,49 @@ PSUsed = extractBefore(PcorUsed,'_');
 % upsample dPSCorr if necessary
 if ~isempty(Opts.dPsCorr)
     pcorc = Opts.dPsCorr;
-    Up    = RAW.PSA/X.procRate;
-    pcorc = changeRate(pcorc,X.procRate,Up);
+    pcorc = changeRate(pcorc,X.procRate, rate);
 else
     pcorc = zeros(rate,1);
 end
 
-kk = find(~isnan(RAW.DP1) & RAW.DP1>20 & RAW.DP1<90);
-q  = zeros(size(RAW.DP1));
-ta = zeros(size(RAW.DP1));
-tb = zeros(size(RAW.DP1));
-[q(kk),f(kk),ta(kk),tb(kk)] = solve858(RAW.DP1(kk),RAW.DPA(kk),RAW.DPB(kk), ...
-    'dpr',RAW.DPR(kk));
-ta = fillmissing(ta,'previous');
-tb = fillmissing(tb,'previous');
+if contains(X.PressUsed,'ship')
+    Ps_meas     = changeRate(RAW.PSA, RATE.PSA,rate);
+else
+    Ps_meas     = changeRate(RAW.PRES9000, RATE.PRES9000,rate);
+end
 
-TDPK        = -40*ones(size(ta)) + 273.15;
-PSmeas      = RAW.PSA;
-Tmeas       = RAW.TROSE + 273.16;
-AirDat      = airdata(PSmeas,(PSmeas+q), Tmeas, 0.97, TDPK);
-TAS         = AirDat.TAS;
-TEMPK       = AirDat.Ts;
+[~,~,TA,TB] = solve858(RAW.DP1,RAW.DPA,RAW.DPB, ...
+    'dpr',RAW.DPR);
 
-irate = get_irate(X.RawPath,'DP1');
-TEMPK           = changeRate(TEMPK,    irate,rate);
-PMB             = changeRate(PSmeas,   irate,rate);
-TA              = changeRate(ta,       irate,rate);
-TB              = changeRate(tb,       irate,rate);
-TAS             = changeRate(TAS,      irate,rate);
+TA      = changeRate(TA,RATE.DP1,rate);
+TB      = changeRate(TB,RATE.DP1,rate);
 
-VA = tas2va(TAS,atan(TA),atan(TB));
-va = fillmissing(VA, 'constant',0);
-compx = va(:,1);
-compy = va(:,2);
-compz = va(:,3);
+TDP             = RAW.BuckDewPoint + 273.15;
+TDPrate         = RATE.BuckDewPoint;
+Tdp             = changeRate(TDP,      TDPrate,  rate);
+DP1             = changeRate(RAW.DP1,  RATE.DP1, rate);
+if contains(X.TempUsed, 'TROSE')
+    T_meas      = changeRate(RAW.TROSE,RATE.TROSE, rate) +273.15;
+    recovf      = 0.97;
+else
+    T_meas      = changeRate(RAW.TRF,RATE.TRF, rate) +273.15;
+    recovf      = 0.64; 
+end
+Pt_meas         = DP1 + Ps_meas;
+
+kk = find(~isnan(DP1) & DP1>20 & DP1<90);
+
+OUT     = airdata(Ps_meas(kk), Pt_meas(kk), T_meas(kk), recovf, Tdp(kk) ...
+    ,'dPs_corr', pcorc(kk));
+TAS     = OUT.TAS;
+VA      = zeros(size(T_meas,1),3);
+VA(kk,:)  = tas2va(TAS,atan(TA(kk)),atan(TB(kk)));
+
+VA = fillmissing(VA, 'constant',0);
+
+compx = VA(:,1);
+compy = VA(:,2);
+compz = VA(:,3);
 
 end
 
@@ -627,9 +612,11 @@ end
 %%% Clean up before TO and after Landing
 function x = repair_one(x, kk)
 allSamples = (1:numel(x))';
-x = interp1(kk, x(kk), allSamples, 'linear', NaN);
-x(allSamples < kk(1)) = x(kk(1));
-x(allSamples > kk(end)) = x(kk(end));
+if(kk>10)
+    x = interp1(kk, x(kk), allSamples, 'linear', NaN);
+    x(allSamples < kk(1)) = x(kk(1));
+    x(allSamples > kk(end)) = x(kk(end));
+end
 end
 
 
