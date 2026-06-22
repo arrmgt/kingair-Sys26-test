@@ -24,6 +24,8 @@ tasx1 = interp1(kk1,tasx(kk1),1:numel(tasx),'linear',1)';
 tasy1 = interp1(kk1,tasy(kk1),1:numel(tasy),'linear',1)';
 tasz1 = interp1(kk1,tasz(kk1),1:numel(tasz),'linear',1)';
 
+
+
 uwf = zeros(size(Tas));
 vwf = zeros(size(Tas));
 wwf = zeros(size(Tas));
@@ -32,43 +34,28 @@ uwf(~isnan(tasx1)) = filtfilt(b1,1,tasx1);
 vwf(~isnan(tasy1)) = filtfilt(b1,1,tasy1); 
 wwf(~isnan(tasz1)) = filtfilt(b1,1,tasz1);
 
+% Remove outliers
+[B,TFrm,TFoutlier] = rmoutliers(uwf,'percentiles],[5,95]);
+x = interp1(find(~TFrm),uwf(find(~TFrm)),[1:numel(uwf)]','linear',0);
+
+
 % Do running variance for each 10 s block 
 %
 %
-% Compute variances by summing x and x^2 over block 
-% using "filter" to make running averages
+% Compute running variances 
 %
 nblock=rate*10; % point blocks (10 sec)
-b=ones(nblock,1);
-a=1;
-tas1 = changeRate(Tas,rate,1); % to 1 Hz
 
-sx=filter(b,a,uwf);
-sx2=filter(b,a,uwf.*uwf);
-varu=sx2./nblock-(sx./nblock).^2;
-j=find(~isnan(varu) & ~isinf(varu) &  ~isinf(-varu));
-varu=interp1(j,varu(j),1:numel(uwf),'linear',0)';
-varu = circshift(varu,round(nblock/2));
+varu = movvar(uwf,nblock); % movvar centers value so no shift needed.
+varv = movvar(vwf,nblock);
+varw = movvar(wwf,nblock);
 
-sy=filter(b,a,vwf);
-sy2=filter(b,a,vwf.*vwf);
-varv=sy2./nblock-(sy./nblock).^2;
-j=find(~isnan(varv) & ~isinf(varv) &  ~isinf(-varv));
-varv=interp1(j,varv(j),1:numel(vwf),'linear',0)';
-varv = circshift(varv,round(nblock/2));
-
-sx=filter(b,a,wwf);
-sx2=filter(b,a,wwf.*wwf);
-varw=sx2./nblock-(sx./nblock).^2;
-j=find(~isnan(varw) & ~isinf(varw) &  ~isinf(-varw));
-varw=interp1(j,varw(j),1:numel(wwf),'linear',0)';
-varw = circshift(varw,round(nblock/2));
-
-%
+% Change rate to 1 Hz.
 varhatu = changeRate(varu,rate,1);
 varhatv = changeRate(varv,rate,1);
 varhatw = changeRate(varw,rate,1);
 
+tas1 = changeRate(Tas,rate,1); % to 1 Hz
 tas1(tas1<0) = .1;
 % Use Feng Xia MS (2001) eqn 2.20 
 I=[f1.^(-2/3)-f2.^(-2/3)].*(tas1./(2.*pi)).^(2/3);
