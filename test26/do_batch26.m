@@ -4,7 +4,7 @@ function X=do_batch26(RawFile,varargin)
 % Required: Raw file name
 % do_batch25("20180802a_raw.nc","Project","bbflux18"); % defaults for 1 Hz run 
 % Options (Name,Value) pairs and defaults (examples)
-%   "Project"       ("shakedown26")            : Starting directory (normally PWD)
+%   "Project"       ("shakedown26")         : Starting directory (normally PWD)
 %   "Rate"          (25)                    : Processing Rate
 %   "BaseOut"       ("20180802_arr)         : Archive file name 
 %   "PosPac"        (true)                  : Process applanix data
@@ -25,15 +25,17 @@ restoredefaultpath
 clear functions
 osType = lower(computer("arch"));
 p = inputParser; % Defaults are shown if not set in commmand line
-addParameter(p, "PROJ", "shakedown26",     @(s)ischar(s)||isstring(s));
+addParameter(p, "PROJ", "slcsos26",     @(s)ischar(s)||isstring(s));
 addParameter(p, "Rate", 1,                 @(x)isnumeric(x)&&isscalar(x)&&x>0);
 addParameter(p, "FillValue", -32767,       @(x)isnumeric(x)&&isscalar(x)&&x>0); 
 % Variables used in calculations (their raw variable names)
 addParameter(p, "TempUsed",  "TROSE",      @(s)ischar(s)||isstring(s));
+%  Always ship_pcor
 addParameter(p, "PcorUsed",  "ship_pcor",  @(s)ischar(s)||isstring(s));
+addParameter(p, "PressUsed", "ps_ship",    @(x)isnumeric(x)&&isscalar(x)&&x>0); 
 % working subdirectory name for PP files
-addParameter(p, "POSPAC", true,            @(s)islogical(s));
-addParameter(p, "PPonly", false,           @(s)islogical(s));
+addParameter(p, "POSPAC", true,           @(s)islogical(s));
+addParameter(p, "PPonly", true,            @(s)islogical(s));
 addParameter(p, "NOpcor", false,           @(s)islogical(s));
 addParameter(p, "locPP", "av410out",       @(s)ischar(s)||isstring(s));
 % Output nc file basename (for example, instead of 20180802.cXX.nc)
@@ -41,20 +43,20 @@ addParameter(p, "BaseOut", "",             @(s)ischar(s)||isstring(s));
 if(contains(osType,"win64"));
     addParameter(p, "SYS",("windows"),     @(s)ischar(s)||isstring(s));
     % Raw data file location (*_raw.nc)
-    addParameter(p, "Data","P:\MATLAB-DATA2\kingair_data\",@(s)ischar(s)||isstring(s));
+    addParameter(p, "Data","D:\MATLAB-DATA2\kingair_data\",@(s)ischar(s)||isstring(s));
     % Final ncfile will be on X.ncLOC/PROJ/work
     addParameter(p, 'ncLOC', 'Data',       @(s)ischar(s)||isstring(s));
-    addParameter(p, "Repo","C:\Users\rodi\Github\kingair-Sys26",@(s)ischar(s)||isstring(s));
-    addParameter(p, "scratchDir","P:\MATLAB-DATA2\kingair_data\scratch\", @(s)ischar(s)||isstring(s));
-    addParameter(p, "aster", "P:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
-    addParameter(p, "egm", "P:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "Repo","C:\Users\alfre\Github\kingair-Sys26-work",@(s)ischar(s)||isstring(s));
+    addParameter(p, "scratchDir","D:\MATLAB-DATA2\kingair_data\scratch\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "aster", "D:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
+    addParameter(p, "egm", "D:\MATLAB-DATA2\kingair_data\", @(s)ischar(s)||isstring(s));
 else
     addParameter(p, "SYS",("medicinebow"), @(s)ischar(s)||isstring(s));
     % Raw data file location (*_raw.nc)
     addParameter(p, "Data","/cluster/alcova/kingairfacility/kingair_data/",@(s)ischar(s)||isstring(s));
     % Final ncfile will be on X.ncLOC/PROJ/work
     addParameter(p, 'ncLOC', 'Data',       @(s)ischar(s)||isstring(s));
-    addParameter(p, "Repo","/home/rodi/kingair-Sys26",@(s)ischar(s)||isstring(s));
+    addParameter(p, "Repo","/home/rodi/kingair-Sys26-work",@(s)ischar(s)||isstring(s));
     addParameter(p, "scratchDir", "/gscratch/rodi/", @(s)ischar(s)||isstring(s));
     addParameter(p, "aster","/cluster/alcova/kingairfacility/kingair_data/", @(s)ischar(s)||isstring(s));
     addParameter(p, "egm","/cluster/alcova/kingairfacility/kingair_data/", @(s)ischar(s)||isstring(s));
@@ -71,7 +73,6 @@ X.Source = fullfile(X.Repo,'Sys26');
 
 % set measurements used
 pcor = extractBefore(X.PcorUsed,'_');
-X.PressUsed = ["ps_" + pcor ];
 X.DP1Used   = ["dp1_" + pcor ];
 X.QUsed     = ["q_" + pcor];
 

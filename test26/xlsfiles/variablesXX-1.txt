@@ -2249,7 +2249,7 @@ ps_CPT9000:long_name = "Static Pressure (CPT 9000 Digital)" ;
 ps_CPT9000:Status = "Derived Variable" ;
 ps_CPT9000:units = "hPa";
 ps_CPT9000:standard_name = "air_pressure";
-ps_CPT9000:SampleRate = 50;
+ps_CPT9000:SampleRate = 10;
 ps_CPT9000:Package = "get_CPTpressure" ;
 ps_CPT9000:OutputRate = XX ;
 
@@ -2591,29 +2591,54 @@ Zhydro:Package = "get_varTAS" ;
 Zhydro:OutputRate = XX ;
 
 Float BuckDewPoint;
-BuckDewPoint:long_name = ";
+BuckDewPoint:long_name = "Buck 1011C Mirror Temperature";
 BuckDewPoint:Units = "celsius";
-BuckDewPoint:OutputRate = 1;
+BuckDewPoint:Package = "get_varTAS" ;
+BuckDewPoint:OutputRate = XX;
 
 Float BuckPressure;
 BuckPressure:long_name = "Buck 1011C Pressure";
-BuckDewPoint:Units = "hPa";
-BuckPressure:OutputRate = 1;
+BuckPressure:Units = "hPa";
+BuckPressure:Package = "get_varTAS" ;
+BuckPressure:OutputRate = XX;
 
 Float BuckBoardTemp; 
 BuckBoardTemp:long_name = "Buck 1011C Board Temperature";
-BuckBoardTemp:OutputRate = 1;
+BuckBoardTemp:Package = "get_varTAS" ;
+BuckBoardTemp:OutputRate = XX;
 
 Float BuckMirrorFlag;
 BuckMirrorFlag:long_name = "Buck 1011C Mirror Flag";
-BuckMirrorFlag:OutputRate = 1;
+BuckMirrorFlag:Package = "get_varTAS" ;
+BuckMirrorFlag:OutputRate =1;
 
 Float BuckDataFlag;
 BuckDataFlag:long_name = "Buck 1011C Data Flag";
+BuckDataFlag:Package = "get_varTAS" ;
 BuckDataFlag:OutputRate = 1;
 
+Float tdpFlag;
+tdpFlag:long_name = "Buck 1011C Status";
+tdpFlag:Package = "get_varTAS" ;
+tdpFlag:OutputRate = 1;
 
 
+Float WaterBlockRTD;
+WaterBlockRTD:long_name = "Water Block Temperature (R858)";
+WaterBlockRTD:Package = "get_varTAS" ;
+WaterBlockRTD:OutputRate = XX ;
+
+Float TransducerOvenRTD;
+TransducerOvenRTD:long_name =  "Transducer Oven Temperature (R858)";
+TransducerOvenRTD:Package = "get_varTAS" ;
+TransducerOvenRTD:OutputRate = XX ;
+
+Float oat1;
+oat1:long_name =  "Outside Air Temperature";
+oat1:Package = "get_varTAS" ;
+oat1:Package = "get_varTAS" ;
+oat1:OutputRate = XX ;
+	
 // global attributes:
 
 

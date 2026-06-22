@@ -35,16 +35,15 @@ vwf(~isnan(tasy1)) = filtfilt(b1,1,tasy1);
 wwf(~isnan(tasz1)) = filtfilt(b1,1,tasz1);
 
 % Remove outliers
-[B,TFrm,TFoutlier] = rmoutliers(uwf,'percentiles],[5,95]);
+[B,TFrm,TFoutlier] = rmoutliers(uwf,'percentiles',[2,98]);
 x = interp1(find(~TFrm),uwf(find(~TFrm)),[1:numel(uwf)]','linear',0);
-
 
 % Do running variance for each 10 s block 
 %
 %
 % Compute running variances 
 %
-nblock=rate*10; % point blocks (10 sec)
+nblock=rate*11; % point blocks (11 sec)
 
 varu = movvar(uwf,nblock); % movvar centers value so no shift needed.
 varv = movvar(vwf,nblock);

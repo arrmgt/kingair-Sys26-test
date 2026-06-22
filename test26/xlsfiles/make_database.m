@@ -12,6 +12,10 @@ dbFile = 'variablesXX.db'; % Created db file (e.g. variablesXX.db)
 tableName = 'variables'; % Table name (e.g. 'variables');
 configDir = pwd; % Set the configuration directory for file paths
 
+p = filePermissions(pwd);
+setPermissions(p, ["Readable","Writable"], [true,true]);
+
+
 %% Parse file into a table T (multiple variable blocks supported)
 txt = fileread(fullfile(configDir,textFile));
 lines = regexp(txt, '\r?\n', 'split');
@@ -137,4 +141,4 @@ fclose('all');
 pause(0.5);
 delete(tarName)
 names = tar(tarName,{'PROCESSED-VARS.xlsx','RAW-VARS.xlsx','variablesXX.db'});
-end
+
