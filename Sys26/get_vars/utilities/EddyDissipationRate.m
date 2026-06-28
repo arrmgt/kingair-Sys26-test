@@ -73,9 +73,9 @@ A=1.6;
 Clong = 36*A/55;
 Clat = 24*A/55;
 coefs=[Clong,Clat];
-epsiux = (varhatu./(Clong.*mean(Ia))).^(3/2);
-epsivy = (varhatv./( Clat.*mean(Ia))).^(3/2);
-epsiwi = (varhatw./( Clat.*mean(Ia))).^(3/2);
+epsiux = (varhatu./(Clong.*Ia)).^(3/2);
+epsivy = (varhatv./( Clat.*Ia)).^(3/2);
+epsiwi = (varhatw./( Clat.*Ia)).^(3/2);
 
 minTas = 30;
 ii=find(tas1a<minTas | epsiux>1 | epsivy>1 | epsiwi>1 );

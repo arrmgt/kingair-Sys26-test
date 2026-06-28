@@ -42,7 +42,7 @@ GROUPS = X.rawGROUPS(mask) ; % Pressures loaded previously
 % Read in raw data and change rate as needed; 
 %   Changing rate
 info = ncinfo(X.RawPath);
-RAWNAMES = {info.Variables.Name};   
+RAWNAMES  = {info.Variables.Name};   
 isPresent = ismember(rawNames,RAWNAMES);
 
 RAW = struct();
@@ -64,29 +64,38 @@ for k = 1:length(rawNames)
     end
 end
 
-%**********************TEST TEST TEST
-TEST = false
+TEST = true ; % 
 if TEST
-    trose1                  = changeRate(RAW.TROSE,RATE.TROSE,1);
-    RAW.BuckDewPoint        = trose1 - 10;
-    RAW.BuckPressure        = changeRate(RAW.PSA,RATE.PSA,1);
-    RAW.BuckBoardTemp       = 33.*ones(size(Time));
-    RAW.BuckMirrorFlag      = ones(size(Time));
-    RAW.BuckDataFlag        = ones(size(Time));
-    RAW.PRES9000            = changeRate(RAW.PSA,RATE.PSA,50);
-    %%RAW.PRES6140            = changeRate(RAW.PSA,RATE.PSA,100);
-    RATE.BuckDewPoint       = 1;
-    RATE.BuckPressure       = 1;
-    RATE.BuckBoardTemp      = 1;
-    RATE.BuckMirrorFlag     = 1;
-    RATE.BuckDataFlag       = 1;
-    %%RATE.PRES6140           = 100;
-    RATE.PRES9000           = 50;
+    % Get the data and recalibrate 202604* raw files;
+    RawPath1='e:/MATLAB-DATA2/kingair_data/test26/work/20260624_raw.nc';
+ 
+    [filepath,name,ext] = fileparts(X.RawPath);
+    rawFile1 = fullfile(filepath,["20260624_raw" + ext]);
+    rawnames = ["PSA" "PSB" "TROSE" "PTB" "DPA" ...
+            "DPB" "DPR" "DP1" "DP2" "DPN" "PTB"];        
+    for i=1:numel(rawnames)
+        c0 = ncreadatt(X.RawPath, rawnames(i),"CalibrationCoefficients");
+        c1 = ncreadatt(rawFile1,  rawnames(i),"CalibrationCoefficients");
+        jrate = get_irate(X.RawPath,rawnames(i));
+        x= getdata(X.RawPath,rawnames(i));
+        kk0=[1:numel(x)]';
+        kk = find(~isnan(x));
+        x = interp1(kk, x(kk), kk0, 'linear', NaN);
+        V = (x - c0(1)) ./ c0(2);
+        y = c1(2) .* V + c1(1);
+        eval(sprintf("%s = y;",rawnames(i)));
+        %X.psaV = (X.psa + 2.531417) / -209.518138;
+        %X.psa = -209.828501 * X.psaV - 1.308564;
+        y(kk0 < kk(1))   = y(kk(1)); 
+        y(kk0 > kk(end)) = y(kk(end));
+        RAW.(var1 ) = y;
+        RATE.(var1) = jrate;
+    end
 end
-%****** END TEST
+
 
 % Is Buck TDP installed?
-if any(contains(rawNames, "Buck", "IgnoreCase", true));
+if any(contains(RAWNAMES, "Buck", "IgnoreCase", true));
     %  Keep Buck 1011C status flags at 1 Hz (No rate-changing)
     BuckDataFlag = RAW.BuckDataFlag;
     BuckMirrorFlag = RAW.BuckMirrorFlag;
@@ -95,7 +104,29 @@ if any(contains(rawNames, "Buck", "IgnoreCase", true));
     % Remove BuckMirrorFlag and BuckDataFlag variables from rawNames
     RAW = rmfield(RAW,{'BuckMirrorFlag','BuckDataFlag'});
     rawNames = fieldnames(RAW);
+else
+    RAW.('BuckDataFlag') = zeros(size(Time));
+    RAW.('MirrorFlag') = zeros(size(Time));
+    tdpFlag = zeros(size(Time));
+    RAW.('BuckDewPoint') = -40.*ones(size(Time));
+    RAW.('BuckBoardTemp') = 33.*ones(size(Time));
+    RAW.('BuckPressure') = changeRate(RAW.PSA,RATE.PSA,1);
+    RATE.('BuckDataFlag') = 1;
+    RATE.('MirrorFlag') = 1;
+    RATE.('BuckDewPoint') = 1;
+    RATE.('BuckBoardTemp') = 1;
+    RATE.('BuckPressure') = 1;
+    rawNames = fieldnames(RAW);
 end
+
+if any(~contains(RAWNAMES, "PRES9000", "IgnoreCase", true));
+    RAW.('PRES9000') = changeRate(RAW.PSA,RATE.PSA,100);
+    RAW.('TEMP9000') = changeRate(RAW.TROSE,RATE.TROSE,50);
+    RATE.('PRES9000') = 100;
+    RATE.('TEMP9000') = 50;
+    rawNames = fieldnames(RAW);
+end
+
 
 %   Unpack struct fields to named locals  and change rate.
 for i = 1:length(rawNames)

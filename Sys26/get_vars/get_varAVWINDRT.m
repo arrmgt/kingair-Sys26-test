@@ -95,7 +95,7 @@ avvy(kk) = vy;
 % Save recommended variables to global attributes
 WDIRX = avwdir;
 WMAGX = avwmag;
-WWX = avwwind;
+WWX   = avwwind;
 ncwriteatt(X.ncFINAL,'WDIRX','Sensor','Applanix real-time');
 ncwriteatt(X.ncFINAL,'WMAGX','Sensor','Applanix real-time');
 ncwriteatt(X.ncFINAL,'WWX','Sensor','Applanix real-time');
