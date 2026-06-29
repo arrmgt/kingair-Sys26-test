@@ -70,8 +70,8 @@ Ia      = interp1(kk,   I(kk),[1:numel(I)]',   'linear',1 );
 tas1a   = interp1(kk,tas1(kk),[1:numel(tas1)]','linear',20);
 
 A=1.6;
-Clong = 36*A/55;
-Clat = 24*A/55;
+Clong = 3/2*36*A/55;
+Clat = 3/2*24*A/55;
 coefs=[Clong,Clat];
 epsiux = (varhatu./(Clong.*Ia)).^(3/2);
 epsivy = (varhatv./( Clat.*Ia)).^(3/2);
