@@ -107,7 +107,7 @@ if any(contains(RAWNAMES, "Buck", "IgnoreCase", true));
 else
     RAW.('BuckDataFlag') = zeros(size(Time));
     RAW.('MirrorFlag') = zeros(size(Time));
-    tdpFlag = zeros(size(Time));
+    tdpFlag = 20*ones(size(Time));
     RAW.('BuckDewPoint') = -40.*ones(size(Time));
     RAW.('BuckBoardTemp') = 33.*ones(size(Time));
     RAW.('BuckPressure') = changeRate(RAW.PSA,RATE.PSA,1);
