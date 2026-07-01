@@ -50,8 +50,14 @@ RATE = struct();
 % Read in data from *_raw.nc, and do some sanity checking
 for k = 1:length(rawNames)
     var1 = char(rawNames(k));
-    if isPresent(k)
-        [blurf,irate] = getdata(X.RawPath, var1);
+    if true % isPresent(k)
+        if contains(var1,'DPN')
+            [blurf,irate] = getdata(X.RawPath, 'dev6289-0-AI5');
+        elseif contains(var1,'PSA')
+            [blurf,irate] = getdata(X.RawPath, 'dev6289-0-AI6');
+        else
+            [blurf,irate] = getdata(X.RawPath, var1);
+        end
         kk0=[1:numel(blurf)]';
         kk = find(~isnan(blurf));
         blurf = interp1(kk, blurf(kk), kk0, 'linear', NaN);
@@ -59,37 +65,58 @@ for k = 1:length(rawNames)
         %     and right-of-last to last good
         blurf(kk0 < kk(1))   = blurf(kk(1)); 
         blurf(kk0 > kk(end)) = blurf(kk(end));
+        try
         RAW.(var1 ) = blurf;
         RATE.(var1) = irate;
+        catch
+            'blurf'
+        end
     end
 end
 
 TEST = true ; % 
 if TEST
     % Get the data and recalibrate 202604* raw files;
-    RawPath1='e:/MATLAB-DATA2/kingair_data/test26/work/20260624_raw.nc';
- 
     [filepath,name,ext] = fileparts(X.RawPath);
-    rawFile1 = fullfile(filepath,["20260624_raw" + ext]);
-    rawnames = ["PSA" "PSB" "TROSE" "PTB" "DPA" ...
-            "DPB" "DPR" "DP1" "DP2" "DPN" "PTB"];        
+    rawFile1 = fullfile(filepath,["20260626_raw" + ext]);
+    rawnames = rawNames(~contains(rawNames,["Buck","dev6289"]));
     for i=1:numel(rawnames)
-        c0 = ncreadatt(X.RawPath, rawnames(i),"CalibrationCoefficients");
-        c1 = ncreadatt(rawFile1,  rawnames(i),"CalibrationCoefficients");
-        jrate = get_irate(X.RawPath,rawnames(i));
-        x= getdata(X.RawPath,rawnames(i));
-        kk0=[1:numel(x)]';
-        kk = find(~isnan(x));
-        x = interp1(kk, x(kk), kk0, 'linear', NaN);
-        V = (x - c0(1)) ./ c0(2);
-        y = c1(2) .* V + c1(1);
+        c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
+        if contains(rawnames(i),'DPN')
+            c0 = ncreadatt(X.RawPath,'dev6289-0-AI5',"ALPHA_CALC_CalibrationCoefficient");
+            jrate = get_irate(X.RawPath,'dev6289-0-AI5');
+            x= -getdata(X.RawPath,'dev6289-0-AI5');
+            kk0=[1:numel(x)]';
+            kk = find(~isnan(x));
+            x = interp1(kk, x(kk), kk0, 'linear', NaN);
+            V = (x - c0(1)) ./ c0(2);
+            y = c1(2) .* V + c1(1);
+        elseif contains(rawnames(i),'PSA')
+            c0 = ncreadatt(X.RawPath,'dev6289-0-AI6',"BETA_CALC_CalibrationCoefficient");
+            jrate = get_irate(X.RawPath,'dev6289-0-AI6');
+            x= getdata(X.RawPath,'dev6289-0-AI6');
+            kk0=[1:numel(x)]';
+            kk = find(~isnan(x));
+            x = interp1(kk, x(kk), kk0, 'linear', NaN);
+            V = (x - c0(1)) ./ c0(2);
+            y = c1(2) .* V + c1(1);
+        else
+            c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
+            jrate = get_irate(X.RawPath,rawnames(i));
+            x= getdata(X.RawPath,rawnames(i));
+            kk0=[1:numel(x)]';
+            kk = find(~isnan(x));
+            x = interp1(kk, x(kk), kk0, 'linear', NaN);
+            V = (x - c0(1)) ./ c0(2);
+            y = c1(2) .* V + c1(1);
+        end
         eval(sprintf("%s = y;",rawnames(i)));
         %X.psaV = (X.psa + 2.531417) / -209.518138;
         %X.psa = -209.828501 * X.psaV - 1.308564;
         y(kk0 < kk(1))   = y(kk(1)); 
         y(kk0 > kk(end)) = y(kk(end));
-        RAW.(var1 ) = y;
-        RATE.(var1) = jrate;
+        RAW.(rawnames(i)) = y;
+        RATE.(rawnames(i)) = jrate;
     end
 end
 
