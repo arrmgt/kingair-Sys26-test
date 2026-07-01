@@ -50,14 +50,8 @@ RATE = struct();
 % Read in data from *_raw.nc, and do some sanity checking
 for k = 1:length(rawNames)
     var1 = char(rawNames(k));
-    if true % isPresent(k)
-        if contains(var1,'DPN')
-            [blurf,irate] = getdata(X.RawPath, 'dev6289-0-AI5');
-        elseif contains(var1,'PSA')
-            [blurf,irate] = getdata(X.RawPath, 'dev6289-0-AI6');
-        else
-            [blurf,irate] = getdata(X.RawPath, var1);
-        end
+    if isPresent(k)
+        [blurf,irate] = getdata(X.RawPath, var1);
         kk0=[1:numel(blurf)]';
         kk = find(~isnan(blurf));
         blurf = interp1(kk, blurf(kk), kk0, 'linear', NaN);
@@ -78,38 +72,18 @@ TEST = true ; %
 if TEST
     % Get the data and recalibrate 202604* raw files;
     [filepath,name,ext] = fileparts(X.RawPath);
-    rawFile1 = fullfile(filepath,["20260626_raw" + ext]);
-    rawnames = rawNames(~contains(rawNames,["Buck","dev6289"]));
+    rawFile1 = fullfile(filepath,["20260630b_raw" + ext]);
+    rawnames = rawNames(~contains(rawNames,["Buck"]));
     for i=1:numel(rawnames)
         c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
-        if contains(rawnames(i),'DPN')
-            c0 = ncreadatt(X.RawPath,'dev6289-0-AI5',"ALPHA_CALC_CalibrationCoefficient");
-            jrate = get_irate(X.RawPath,'dev6289-0-AI5');
-            x= -getdata(X.RawPath,'dev6289-0-AI5');
-            kk0=[1:numel(x)]';
-            kk = find(~isnan(x));
-            x = interp1(kk, x(kk), kk0, 'linear', NaN);
-            V = (x - c0(1)) ./ c0(2);
-            y = c1(2) .* V + c1(1);
-        elseif contains(rawnames(i),'PSA')
-            c0 = ncreadatt(X.RawPath,'dev6289-0-AI6',"BETA_CALC_CalibrationCoefficient");
-            jrate = get_irate(X.RawPath,'dev6289-0-AI6');
-            x= getdata(X.RawPath,'dev6289-0-AI6');
-            kk0=[1:numel(x)]';
-            kk = find(~isnan(x));
-            x = interp1(kk, x(kk), kk0, 'linear', NaN);
-            V = (x - c0(1)) ./ c0(2);
-            y = c1(2) .* V + c1(1);
-        else
-            c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
-            jrate = get_irate(X.RawPath,rawnames(i));
-            x= getdata(X.RawPath,rawnames(i));
-            kk0=[1:numel(x)]';
-            kk = find(~isnan(x));
-            x = interp1(kk, x(kk), kk0, 'linear', NaN);
-            V = (x - c0(1)) ./ c0(2);
-            y = c1(2) .* V + c1(1);
-        end
+        c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
+        jrate = get_irate(X.RawPath,rawnames(i));
+        x= getdata(X.RawPath,rawnames(i));
+        kk0=[1:numel(x)]';
+        kk = find(~isnan(x));
+        x = interp1(kk, x(kk), kk0, 'linear', NaN);
+        V = (x - c0(1)) ./ c0(2);
+        y = c1(2) .* V + c1(1);
         eval(sprintf("%s = y;",rawnames(i)));
         %X.psaV = (X.psa + 2.531417) / -209.518138;
         %X.psa = -209.828501 * X.psaV - 1.308564;
@@ -119,7 +93,6 @@ if TEST
         RATE.(rawnames(i)) = jrate;
     end
 end
-
 
 % Is Buck TDP installed?
 if any(contains(RAWNAMES, "Buck", "IgnoreCase", true));
@@ -146,10 +119,11 @@ else
     rawNames = fieldnames(RAW);
 end
 
-if any(~contains(RAWNAMES, "PRES9000", "IgnoreCase", true));
+% Create "9000" variables if they don't exist
+if ~any(contains(RAWNAMES, "PRES9000", "IgnoreCase", true));
     RAW.('PRES9000') = changeRate(RAW.PSA,RATE.PSA,100);
     RAW.('TEMP9000') = changeRate(RAW.TROSE,RATE.TROSE,50);
-    RATE.('PRES9000') = 100;
+    RATE.('PRES9000') = 50;
     RATE.('TEMP9000') = 50;
     rawNames = fieldnames(RAW);
 end
@@ -291,7 +265,7 @@ if exist('PRES6140','var')
     pressureVars.('ps_CPT6140') = RAW.PRES6140;
     correctedVars(end+1) = 'ps_CPT6140';
 end
-% CPT 9000 pressured
+% CPT 9000 pressure
 if exist('PRES9000','var')
     ps_CPT9000 = PRES9000 - ship_pcor;
     pressureVars.('ps_CPT9000') = ps_CPT9000;
@@ -625,6 +599,7 @@ else
     pcorc = zeros(rate,1);
 end
 
+% Ps_meas will either be ps_ship (PSA) or PRES9000.
 if contains(X.PressUsed,'ship')
     Ps_meas     = changeRate(RAW.PSA, RATE.PSA,rate);
 else
