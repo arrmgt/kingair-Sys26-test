@@ -59,12 +59,8 @@ for k = 1:length(rawNames)
         %     and right-of-last to last good
         blurf(kk0 < kk(1))   = blurf(kk(1)); 
         blurf(kk0 > kk(end)) = blurf(kk(end));
-        try
         RAW.(var1 ) = blurf;
         RATE.(var1) = irate;
-        catch
-            'blurf'
-        end
     end
 end
 
@@ -75,8 +71,8 @@ if TEST
     rawFile1 = fullfile(filepath,["20260630b_raw" + ext]);
     rawnames = rawNames(~contains(rawNames,["Buck"]));
     for i=1:numel(rawnames)
-        c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
         c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
+        c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
         jrate = get_irate(X.RawPath,rawnames(i));
         x= getdata(X.RawPath,rawnames(i));
         kk0=[1:numel(x)]';

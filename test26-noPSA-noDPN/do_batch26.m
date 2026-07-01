@@ -69,7 +69,7 @@ addpath('../Sys26/config');
 
 % Add some items
 X.procRate = X.Rate
-X.Home = fullfile(X.Repo,X.PROJ);
+X.Home = fullfile(X.Repo,'test26-noPSA-noDPN');
 X.Source = fullfile(X.Repo,'Sys26');
 
 % set measurements used

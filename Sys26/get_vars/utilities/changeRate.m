@@ -18,6 +18,9 @@ if irate == orate
     return
 end
 
+% Quick check for NaN
+x = fillmissing(x,'nearest');
+
 %% --- Upsampling ---
 if orate > irate
     %%%fprintf('changeRate: upsampling %g Hz --> %g Hz via pchip\n', irate, orate);
@@ -42,6 +45,8 @@ if R <= 1
     return
 elseif R <= 10
     N = R;
+    y = decimate_stage(x, N, orate);
+    return
 else
     N2 = plan_stages(R, 2);
     if max(N2) > 10
