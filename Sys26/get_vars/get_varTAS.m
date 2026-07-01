@@ -68,8 +68,8 @@ TEST = true ; %
 if TEST
     % Get the data and recalibrate 202604* raw files;
     [filepath,name,ext] = fileparts(X.RawPath);
-    rawFile1 = fullfile(filepath,["20260630b_raw" + ext]);
-    rawnames = rawNames(~contains(rawNames,["Buck"]));
+    rawFile1 = fullfile(filepath,["20260701_raw" + ext]);
+    rawnames = rawNames(~contains(rawNames,["Buck"])); % Skip Buck vars
     for i=1:numel(rawnames)
         c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
         c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
