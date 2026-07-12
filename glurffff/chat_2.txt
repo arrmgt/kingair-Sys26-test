@@ -1,0 +1,154 @@
+
+Can you rewrite fnd2enu using geodentic heading in the third rotation?
+ Copilot
+frd2enu Using Geodetic Heading (vectorized, no loop)
+This function treats Heading as geodetic/navigation heading (0° = north, 90° = east, measured clockwise). It converts Heading to the mathematical yaw ψ = 90° − Heading (ψ in radians) and uses the intrinsic rotation sequence Rx(roll) → Ry(pitch) → Rz(ψ) so R = Rz(ψ)Ry(pitch)Rx(roll). Input body is FRD (forward,right,down). Output is ENU (east,north,up).
+
+
+function enu = frd2enu(body, roll, pitch, heading, deg)
+% frd2enu Convert FRD -> ENU using geodetic Heading (vectorized)
+% enu = frd2enu(body, roll, pitch, heading)
+% body: 3xN or Nx3 (columns are [forward; right; down])
+% roll,pitch,heading: scalar or length-N vectors
+% deg: optional logical (default false). If true, angles are degrees.
+% Output enu is 3xN with rows [east; north; up].
+
+if nargin<5, deg = false; end
+
+% Normalize body to 3xN
+if size(body,1)==3
+    B = body;
+elseif size(body,2)==3
+    B = body.';
+else
+    error('body must be 3xN or Nx3');
+end
+N = size(B,2);
+
+% Expand angles to 1xN
+if isscalar(roll),   roll = repmat(roll,1,N); end
+if isscalar(pitch),  pitch = repmat(pitch,1,N); end
+if isscalar(heading),heading = repmat(heading,1,N); end
+
+roll    = reshape(roll,1,[]);
+pitch   = reshape(pitch,1,[]);
+heading = reshape(heading,1,[]);
+
+if any([numel(roll), numel(pitch), numel(heading)] ~= N)
+    error('roll, pitch, heading must be scalars or length-N vectors');
+end
+
+if deg
+    roll   = deg2rad(roll);
+    pitch  = deg2rad(pitch);
+    heading= deg2rad(heading);
+end
+
+% Convert geodetic Heading -> math yaw psi = 90deg - Heading
+psi = pi/2 - heading;
+
+% Precompute trig (1xN)
+cr = cos(roll); sr = sin(roll);
+ct = cos(pitch); st = sin(pitch);
+cp = cos(psi); sp = sin(psi);
+
+% DCM components for R = Rz(psi)*Ry(pitch)*Rx(roll)
+r11 =  cp.*ct;
+r12 =  cp.*sr.*st - sp.*cr;
+r13 =  cp.*cr.*st + sp.*sr;
+
+r21 =  sp.*ct;
+r22 =  sp.*sr.*st + cp.*cr;
+r23 =  sp.*cr.*st - cp.*sr;
+
+r31 = -st;
+r32 =  ct.*sr;
+r33 =  ct.*cr;
+
+% Convert body down (d) -> body z-up before applying DCM
+B(3,:) = -B(3,:);
+
+% Apply R to each column (vectorized elementwise)
+Bx = B(1,:); By = B(2,:); Bz = B(3,:);
+
+E_x = r11.*Bx + r12.*By + r13.*Bz;   % east
+E_y = r21.*Bx + r22.*By + r23.*Bz;   % north
+E_z = r31.*Bx + r32.*By + r33.*Bz;   % up
+
+enu = [E_x; E_y; E_z];
+end
+Usage notes
+
+Provide Heading as geodetic heading (navigation convention). The function converts it internally.
+If you instead have Heading defined as math yaw (CCW from +x), call with deg=false and pass yaw directly or remove the psi conversion.
+The function is fully vectorized and returns ENU in meters (or same units as body).
+References:
+geodetic2enu
+ecef2enu
+angle2dcm
+  
+AR
+ Alfred
+I see there is a geodetic2enu matlab tool. Is tghere a frd2geodetic? Is ecef2enu that?
+ Copilot
+Short answer
+
+There is no built-in frd2geodetic.
+ecef2enu converts ECEF positions to local ENU positions (and ecef2enuv converts ECEF vectors to ENU vectors).
+To go between FRD (body) and geodetic (lat,lon,h) you must combine an attitude-based body→ENU rotation with the Map Toolbox coordinate transforms (ENU↔ECEF or ENU↔geodetic).
+Key distinctions
+
+FRD (forward,right,down) is a body‑fixed frame (vectors/positions relative to the vehicle, usually small offsets).
+ENU is a local tangent (east,north,up) Cartesian frame at a specified geodetic origin.
+ECEF is Earth‑centered Cartesian coordinates.
+Geodetic is (latitude, longitude, height).
+Typical workflows (vectorized or single-sample):
+
+1) Body vector → geodetic position offset
+
+Use your frd2enu (body→ENU) with the vehicle attitude to get a local ENU vector.
+Then convert ENU offset to geodetic coordinates (relative to a reference origin) with enu2geodetic.
+Example (assume enu is small position offset from origin lat0,lon0,h0 and enu is [east; north; up]):
+
+
+% enu is 3x1 or 3xN
+[lat, lon, h] = enu2geodetic(enu(1,:), enu(2,:), enu(3,:), lat0, lon0, h0, wgs84Ellipsoid);
+2) Body vector → ECEF (position or vector)
+
+Convert body→ENU: enu = frd2enu(body, roll, pitch, heading, deg)
+Convert ENU→ECEF (positions): enu2ecef or convert ENU vector→ECEF vector: enu2ecefv (or use enu2ecef with correct vector handling)
+Alternatively, compute ECEF of origin and rotate: ECEF_point = enu2ecef(enu, lat0, lon0, h0, spheroid) + ecef_origin
+3) ECEF → ENU or vector variants
+
+ecef2enu converts ECEF positions to ENU positions given origin.
+ecef2enuv converts ECEF vectors to ENU vectors (does not change origin).
+Which built-in to use when
+
+You have geodetic lat/lon/h positions and want ENU: geodetic2enu.
+You have ECEF positions and want ENU: ecef2enu.
+You have ECEF vectors (velocity/displacement) and want ENU vectors: ecef2enuv.
+You have ENU and want geodetic: enu2geodetic.
+You have ENU and want ECEF: enu2ecef.
+Minimal example: FRD point offset (body frame) at aircraft → geodetic point
+
+
+% Inputs:
+% body = [f; r; d] (3x1) offset in body frame (meters)
+% roll,pitch,Heading (Heading is geodetic nav heading: 0=north, cw)
+% lat0,lon0,h0 = geodetic origin (vehicle position)
+% sph = wgs84Ellipsoid;
+
+% 1) body -> enu (use frd2enu that converts Heading->psi=90-Heading)
+enu = frd2enu(body, roll, pitch, Heading, true);   % returns [east; north; up]
+
+% 2) enu -> geodetic position (origin lat0,lon0,h0)
+[lat, lon, h] = enu2geodetic(enu(1), enu(2), enu(3), lat0, lon0, h0, sph);
+Notes and caveats
+
+enu2geodetic treats ENU as a position offset from the specified origin (not a unit direction). For small displacements this is fine; for large distances use care (nonlinear Earth curvature).
+Distinguish between converting a vector (direction/velocity) vs converting a point/position. Use the "v" variants (ecef2enuv, enu2ecefv) when you are transforming vectors.
+Ensure your heading convention: if Heading is geodetic (0° north, clockwise), convert to math yaw psi = 90° − Heading before building Rz; your frd2enu implementation should do this.
+If you want, I can:
+
+Show the exact sequence of built-in calls to map a time series of body-frame velocities at a moving geodetic origin into geodetic velocities/positions, or
+Provide a small example that starts from sample numbers and demonstrates body→ENU→ECEF→geodetic. Which would you prefer?

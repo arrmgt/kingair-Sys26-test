@@ -1,0 +1,1213 @@
+Alfred:
+I have structure structManeuvers with fieldnames:
+['fname','pressure','Params',CIlow','CIhi']
+The first two rows are single value (character)
+The last three have 8 values (numeric)
+I want to rename 8 values to:
+[ 'Pitch' 'Roll', 'Alpha1', 'Alpha0', 'Beta1', 'Beta0',' 'Head','Poff'].
+That is the 8 Params have those anames, and others have 'CIlowPitch' 'CIhiPiitch', etc.
+Then I want to add 2 rows: mean and standard deviation of the 8.
+Then I want to write out to an xlsx file.
+
+Copilot:
+### Rename Params/CIs, add mean/std rows, and write to XLSX
+
+The code below assumes `structManeuvers` is an N×1 struct with fields:
+- `fname` (char or string per element)
+- `pressure` (char or string per element)
+- `Params` (1×8 numeric per element)
+- `CIlow` (1×8 numeric per element)
+- `CIhi` (1×8 numeric per element)
+
+It expands the 8-values into separate columns named:
+['Pitch' 'Roll' 'Alpha1' 'Alpha0' 'Beta1' 'Beta0' 'Head' 'Poff'],
+prefixes CI columns as `CIlowPitch`, `CIhiPitch`, etc., computes column-wise mean and std across all maneuvers, appends two rows labelled "mean" and "std", and writes the final table to an XLSX file.
+
+Code:
+
+```matlab
+% Names for the 8 entries
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+
+% Ensure structManeuvers is a column struct array
+S = structManeuvers(:);
+N = numel(S);
+
+% Preallocate arrays
+fname = cell(N,1);
+pressure = cell(N,1);
+Params = nan(N,8);
+CIlow = nan(N,8);
+CIhi = nan(N,8);
+
+for i = 1:N
+    fname{i} = S(i).fname;
+    pressure{i} = S(i).pressure;
+    p = S(i).Params;
+    cl = S(i).CIlow;
+    ch = S(i).CIhi;
+    % Ensure row vectors and length 8
+    p = reshape(p,1,[]);
+    cl = reshape(cl,1,[]);
+    ch = reshape(ch,1,[]);
+    if numel(p)~=8 || numel(cl)~=8 || numel(ch)~=8
+        error('Element %d: Params/CIlow/CIhi must each have 8 values.', i);
+    end
+    Params(i,:) = p;
+    CIlow(i,:) = cl;
+    CIhi(i,:) = ch;
+end
+
+% Build table for Params
+T_params = array2table(Params, 'VariableNames', paramNames);
+
+% Build tables for CIlow and CIhi with prefixed names
+CIlowNames = strcat('CIlow', paramNames);
+CIhiNames  = strcat('CIhi',  paramNames);
+T_CIlow = array2table(CIlow, 'VariableNames', CIlowNames);
+T_CIhi  = array2table(CIhi,  'VariableNames', CIhiNames);
+
+% Combine into final table with fname and pressure first
+T = table(fname, pressure);
+T = [T T_params T_CIlow T_CIhi];
+
+% Compute column-wise mean and std for numeric columns
+numericVars = T.Properties.VariableNames(3:end); % skip fname, pressure
+dataMat = table2array(T(:, numericVars));        % N x nvars
+
+colMean = mean(dataMat, 1, 'omitnan');
+colStd  = std(dataMat, 0, 1, 'omitnan');
+
+% Create rows for mean and std
+meanRow = cell2table([{'mean'}, {''}, num2cell(colMean)], ...
+    'VariableNames', T.Properties.VariableNames);
+stdRow  = cell2table([{'std'},  {''}, num2cell(colStd)], ...
+    'VariableNames', T.Properties.VariableNames);
+
+% Append rows
+T_final = [T; meanRow; stdRow];
+
+% Optional: ensure fname and pressure are string or cellstr as desired
+% e.g., convert fname to string: T_final.fname = string(T_final.fname);
+
+% Write to xlsx
+outfile = 'Maneuvers_Params.xlsx';
+writetable(T_final, outfile, 'WriteRowNames', false);
+```
+
+Notes and alternatives
+- The code computes mean/std column-wise across maneuvers (i.e., across rows). If you instead wanted per-row mean/std of the 8 Params for each maneuver, compute mean(Params,2) and std(Params,0,2) and add as new columns before writing.
+- If `fname`/`pressure` are strings (not cell), adjust the preallocation accordingly (use string arrays).
+
+Alfred:
+Lines 392-394 are:
+if numel(p)~=8 || numel(cl)~=8 || numel(ch)~=8
+error('Element %d: Params/CIlow/CIhi must each have 8 values.', i);
+end
+Error using do10process1 (line 393)
+Element 4: Params/CIlow/CIhi must each have 8 values.
+
+Copilot:
+The error means at least one element of `structManeuvers` does not have exactly 8 entries in `Params`, `CIlow`, or `CIhi`. To fix, first inspect the offending element(s) and then choose whether to correct the source data or make the code robust (pad/truncate/skip).
+
+1) Quick diagnostic to show sizes and values for the failing element(s)
+
+```matlab
+for i = 1:numel(structManeuvers)
+    p = structManeuvers(i).Params;
+    cl = structManeuvers(i).CIlow;
+    ch = structManeuvers(i).CIhi;
+    fprintf('Element %d: numel(Params)=%d, numel(CIlow)=%d, numel(CIhi)=%d\n', ...
+        i, numel(p), numel(cl), numel(ch));
+    if numel(p)~=8 || numel(cl)~=8 || numel(ch)~=8
+        disp(' Params:'); disp(p);
+        disp(' CIlow :'); disp(cl);
+        disp(' CIhi  :'); disp(ch);
+    end
+end
+```
+
+Run that to locate and inspect the offending element(s). Common causes:
+- One of these fields is empty or a scalar.
+- Some entries are column vectors vs row vectors (shouldn't matter for numel, but check shape).
+- Data stored as nested cell or struct rather than numeric vector.
+
+2) Two ways to proceed
+
+A — Fix the source data so every element has 1×8 numeric vectors. This is the cleanest option.
+
+B — Make the import code robust (pad with NaN or truncate). Example robust loop that pads missing values with NaN and warns:
+
+```matlab
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+S = structManeuvers(:);
+N = numel(S);
+fname = cell(N,1);
+pressure = cell(N,1);
+Params = nan(N,8);
+CIlow = nan(N,8);
+CIhi = nan(N,8);
+
+for i = 1:N
+    fname{i} = S(i).fname;
+    pressure{i} = S(i).pressure;
+
+    p  = S(i).Params;
+    cl = S(i).CIlow;
+    ch = S(i).CIhi;
+
+    % Try to convert cell -> numeric if necessary
+    if iscell(p),  p = cell2mat(p);  end
+    if iscell(cl), cl = cell2mat(cl); end
+    if iscell(ch), ch = cell2mat(ch); end
+
+    % Flatten
+    p = p(:).';
+    cl = cl(:).';
+    ch = ch(:).';
+
+    % Pad with NaN or truncate to length 8
+    if numel(p) < 8
+        warning('Element %d: Params length %d < 8, padding with NaN.', i, numel(p));
+        p = [p, nan(1, 8-numel(p))];
+    elseif numel(p) > 8
+        warning('Element %d: Params length %d > 8, truncating to 8.', i, numel(p));
+        p = p(1:8);
+    end
+
+    if numel(cl) < 8
+        warning('Element %d: CIlow length %d < 8, padding with NaN.', i, numel(cl));
+        cl = [cl, nan(1, 8-numel(cl))];
+    elseif numel(cl) > 8
+        warning('Element %d: CIlow length %d > 8, truncating to 8.', i, numel(cl));
+        cl = cl(1:8);
+    end
+
+    if numel(ch) < 8
+        warning('Element %d: CIhi length %d < 8, padding with NaN.', i, numel(ch));
+        ch = [ch, nan(1, 8-numel(ch))];
+    elseif numel(ch) > 8
+        warning('Element %d: CIhi length %d > 8, truncating to 8.', i, numel(ch));
+        ch = ch(1:8);
+    end
+
+    Params(i,:) = p;
+    CIlow(i,:) = cl;
+    CIhi(i,:)  = ch;
+end
+```
+
+After this you can continue with the code that builds tables, computes mean/std, and writes XLSX. Note that padding produces NaNs which will be ignored by mean(...,'omitnan').
+
+If you paste the diagnostic output (from step 1) I can advise whether to fix the source data or use padding/truncation and suggest a minimal correction.
+
+Alfred:
+All three 8-element fiels have 8 entries.
+
+Copilot:
+If every element reports 8 entries but you still get that error, the problem is likely a type/shape mismatch (e.g., a cell containing a numeric vector, or a nested struct/array) or some element is not accessible as expected. First run a diagnostic that shows class, size, and a short display of each field for every element so you can spot anomalies.
+
+Diagnostic — report class and size for each element
+```matlab
+S = structManeuvers(:);
+N = numel(S);
+for i = 1:N
+    p = S(i).Params;
+    cl = S(i).CIlow;
+    ch = S(i).CIhi;
+    fprintf('Element %d:\n', i);
+    fprintf('  Params: class=%s, size=[%s], numel=%d\n', class(p), num2str(size(p)), numel(p));
+    fprintf('  CIlow : class=%s, size=[%s], numel=%d\n', class(cl), num2str(size(cl)), numel(cl));
+    fprintf('  CIhi  : class=%s, size=[%s], numel=%d\n', class(ch), num2str(size(ch)), numel(ch));
+    % Show a short preview (first 8 values) safely
+    try
+        disp('  Params preview:'); disp(mat2cell(p(:).',1));  % prevents huge display
+    catch
+        disp('  Params preview: <cannot display>');
+    end
+    try
+        disp('  CIlow preview:'); disp(mat2cell(cl(:).',1));
+    catch
+        disp('  CIlow preview: <cannot display>');
+    end
+    try
+        disp('  CIhi preview:'); disp(mat2cell(ch(:).',1));
+    catch
+        disp('  CIhi preview: <cannot display>');
+    end
+    fprintf('\n');
+end
+```
+
+Common things this reveals
+- class is 'cell' (each field is a 1×1 cell containing the numeric vector) — numel will still show 8? No: numel(cell)==1, so check the inner element.
+- class is 'struct' or 'table' or nested arrays.
+- size is [8 1] vs [1 8] (shape rarely matters for numel but can for indexing later).
+- numeric vector exists but stored as string.
+
+Quick safe conversion and robust import
+Use this loop to handle numeric arrays, numeric cells, strings containing numbers, and nested 1×8 vectors. It will error only if a field truly cannot be converted to an 8-element numeric row vector.
+
+```matlab
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+S = structManeuvers(:);
+N = numel(S);
+
+fname = cell(N,1);
+pressure = cell(N,1);
+Params = nan(N,8);
+CIlow = nan(N,8);
+CIhi = nan(N,8);
+
+for i = 1:N
+    fname{i} = S(i).fname;
+    pressure{i} = S(i).pressure;
+
+    % helper to extract/convert field to 1x8 numeric row
+    toVec = @(x) convertToRow8(x, i);
+
+    Params(i,:) = toVec(S(i).Params);
+    CIlow(i,:)  = toVec(S(i).CIlow);
+    CIhi(i,:)   = toVec(S(i).CIhi);
+end
+
+% convertToRow8 function (local function at end of file or nested function)
+function v = convertToRow8(x, idx)
+    % Unwrap 1x1 cell containing vector
+    if iscell(x) && numel(x)==1
+        x = x{1};
+    end
+    % If it's a table with a single row/var, try to turn into array
+    if istable(x) && height(x)==1
+        try
+            x = table2array(x);
+        catch
+        end
+    end
+    % If string/char vector that encodes numbers, attempt conversion
+    if ischar(x) || (isstring(x) && isscalar(x))
+        nums = str2num(char(x)); %#ok<ST2NM>
+        if ~isempty(nums), x = nums; end
+    end
+    % If still a cell of numeric scalars, try cell2mat
+    if iscell(x)
+        try
+            x = cell2mat(x);
+        catch
+        end
+    end
+
+    % Finally flatten and check length
+    x = x(:).';         % row
+    if numel(x) ~= 8
+        error('Element %d: after conversion field has %d elements (expected 8).', idx, numel(x));
+    end
+    if ~isnumeric(x)
+        error('Element %d: could not convert field to numeric vector.', idx);
+    end
+    v = double(x);
+end
+```
+
+What to do next
+- Run the diagnostic block first. If it shows that one element's field is a 1×1 cell containing an 8-element numeric vector, use the robust import above (it unwraps cell{1}).
+- If diagnostic shows something else (nested struct, table, or strings), paste one offending element's diagnostic output here and I will give the exact conversion to use.
+
+After successful conversion you can continue with the table assembly, mean/std rows, and writetable as before.
+
+Alfred:
+Error using do10process1>convertToRow8 (line 419)
+Element 4: after conversion field has 0 elements (expected 8).
+
+Copilot:
+The error means element 4's field is empty (or conversion produced an empty array). First inspect the raw contents of that element so you can decide how to handle it. Then either fix the source or pad with NaNs so processing continues.
+
+1) Inspect element 4 (show class, size, and full contents)
+```matlab
+i = 4;
+flds = {'Params','CIlow','CIhi'};
+for k = 1:numel(flds)
+    x = structManeuvers(i).(flds{k});
+    fprintf('Field %s: class=%s, size=[%s], numel=%d\n', flds{k}, class(x), num2str(size(x)), numel(x));
+    disp('Contents:');
+    disp(x);
+    fprintf('\n');
+end
+```
+
+2) If you want to continue automatically by padding missing/empty fields with NaN (and warn), use this robust conversion function and the import loop. It accepts numeric arrays, 1×1 cells containing vectors, strings of numbers, and will pad/truncate to length 8.
+
+```matlab
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+S = structManeuvers(:);
+N = numel(S);
+
+fname = cell(N,1);
+pressure = cell(N,1);
+Params = nan(N,8);
+CIlow = nan(N,8);
+CIhi = nan(N,8);
+
+for i = 1:N
+    fname{i} = S(i).fname;
+    pressure{i} = S(i).pressure;
+
+    Params(i,:) = safeRow8(S(i).Params, i, 'Params');
+    CIlow(i,:)  = safeRow8(S(i).CIlow,  i, 'CIlow');
+    CIhi(i,:)   = safeRow8(S(i).CIhi,   i, 'CIhi');
+end
+
+function v = safeRow8(x, idx, name)
+    % Unwrap single-element cell
+    if iscell(x) && numel(x)==1
+        x = x{1};
+    end
+    % Table -> array
+    if istable(x) && height(x)==1
+        try, x = table2array(x); catch, end
+    end
+    % String/char -> numeric if possible
+    if ischar(x) || (isstring(x) && isscalar(x))
+        nums = str2num(char(x)); %#ok<ST2NM>
+        if ~isempty(nums), x = nums; end
+    end
+    % Cell of numerics -> mat
+    if iscell(x)
+        try, x = cell2mat(x); catch, end
+    end
+
+    % Flatten to row
+    if isempty(x)
+        % produce NaN row and warn
+        warning('Element %d: field %s is empty — padding with NaNs.', idx, name);
+        v = nan(1,8);
+        return
+    end
+    x = x(:).';
+
+    % Pad or truncate
+    if numel(x) < 8
+        warning('Element %d: field %s length %d < 8 — padding with NaNs.', idx, name, numel(x));
+        x = [x, nan(1,8-numel(x))];
+    elseif numel(x) > 8
+        warning('Element %d: field %s length %d > 8 — truncating to 8.', idx, name, numel(x));
+        x = x(1:8);
+    end
+
+    if ~isnumeric(x)
+        error('Element %d: field %s could not be converted to numeric.', idx, name);
+    end
+    v = double(x);
+end
+```
+
+3) Continue to build table, append mean/std rows, and write XLSX (concise version)
+```matlab
+T = table(fname, pressure);
+T = [T array2table(Params, 'VariableNames', paramNames) ...
+       array2table(CIlow, 'VariableNames', strcat('CIlow',paramNames)) ...
+       array2table(CIhi,  'VariableNames', strcat('CIhi', paramNames))];
+
+numericVars = T.Properties.VariableNames(3:end);
+dataMat = table2array(T(:, numericVars));
+colMean = mean(dataMat,1,'omitnan');
+colStd  = std(dataMat,0,1,'omitnan');
+
+meanRow = array2table([[{'mean'},{''}], num2cell(colMean)], 'VariableNames', T.Properties.VariableNames);
+stdRow  = array2table([[{'std' },{''}], num2cell(colStd) ], 'VariableNames', T.Properties.VariableNames);
+
+T_final = [T; meanRow; stdRow];
+
+writetable(T_final, 'Maneuvers_Params.xlsx');
+```
+
+If you run step 1 and paste the displayed contents for element 4 (the three fields), I can recommend whether padding with NaNs is appropriate or how to correct the source data.
+
+Alfred:
+In the table section: Error using tabular/vertcat (line 207)
+Unable to concatenate the table variable 'Pitch' because it is a cell array in one table and not a cell array
+in another.
+
+Copilot:
+The error means when you vertically concatenate tables, the variable named "Pitch" has different internal types across the tables — in one table it's a cell array column, in the other it's a numeric (or different cell shape). Tables require the same class/shape for a given variable when using vertcat.
+
+Fix options (pick one depending on what you want the column to be):
+
+1) Make "Pitch" numeric in all tables (recommended when values are numeric scalars).
+2) Make "Pitch" a cell column in all tables (useful when entries are vectors of varying size or strings).
+
+Below are short helper snippets to standardize columns before concatenation.
+
+A — Convert a cell column of scalar numerics to a numeric column
+This converts a column where each row is a 1×1 cell containing a numeric scalar into a plain numeric column.
+
+```matlab
+% T1 and T2 are tables you want to vertcat
+var = 'Pitch';
+
+% If the variable is a cell column of scalar numerics, convert to numeric
+if ismember(var, T1.Properties.VariableNames) && iscell(T1.(var))
+    col = T1.(var);
+    if all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+        T1.(var) = cellfun(@(x) double(x), col);
+    end
+end
+
+if ismember(var, T2.Properties.VariableNames) && iscell(T2.(var))
+    col = T2.(var);
+    if all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+        T2.(var) = cellfun(@(x) double(x), col);
+    end
+end
+
+T = [T1; T2]; % should succeed if types now match
+```
+
+B — Convert numeric column(s) to cell column(s)
+If you prefer cell columns (every row a cell), convert numeric columns into cell scalars so types match.
+
+```matlab
+var = 'Pitch';
+
+if ismember(var, T1.Properties.VariableNames) && isnumeric(T1.(var))
+    T1.(var) = num2cell(T1.(var));
+end
+if ismember(var, T2.Properties.VariableNames) && isnumeric(T2.(var))
+    T2.(var) = num2cell(T2.(var));
+end
+
+T = [T1; T2];
+```
+
+C — Generic routine: force all tables to have the same variable classes
+This will inspect a set of tables and coerce columns to a consistent class (numeric where possible, otherwise keep as cell).
+
+```matlab
+tables = {T1, T2};                % list your tables here
+vars = tables{1}.Properties.VariableNames;
+
+% Determine desired class for each variable: prefer numeric if every table can convert
+desiredClass = cell(size(vars));
+for vi = 1:numel(vars)
+    name = vars{vi};
+    canBeNumeric = true;
+    for ti = 1:numel(tables)
+        Ttmp = tables{ti};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            canBeNumeric = false; break;
+        end
+        col = Ttmp.(name);
+        if isnumeric(col)
+            continue;
+        elseif iscell(col) && all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+            continue;
+        else
+            canBeNumeric = false; break;
+        end
+    end
+    desiredClass{vi} = ternary(canBeNumeric,'numeric','cell'); %#ok<NASGU>
+end
+
+% Helper ternary
+function out = ternary(cond,a,b), if cond, out = a; else out = b; end
+
+% Convert tables accordingly
+for ti = 1:numel(tables)
+    Ttmp = tables{ti};
+    for vi = 1:numel(vars)
+        name = vars{vi};
+        if strcmp(desiredClass{vi},'numeric')
+            if iscell(Ttmp.(name))
+                Ttmp.(name) = cellfun(@(x) double(x), Ttmp.(name));
+            end
+        else % desired class = cell
+            if isnumeric(Ttmp.(name))
+                Ttmp.(name) = num2cell(Ttmp.(name));
+            end
+        end
+    end
+    tables{ti} = Ttmp;
+end
+
+% Now vertically concatenate
+Tall = vertcat(tables{:});
+```
+
+(If you paste the class and a few example entries for the "Pitch" variable from the tables being concatenated, I can give the exact minimal conversion.)
+
+Final note: after coercion verify shapes too — every table variable must have the same number of columns per row (for example a numeric column is Nx1, a cell column is Nx1 where each cell contains a scalar). If any cell contains an array of length >1 you must keep the column as cell.
+
+Alfred:
+Method C: Please repeat the complete table section
+
+Copilot:
+### Table Assembly With Generic Class Alignment (Method C)
+
+```matlab
+% Assume workspace variables:
+% fname (N×1 cell or string), pressure (N×1), Params (N×8 numeric),
+% CIlow (N×8 numeric), CIhi (N×8 numeric)
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+CIlowNames = strcat('CIlow', paramNames);
+CIhiNames  = strcat('CIhi',  paramNames);
+
+% Build base table
+T_base = table(fname(:), pressure(:), ...
+    'VariableNames', {'fname','pressure'});
+T_params = array2table(Params, 'VariableNames', paramNames);
+T_CIlow  = array2table(CIlow,  'VariableNames', CIlowNames);
+T_CIhi   = array2table(CIhi,   'VariableNames', CIhiNames);
+T = [T_base T_params T_CIlow T_CIhi];
+
+% Compute mean/std for numeric columns (skip fname, pressure)
+numericVars = T.Properties.VariableNames(3:end);
+dataMat = table2array(T(:, numericVars));
+colMean = mean(dataMat, 1, 'omitnan');
+colStd  = std(dataMat, 0, 1, 'omitnan');
+
+% Create mean and std rows as tables
+meanRow = array2table([[{'mean'},{''}], num2cell(colMean)], ...
+    'VariableNames', T.Properties.VariableNames);
+stdRow  = array2table([[{'std' },{''}], num2cell(colStd) ], ...
+    'VariableNames', T.Properties.VariableNames);
+
+% Method C: Generic routine to coerce variable classes across tables
+tables = {T, meanRow, stdRow};
+vars = tables{1}.Properties.VariableNames;
+
+% Decide desired class per variable: prefer numeric if every table can convert
+desiredClass = cell(size(vars));
+for vi = 1:numel(vars)
+    name = vars{vi};
+    canBeNumeric = true;
+    for ti = 1:numel(tables)
+        Ttmp = tables{ti};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            canBeNumeric = false; break;
+        end
+        col = Ttmp.(name);
+        if isnumeric(col)
+            continue;
+        elseif iscell(col) && all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+            continue;
+        else
+            canBeNumeric = false; break;
+        end
+    end
+    if canBeNumeric
+        desiredClass{vi} = 'numeric';
+    else
+        desiredClass{vi} = 'cell';
+    end
+end
+
+% Convert each table's variables to the desired class
+for ti = 1:numel(tables)
+    Ttmp = tables{ti};
+    for vi = 1:numel(vars)
+        name = vars{vi};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            error('Table %d is missing variable %s', ti, name);
+        end
+        if strcmp(desiredClass{vi}, 'numeric')
+            % Convert cell column of scalar numerics to numeric
+            if iscell(Ttmp.(name))
+                col = Ttmp.(name);
+                if all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+                    Ttmp.(name) = cellfun(@(x) double(x), col);
+                else
+                    error('Cannot convert variable %s in table %d to numeric.', name, ti);
+                end
+            end
+            % if already numeric, nothing to do
+        else % desired class = cell
+            if isnumeric(Ttmp.(name))
+                Ttmp.(name) = num2cell(Ttmp.(name));
+            end
+            % if already cell, nothing to do
+        end
+    end
+    tables{ti} = Ttmp;
+end
+
+% Now vertically concatenate safely
+T_final = vertcat(tables{:});
+
+% Write to XLSX
+writetable(T_final, 'Maneuvers_Params.xlsx');
+```
+
+Alfred:
+C works. Please make one change. Not the CIhigh and CIlow are confidence intervals. I want to reorder the 8 columns to be something like [ CIlowPitch Pitch CIhiPitch....etc.
+
+Copilot:
+Change the table assembly to interleave CIlow, value, CIhi for each parameter. Complete table section below uses Method C and reorders columns as
+
+[CIlowPitch, Pitch, CIhiPitch, CIlowRoll, Roll, CIhiRoll, ...].
+
+```matlab
+% Assume workspace variables:
+% fname (N×1 cell or string), pressure (N×1), Params (N×8 numeric),
+% CIlow (N×8 numeric), CIhi (N×8 numeric)
+
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+CIlowNames = strcat('CIlow', paramNames);
+CIhiNames  = strcat('CIhi',  paramNames);
+
+% Build base tables
+T_base   = table(fname(:), pressure(:), 'VariableNames', {'fname','pressure'});
+T_params = array2table(Params, 'VariableNames', paramNames);
+T_CIlow  = array2table(CIlow,  'VariableNames', CIlowNames);
+T_CIhi   = array2table(CIhi,   'VariableNames', CIhiNames);
+
+% Combine then reorder to interleave: CIlow_i, Param_i, CIhi_i for each param
+T_combined = [T_base T_params T_CIlow T_CIhi];
+
+% Build interleaved variable order
+interleaved = cell(1, 3*numel(paramNames));
+ci = 1;
+for k = 1:numel(paramNames)
+    interleaved{ci}   = CIlowNames{k};
+    interleaved{ci+1} = paramNames{k};
+    interleaved{ci+2} = CIhiNames{k};
+    ci = ci + 3;
+end
+newOrder = [{'fname','pressure'}, interleaved];
+
+% Reorder table columns
+T = T_combined(:, newOrder);
+
+% Compute mean/std for numeric columns (skip fname, pressure)
+numericVars = T.Properties.VariableNames(3:end);
+dataMat = table2array(T(:, numericVars));
+colMean = mean(dataMat, 1, 'omitnan');
+colStd  = std(dataMat, 0, 1, 'omitnan');
+
+% Create mean and std rows
+meanRow = array2table([[{'mean'},{''}], num2cell(colMean)], ...
+    'VariableNames', T.Properties.VariableNames);
+stdRow  = array2table([[{'std' },{''}], num2cell(colStd) ], ...
+    'VariableNames', T.Properties.VariableNames);
+
+% Method C: ensure consistent variable classes across tables before vertcat
+tables = {T, meanRow, stdRow};
+vars = tables{1}.Properties.VariableNames;
+
+% Decide desired class per variable: prefer numeric if every table can convert
+desiredClass = cell(size(vars));
+for vi = 1:numel(vars)
+    name = vars{vi};
+    canBeNumeric = true;
+    for ti = 1:numel(tables)
+        Ttmp = tables{ti};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            canBeNumeric = false; break;
+        end
+        col = Ttmp.(name);
+        if isnumeric(col)
+            continue;
+        elseif iscell(col) && all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+            continue;
+        else
+            canBeNumeric = false; break;
+        end
+    end
+    desiredClass{vi} = ternary(canBeNumeric,'numeric','cell');
+end
+
+% Convert each table's variables to the desired class
+for ti = 1:numel(tables)
+    Ttmp = tables{ti};
+    for vi = 1:numel(vars)
+        name = vars{vi};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            error('Table %d is missing variable %s', ti, name);
+        end
+        if strcmp(desiredClass{vi}, 'numeric')
+            if iscell(Ttmp.(name))
+                col = Ttmp.(name);
+                if all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+                    Ttmp.(name) = cellfun(@(x) double(x), col);
+                else
+                    error('Cannot convert variable %s in table %d to numeric.', name, ti);
+                end
+            end
+        else % desired class = cell
+            if isnumeric(Ttmp.(name))
+                Ttmp.(name) = num2cell(Ttmp.(name));
+            end
+        end
+    end
+    tables{ti} = Ttmp;
+end
+
+% Now vertically concatenate safely
+T_final = vertcat(tables{:});
+
+% Write to XLSX
+writetable(T_final, 'Maneuvers_Params.xlsx');
+
+% Helper ternary function (local)
+function out = ternary(cond,a,b)
+    if cond, out = a; else out = b; end
+end
+```
+
+This produces columns in the requested CIlow/Value/CIhi order for each parameter, appends mean and std rows, ensures consistent variable classes, and writes the XLSX.
+
+Alfred:
+Can you give me a full listing of each section from the beginning, perhaps consolidating into one function do_it(structManeuvers, 'table1.xlsx') ??
+
+Copilot:
+### Function: do_it(structManeuvers, outfile)
+
+Below is a single MATLAB function that:
+- Converts and validates fields in structManeuvers,
+- Unwraps/corrects/pads Params, CIlow, CIhi to length 8,
+- Builds a table with columns interleaved as [CIlowParam, Param, CIhiParam] for each parameter,
+- Appends "mean" and "std" summary rows (column-wise across maneuvers),
+- Ensures consistent variable classes, and
+- Writes the final table to the specified XLSX file.
+
+```matlab
+function do_it(structManeuvers, outfile)
+% do_it Consolidate structManeuvers into XLSX with interleaved CI/Values
+%   do_it(structManeuvers, outfile)
+%   structManeuvers: N×1 struct with fields fname, pressure, Params, CIlow, CIhi
+%   outfile: filename for writetable, e.g., 'table1.xlsx'
+
+if nargin < 2 || isempty(outfile)
+    outfile = 'Maneuvers_Params.xlsx';
+end
+
+% Parameter names (8)
+paramNames = {'Pitch','Roll','Alpha1','Alpha0','Beta1','Beta0','Head','Poff'};
+nparam = numel(paramNames);
+
+% Ensure column struct array
+S = structManeuvers(:);
+N = numel(S);
+
+% Preallocate
+fname = cell(N,1);
+pressure = cell(N,1);
+Params = nan(N,nparam);
+CIlow  = nan(N,nparam);
+CIhi   = nan(N,nparam);
+
+% Convert each element to 1x8 numeric rows (pad/truncate as needed)
+for i = 1:N
+    % fname/pressure allow char/string/cell
+    fname{i} = safeToChar(S(i).fname);
+    pressure{i} = safeToChar(S(i).pressure);
+
+    Params(i,:) = safeRow8(S(i).Params, i, 'Params');
+    CIlow(i,:)  = safeRow8(S(i).CIlow,  i, 'CIlow');
+    CIhi(i,:)   = safeRow8(S(i).CIhi,   i, 'CIhi');
+end
+
+% Build table pieces
+CIlowNames = strcat('CIlow', paramNames);
+CIhiNames  = strcat('CIhi',  paramNames);
+
+T_base   = table(fname(:), pressure(:), 'VariableNames', {'fname','pressure'});
+T_params = array2table(Params, 'VariableNames', paramNames);
+T_CIlow  = array2table(CIlow,  'VariableNames', CIlowNames);
+T_CIhi   = array2table(CIhi,   'VariableNames', CIhiNames);
+
+% Combine and reorder to interleave per parameter: [CIlow_i, Param_i, CIhi_i]
+T_combined = [T_base T_params T_CIlow T_CIhi];
+interleaved = cell(1, 3*nparam);
+ci = 1;
+for k = 1:nparam
+    interleaved{ci}   = CIlowNames{k};
+    interleaved{ci+1} = paramNames{k};
+    interleaved{ci+2} = CIhiNames{k};
+    ci = ci + 3;
+end
+newOrder = [{'fname','pressure'}, interleaved];
+T = T_combined(:, newOrder);
+
+% Compute column-wise mean/std for numeric columns (skip fname, pressure)
+numericVars = T.Properties.VariableNames(3:end);
+dataMat = table2array(T(:, numericVars)); % N x M
+colMean = mean(dataMat, 1, 'omitnan');
+colStd  = std(dataMat, 0, 1, 'omitnan');
+
+% Create mean and std rows
+meanRow = array2table([[{'mean'},{''}], num2cell(colMean)], 'VariableNames', T.Properties.VariableNames);
+stdRow  = array2table([[{'std' },{''}], num2cell(colStd) ], 'VariableNames', T.Properties.VariableNames);
+
+% Ensure consistent variable classes across T, meanRow, stdRow (Method C)
+tables = {T, meanRow, stdRow};
+vars = tables{1}.Properties.VariableNames;
+
+% Decide desired class per variable: prefer numeric if all tables can convert
+desiredClass = cell(size(vars));
+for vi = 1:numel(vars)
+    name = vars{vi};
+    canBeNumeric = true;
+    for ti = 1:numel(tables)
+        Ttmp = tables{ti};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            canBeNumeric = false; break;
+        end
+        col = Ttmp.(name);
+        if isnumeric(col)
+            continue;
+        elseif iscell(col) && all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+            continue;
+        else
+            canBeNumeric = false; break;
+        end
+    end
+    if canBeNumeric
+        desiredClass{vi} = 'numeric';
+    else
+        desiredClass{vi} = 'cell';
+    end
+end
+
+% Convert each table's variables to the desired class
+for ti = 1:numel(tables)
+    Ttmp = tables{ti};
+    for vi = 1:numel(vars)
+        name = vars{vi};
+        if ~ismember(name, Ttmp.Properties.VariableNames)
+            error('Table %d is missing variable %s', ti, name);
+        end
+        if strcmp(desiredClass{vi}, 'numeric')
+            if iscell(Ttmp.(name))
+                col = Ttmp.(name);
+                if all(cellfun(@(x) isnumeric(x) && isscalar(x), col))
+                    Ttmp.(name) = cellfun(@(x) double(x), col);
+                else
+                    error('Cannot convert variable %s in table %d to numeric.', name, ti);
+                end
+            end
+            % numeric already OK
+        else % desired class = cell
+            if isnumeric(Ttmp.(name))
+                Ttmp.(name) = num2cell(Ttmp.(name));
+            end
+            % cell already OK
+        end
+    end
+    tables{ti} = Ttmp;
+end
+
+% Vertically concatenate and write
+T_final = vertcat(tables{:});
+writetable(T_final, outfile);
+
+fprintf('Wrote %d maneuvers + 2 summary rows to %s\n', N, outfile);
+
+%% Helper subfunctions
+
+    function s = safeToChar(x)
+        % Convert fname/pressure to char (or cellstr) for table cell column
+        if ischar(x)
+            s = x;
+        elseif isstring(x)
+            s = char(x);
+        elseif iscell(x) && numel(x)==1 && (ischar(x{1}) || isstring(x{1}))
+            s = char(x{1});
+        else
+            % Fallback: convert whatever to char short representation
+            try
+                s = char(string(x));
+            catch
+                s = '';
+            end
+        end
+    end
+
+    function v = safeRow8(x, idx, name)
+        % Convert various types into 1x8 numeric row. Pad/truncate as needed.
+        % Returns 1x8 double row (NaN when padded). Warns on empty or conversion events.
+        % idx/name used for warning/error messages.
+        % Unwrap 1x1 cell
+        if iscell(x) && numel(x) == 1
+            x = x{1};
+        end
+        % Table with one row -> array
+        if istable(x) && height(x) == 1
+            try, x = table2array(x); catch, end
+        end
+        % String/char that might encode numbers
+        if ischar(x) || (isstring(x) && isscalar(x))
+            nums = str2num(char(x)); %#ok<ST2NM>
+            if ~isempty(nums)
+                x = nums;
+            end
+        end
+        % If still cell of numerics, try to mat
+        if iscell(x)
+            try, x = cell2mat(x); catch, end
+        end
+
+        % If empty produce NaNs
+        if isempty(x)
+            warning('Element %d: field %s is empty — padding with NaNs.', idx, name);
+            v = nan(1, nparam);
+            return
+        end
+
+        % Flatten to row
+        try
+            xr = double(x(:).'); % convert to numeric if possible
+        catch
+            error('Element %d: field %s could not be converted to numeric.', idx, name);
+        end
+
+        % Pad or truncate
+        if numel(xr) < nparam
+            warning('Element %d: field %s length %d < %d — padding with NaNs.', idx, name, numel(xr), nparam);
+            xr = [xr, nan(1, nparam - numel(xr))];
+        elseif numel(xr) > nparam
+            warning('Element %d: field %s length %d > %d — truncating to %d.', idx, name, numel(xr), nparam, nparam);
+            xr = xr(1:nparam);
+        end
+        v = xr;
+    end
+
+end
+```
+
+Usage example:
+- Call do_it(structManeuvers, 'table1.xlsx').
+
+The function is robust to common formats (numeric arrays, 1×1 cells with numeric arrays, strings encoding numbers) and pads missing entries with NaN, which are ignored when computing means/stds.
+
+Alfred:
+Great thanks.
+
+Copilot:
+You're welcome — glad it helped. If you want any tweaks (different summary rows, alternate ordering, CSV output, or in-place fixes to the source struct), tell me which and I'll update the function.
+
+Alfred:
+Explain Error
+Operation terminated by user during plotWindBarb (line 63)
+
+Copilot:
+**Probable Explanation:** The message means execution stopped because the user interrupted the code. This usually happens by pressing Ctrl-C or clicking the Stop button in the Editor or Command Window. The interruption occurred while running the function `plotWindBarb` at line 63.
+
+**Troubleshooting Recommendation:**
+- Recall whether you manually canceled execution (Ctrl-C or Stop). If so, rerun without interrupting.
+- Open `plotWindBarb.m` and inspect line 63 to see what it does (plotting, a long loop, or blocking input).
+  - In MATLAB: `edit plotWindBarb` and go to line 63, or display with `type plotWindBarb`.
+- If the code hangs or takes long, add diagnostic `disp` or `fprintf` before line 63 to show progress.
+- If line 63 uses a blocking input (e.g., `waitforbuttonpress`, `ginput`, `pause`), confirm you provided the expected input or remove the block for automated runs.
+- If a long loop or heavy plotting is the cause, consider:
+  - Reducing data size for testing.
+  - Using `drawnow limitrate` or `pause(0.01)` to allow GUI responsiveness.
+  - Vectorizing operations or preallocating arrays to speed execution.
+- After changes, run the function again and avoid pressing Stop/Ctrl-C unless necessary.
+
+Alfred:
+conversion m/s to knot
+
+Copilot:
+1 knot = 0.514444444444444 m/s (exact fraction 1852/3600 m/s).
+
+Formulas
+- knots = mps / 0.514444444444444
+- mps = knots * 0.514444444444444
+- equivalently knots = mps * 1.9438444924406
+
+MATLAB examples
+
+Simple scalar conversion
+```matlab
+mps = 10;             % meters per second
+knots = mps / 0.514444444444444;
+% or knots = mps * 1.9438444924406;
+fprintf('%.3f m/s = %.3f kn\n', mps, knots);
+```
+
+Vectorized conversion
+```matlab
+mps = [0, 5, 10, 20];
+knots = mps / 0.514444444444444;
+```
+
+Reusable function
+```matlab
+function k = mps2knots(mps)
+    k = mps / 0.514444444444444;
+end
+
+% inverse
+function m = knots2mps(k)
+    m = k * 0.514444444444444;
+end
+```
+
+Using Symbolic Math Toolbox units (if available)
+```matlab
+u = symunit;
+v = 10 * u.m/u.s;
+v_knots = unitConvert(v, u.kn);
+double(separateUnits(v_knots))
+```
+
+Pick the form you prefer; the numeric constant 0.514444444444444 (1852/3600) is exact for conversions.
+
+Alfred:
+I have wind vectors along track. I need plot of wind barbs along track. Points are 25 Hz, so I need one barb every 10 seconds which is 250 points. units are all metric.
+
+Copilot:
+Below is a concise, ready-to-run MATLAB function that samples your 25 Hz wind-vector time series every 10 s (250 points) and plots wind barbs along the track. If you do not have a meteorological wind-barb routine, the function uses quiver arrows (common and clear). The function also includes an optional conversion to knots and simple arrow scaling so arrows are visible on the track.
+
+Copy into a file named do_plot_windbarb.m and call with your data.
+
+```matlab
+function do_plot_windbarb(x, y, u, v, fs, interval_s, convertToKnots)
+% do_plot_windbarb Plot wind vectors along a track, sampled every interval_s
+%   x, y    : track coordinates (same length as u,v). Can be lon/lat or X/Y
+%   u, v    : wind components (m/s) in track coordinate system (east/north)
+%   fs      : sampling frequency (Hz), e.g., 25
+%   interval_s : desired time interval between plotted arrows (s), e.g., 10
+%   convertToKnots : (optional) logical. true -> convert m/s to knots for arrow length
+%
+% Example:
+%   do_plot_windbarb(lon, lat, u, v, 25, 10, true)
+
+if nargin < 7, convertToKnots = false; end
+
+n = numel(u);
+assert(numel(x)==n && numel(y)==n && numel(v)==n, 'All inputs must be same length.');
+step = round(interval_s * fs);
+if step < 1, step = 1; end
+
+idx = 1:step:n;        % indices to plot (every interval_s seconds)
+xq = x(idx);
+yq = y(idx);
+uq = u(idx);
+vq = v(idx);
+
+% Optionally convert units (m/s -> knots)
+mps_to_kn = 1/0.514444444444444; % ≈1.9438444924406
+if convertToKnots
+    uq = uq * mps_to_kn;
+    vq = vq * mps_to_kn;
+    unitLabel = 'knots';
+else
+    unitLabel = 'm/s';
+end
+
+% Plot track
+figure;
+plot(x, y, '-', 'Color', [0.6 0.6 0.6]); hold on;
+plot(xq, yq, 'ko', 'MarkerFaceColor','k','MarkerSize',3); % sample points
+
+% Quiver scaling: pick scale so typical arrow length is visually reasonable
+% autoscale by median wind magnitude and desired arrow length in data units
+windMag = hypot(uq, vq);
+medMag = median(windMag(~isnan(windMag)));
+if medMag == 0 || isnan(medMag), medMag = 1; end
+
+% Desired arrow length in axis units (tweak 0.02 as needed)
+ax = gca;
+xl = xlim(ax); yl = ylim(ax);
+diagRange = hypot(diff(xl), diff(yl));
+desiredLenFrac = 0.04; % fraction of diag for a median wind vector
+desiredLen = desiredLenFrac * diagRange;
+
+% quiver scale parameter: scale = (actual length units) / (display arrow length)
+% MATLAB quiver usage: quiver(X,Y,U,V,scale) scales arrows by 1/scale.
+% We compute scale such that median magnitude -> desiredLen
+scale = medMag / desiredLen;
+if ~isfinite(scale) || scale == 0, scale = 1; end
+
+% Plot quiver (using filled arrows for better visibility)
+hq = quiver(xq, yq, uq, vq, 1/scale, 'b', 'LineWidth', 1);
+% If you prefer no automatic scaling, use quiver(xq,yq,uq,vq,0,...)
+
+% Improve appearance
+axis equal;
+xlabel('X'); ylabel('Y');
+title(sprintf('Wind vectors every %d s (%s)', interval_s, unitLabel));
+grid on;
+
+% Add legend/annotation for reference vector
+% Reference arrow at top-left of axis
+xpos = xl(1) + 0.05*(xl(2)-xl(1));
+ypos = yl(2) - 0.08*(yl(2)-yl(1));
+refVal = median(windMag);
+if convertToKnots
+    refTextVal = sprintf('%.1f %s', refVal, unitLabel);
+else
+    refTextVal = sprintf('%.1f %s', refVal, unitLabel);
+end
+quiver(xpos, ypos, refVal, 0, 1/scale, 'r', 'LineWidth', 1.5, 'MaxHeadSize', 2);
+text(xpos, ypos - 0.03*diff(yl), ['Ref = ' refTextVal], 'Color','r');
+
+hold off;
+
+end
+```
+
+Notes and suggestions
+- If your track coordinates are longitude/latitude, plot with geographic projection or use geoscatter/geoplot for correct aspect ratio. For small regions, axis equal on lon/lat is often acceptable.
+- The routine uses quiver arrows, not traditional meteorological barbs. If you need standard wind barbs (flags and pennants), you can either:
+  - Replace quiver with a wind-barb plotting function if you have one available, or
+  - Implement a small custom function that draws barbs at each sample (more code).
+- Tweak desiredLenFrac to change arrow sizes relative to the map.
+- To save the figure: use saveas(gcf,'windbarbs.png') or exportgraphics.
+- If arrows overlap too much, increase interval_s or reduce plotted sample count.
+
+If you want a true meteorological wind-barb symbol for each plotted point, tell me and I will provide a function that draws barbs (flags/pennants) with correct convention and unit conversion.
+
+Alfred:
+How to make barbs longer
+
+Copilot:
+You can make the barbs (arrows) longer in several ways depending on how you draw them. Options for the quiver-based routine I gave:
+
+1) Increase the displayed length by reducing the quiver scale (quiver scales arrows by 1/scale).
+- Smaller scale → longer arrows; scale = 0 disables autoscaling and uses U,V as data lengths.
+
+2) Multiply the U,V vectors by a fixed visual scale factor before plotting.
+
+3) Increase the reference desiredLenFrac so median wind maps to a larger fraction of the plot diagonal.
+
+4) For arrow heads, adjust MaxHeadSize (quiver property) to keep heads proportional.
+
+Short example modifications (pick one):
+
+A — Reduce quiver scale (make arrows longer)
+```matlab
+% previously computed 'scale' (medMag/desiredLen)
+scale = max(scale*0.5, 1e-6);   % halve the scale -> arrows twice as long
+hq = quiver(xq, yq, uq, vq, 1/scale, 'b', 'LineWidth', 1, 'MaxHeadSize', 2);
+```
+
+B — Use scale = 0 (U,V interpreted in data units)
+```matlab
+% If uq,vq are already in the same units as axes (or you want explicit control)
+hq = quiver(xq, yq, uq, vq, 0, 'b', 'LineWidth', 1.2, 'MaxHeadSize', 2);
+```
+
+C — Apply a visual multiplier to U,V
+```matlab
+visScale = 2.0;              % >1 to lengthen arrows
+hq = quiver(xq, yq, uq*visScale, vq*visScale, 1, 'b', 'LineWidth', 1.2, 'MaxHeadSize', 3);
+```
+
+D — Increase desiredLenFrac (affects automatic scaling computation)
+```matlab
+desiredLenFrac = 0.08;  % previous 0.04 -> arrows twice as long relative to plot diagonal
+desiredLen = desiredLenFrac * diagRange;
+scale = medMag / desiredLen;
+hq = quiver(xq, yq, uq, vq, 1/scale, 'b', 'LineWidth', 1);
+```
+
+Practical tips
+- Use axis equal or consistent axis units so visual scaling is meaningful.
+- If you use scale = 0 or multiply U,V, you may need to tune visScale so arrows neither overlap nor become too small.
+- Increase 'MaxHeadSize' to make arrowheads visible when arrows are longer.
+- For barbs (meteorological symbols) drawn via custom patches, multiply the computed barb geometry by a scale factor before plotting.
+
+If you share which method you prefer (change quiver scale, multiply vectors, or custom barbs), or paste the plotting code you use, I'll give the exact one-line change to make arrows longer.
+

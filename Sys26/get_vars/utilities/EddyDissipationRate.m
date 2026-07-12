@@ -19,24 +19,21 @@ Ast        = 80;      % full 80 dB (use filtfilt -> 160
 b1 = kaiser_hp(fs, fc, transWidth, Ap, Ast);
 a1 = 1;
 
-kk1 = find(~isnan(tasx) & ~isinf(tasx) & Tas< 200);
+kk1 = find(~isnan(tasx) & ~isinf(tasx) & Tas< 200 & Tas>0);
 tasx1 = interp1(kk1,tasx(kk1),1:numel(tasx),'linear',1)';
 tasy1 = interp1(kk1,tasy(kk1),1:numel(tasy),'linear',1)';
 tasz1 = interp1(kk1,tasz(kk1),1:numel(tasz),'linear',1)';
 
-
-
-uwf = zeros(size(Tas));
-vwf = zeros(size(Tas));
-wwf = zeros(size(Tas));
-% High-pass filter
-uwf(~isnan(tasx1)) = filtfilt(b1,1,tasx1); 
-vwf(~isnan(tasy1)) = filtfilt(b1,1,tasy1); 
-wwf(~isnan(tasz1)) = filtfilt(b1,1,tasz1);
+uwf = filtfilt(b1,1,tasx1); 
+vwf = filtfilt(b1,1,tasy1); 
+wwf = filtfilt(b1,1,tasz1);
 
 % Remove outliers
-[B,TFrm,TFoutlier] = rmoutliers(uwf,'percentiles',[2,98]);
-x = interp1(find(~TFrm),uwf(find(~TFrm)),[1:numel(uwf)]','linear',0);
+[B,TFrm,TFoutlier] = rmoutliers(uwf,'movmedian',5*fs);
+kk = find(~TFrm);
+uwf1 = interp1(kk,uwf(kk),[1:numel(uwf)]','linear',0);
+vwf1 = interp1(kk,vwf(kk),[1:numel(vwf)]','linear',0);
+vwf1 = interp1(kk,wwf(kk),[1:numel(wwf)]','linear',0);
 
 % Do running variance for each 10 s block 
 %

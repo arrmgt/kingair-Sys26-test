@@ -28,47 +28,20 @@ catch
     rawTimeVar = 'Time';
 end
 units=ncreadatt(X.RawPath,rawTimeVar,'units');
-try
-    standard_name=ncreadatt(X.RawPath,rawTimeVar,'standard_name');
-    ncwriteatt(X.ncFINAL,'Time','standard_name',standard_name);
-    strptime_format=ncreadatt(X.RawPath,rawTimeVar,'strptime_format');
-    ncwriteatt(X.ncFINAL,'Time','strptime_format',strptime_format);
-end
-ncwriteatt(X.ncFINAL,'Time','long_name','System time')
-ncwriteatt(X.ncFINAL,'Time','units',units);
 
-% *_raw.nc time units will look something like 'seconds since 2021-01-01 00:00:00 +0000'
-fmt=ncreadatt(X.RawPath,rawTimeVar,'units');
-j=strfind(fmt,'+'); % is zone specified?
-if(isempty(j))
-    fmt = [fmt ' +0000'];
-    j=strfind(fmt,'+'); % is zone specified?
-end
-Tzone=fmt(j:end); %time zone of time
-Tfmt=extractAfter(fmt,'seconds since ');
-Tparts0=split(Tfmt);
-if(length(Tparts0)<3)
-    Tparts{1,1}=Tparts0{1};
-    Tparts{2,1}='0:0:0';
-    Tparts{3,1}=Tparts0{2};
-else
-    Tparts=Tparts0;
-end
-utcOffset=Tparts{3};
-startTime=[Tparts{1},' ',Tparts{2}];
-newyear=Tparts{1};
+[startTime, endTime, utcOffset, Tref]  = aircraftDateTime(Time, units);
 TrefFlight=datetime(startTime,'InputFormat','yyyy-MM-dd HH:mm:s','TimeZone',utcOffset);
 Tstart=TrefFlight+seconds(Time(1));
 Tend=TrefFlight+seconds(Time(end));
+
 % Create aircraft datetime array
 deltat=1;
-Tac=Tstart:seconds(1):Tend;
-
+Tac=startTime:seconds(1):endTime;
 currentTime = datetime('now', 'TimeZone', 'UTC','InputFormat' ...
     ,'yyyy-MM-dd HH:mm:ss');
-date_created=datestr(currentTime, 'dd-mmm-yyyy HH:MM:SS +0000');
-start_time = datetime(Tac(1),  'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
-end_time   = datetime(Tac(end),'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
+date_created    = datestr(currentTime, 'dd-mmm-yyyy HH:MM:SS +0000');
+start_time      = datetime(Tac(1),  'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
+end_time        = datetime(Tac(end),'InputFormat','yyyy-MM-dd HH:mm:ss +0000');
 % datestr format different thatn datetime(!)
 tstart=datestr(Tac(1),'yyyy-mm-dd HH:MM:SS +0000'); 
 tend=datestr(Tac(end),'yyyy-mm-dd HH:MM:SS +0000');
@@ -78,6 +51,7 @@ FlightDate = datetime(Tac,'InputFormat','yyyy-MM-dd');
 startt=datestr(Tac(1),'HH:MM:SS');
 endt=datestr(Tac(end),'HH:MM:SS');
 TimeInterval=sprintf('%s-%s',startt,endt);
+
 
 ncwriteatt(X.ncFINAL,'/','date_created',date_created);
 ncwriteatt(X.ncFINAL,'/','Date Processed',date_created);

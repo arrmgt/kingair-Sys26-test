@@ -1,8 +1,8 @@
 function [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f0]=cone_pcor(dp1,pb,pa,pr,psm,varargin);
-%     [pcorc0,fcoef,machn0,q0,tbx0,tax0,XXf,betaf,qx0,f0]=
-% Calculate flow angles and static pressure correction
-%  [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f
-%  [pcorc,qx,tbx,tax,f0,XXf,betaf,machn] = cone_pcor(dp1,pb,pa,pr,psm,varargin);
+% REVISED for NEW KING AIR
+%       [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f0]=
+%               cone_pcor(dp1,pb,pa,pr,psm,varargin);
+% Calculate flow angles and static pressure correction 
 %      PSM is uncorrected static pressure
 %      MR is mixing ratio for humidity correction [g/g] (optional)
 %
@@ -14,15 +14,12 @@ function [pcorc,fcoef,machn,qx,tbx,tax,XXf,betaf,qx0,f0]=cone_pcor(dp1,pb,pa,pr,
 %       f0 = 858 probe sensitivity factor
 %       XXF, betaf , machn are for diagnostic checking (see below)
 %     
-
-
-% From Rodi&Leon(2012)
+% REVISED FOR NEW KING AIR 20260712
 betaf = [ ...
-   1.699864444944109; ...
-  -0.156929423443038; ...
-   0.066325085038090; ...
-   0.001254576494439  ...
-   ];
+  -0.898840651146123; ...
+   0.687198414858206; ...
+  -1.408082102411103; ...
+   2.556062392326805];
 
 if(nargin<6)
     mr = zeros(size(dp1));
@@ -33,6 +30,7 @@ end
 % These are independent of static pressure correctitbx = tanBeta(pb,pr);
 tax = tanAlpha(pa,pb,pr);
 tbx = tanBeta(pb,pr);
+abFact = 1 + tax.^2 + tbx.^2;
 qx0 = impactPcalc(dp1,pa,pb,pr); %uncorrected
 % fqx us f*q; fqx/f = q; fqx is independent of pcor
 fqx = fqCalc(pa,pb,pr);  
@@ -58,7 +56,7 @@ for jj=1:3 % Iterate three times
 % We need machn to get pErr, and pErr to get machn
     machn=mach(qx0+pErr,psm-pErr,mr);
     % Rodi & Leon(2012)
-    XX=[machn machn.^2 pa]; 
+    XX=[machn machn.^2 abFact]; 
     XXf=[onez XX];
     f0=XXf*betaf; 
     pErr=fqx./f0-qx0;

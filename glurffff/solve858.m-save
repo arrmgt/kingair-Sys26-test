@@ -1,0 +1,372 @@
+function [q, f, ta_out, tb_out, sigma_q, sigma_f, res, stats] = solve858(dp1a, dpa, dpb, dpr, varargin)
+%SOLVE858  Vectorised closed-form solve for Rosemount 858 5-hole probe.
+%
+%  Solves for q (impact pressure), f (probe sensitivity), ta = tan(alpha),
+%  and tb = tan(beta) from four or five differential pressure measurements.
+%  All computation is element-wise array arithmetic — no loops or iteration.
+%
+% -----------------------------------------------------------------------
+%  EQUATION STRUCTURE  (P = 1+ta²+tb², S = ta²+tb², fq ≡ f·q)
+% -----------------------------------------------------------------------
+%    eq1:  P·q  −  S·fq           =  dp1a·P
+%    eq2:         2·tb·fq          =  dpb·P
+%    eq3:         2·ta·fq          =  dpa·P
+%    eq4:         cb·fq            =  2·dpr·P    cb = 1−2·tb−tb²
+%    eq5:         ca·fq            =  2·DPN·P    ca = 1−2·ta−ta²  [optional]
+%
+%  SOLUTION STAGES
+%  ---------------
+%  Stage 1 — tb from eq2÷eq4 (P and fq cancel):
+%    dpb·tb² + (2·dpb + 4·dpr)·tb − dpb = 0
+%    Roots have opposite signs; select via sign(dpb) = sign(tb).
+%
+%  Stage 2 — ta:
+%    With DPN:    eq3÷eq5 → dpa·ta² + (2·dpa + 4·DPN)·ta − dpa = 0
+%    Without DPN: eq3÷eq2 → ta = tb·dpa/dpb
+%
+%  Stage 3 — fq by scalar LS on eqs 2–5 (or 2–4):
+%    With DPN:    D = 4S+ca²+cb², Nv = 2tb·dpb+2ta·dpa+2cb·dpr+2ca·DPN
+%    Without DPN: D = 4S+cb²,     Nv = 2tb·dpb+2ta·dpa+2cb·dpr
+%    fq = P·Nv/D
+%
+%  Stage 4 — q from eq1 (exactly satisfied):  q = dp1a + S·Nv/D
+%
+%  DEGREES OF FREEDOM
+%  ------------------
+%    With DPN:    5 eq, 4 unknowns → 1 dof  (residual σ estimable)
+%    Without DPN: 4 eq, 4 unknowns → 0 dof  (residual σ = 0)
+%
+%  UNCERTAINTY SOURCES (combined in quadrature)
+%  -------------------------------------------
+%    σ_resid   — from LS residuals (captures model/consistency error)
+%    σ_trans   — propagated from transducer noise via central FD Jacobian
+%    σ_total   = sqrt(σ_resid² + σ_trans²)
+%
+%  σ_trans is available even without DPN; σ_resid requires DPN (dof ≥ 1).
+%
+% -----------------------------------------------------------------------
+%  SYNTAX
+%    [q,f,ta,tb] = solve858(dp1a, dpa, dpb, dpr)
+%    [q,f,ta,tb] = solve858(dp1a, dpa, dpb, dpr, 'DPN', DPN_vec)
+%    [q,f,ta,tb,sq,sf,res,stats] = solve858(...,
+%         'sigma_dp', 0.15,         % transducer 1-sigma (hPa), scalar or [4/5]-vec
+%         'alpha',    0.05,         % CI level
+%         'q_bounds', [10 150],
+%         'f_bounds', [1  3  ],
+%         'ta_bounds',[-2 2  ],
+%         'tb_bounds',[-2 2  ])
+%
+%  REQUIRED INPUTS  (all N×1)
+%    dp1a   centre-hole differential pressure
+%    dpa    alpha-pair differential pressure
+%    dpb    beta-pair  differential pressure
+%    dpr    roll-pair  differential pressure
+%
+%  OPTIONAL NAME-VALUE INPUTS
+%    'DPN'       N×1  fifth differential pressure (enables 5-eq solve)
+%    'sigma_dp'  transducer 1-sigma uncertainty, same units as pressures
+%                scalar = same for all sensors; [4×1] or [5×1] = per-sensor
+%                default 0 (no transducer propagation)
+%    'alpha'     CI significance level, default 0.05 (95%)
+%    'q_bounds'  [qmin qmax],   default [10 150]
+%    'f_bounds'  [fmin fmax],   default [1 3]
+%    'ta_bounds' [tamin tamax], default [-2 2]
+%    'tb_bounds' [tbmin tbmax], default [-2 2]
+%
+%  OUTPUTS  (all N×1 unless noted)
+%    q        impact pressure             (0 where bounds violated)
+%    f        probe sensitivity           (0 where bounds violated)
+%    ta_out   tan(angle of attack)        (NaN where invalid)
+%    tb_out   tan(sideslip angle)         (NaN where invalid)
+%    sigma_q  total 1-sigma uncertainty in q   (NaN where invalid)
+%    sigma_f  total 1-sigma uncertainty in f   (NaN where invalid)
+%    res      residuals N×4 (with DPN) or N×3 (without)
+%    stats    struct — see STATS FIELDS below
+%
+%  STATS FIELDS
+%    Per-point:
+%      .q_ci, .f_ci          N×2  confidence intervals
+%      .R2                   N×1  goodness-of-fit (through-origin R²)
+%      .valid                N×1  logical mask
+%      .sigma_q_resid        residual component of σ_q
+%      .sigma_q_trans        transducer component of σ_q
+%      .sigma_f_resid        residual component of σ_f
+%      .sigma_f_trans        transducer component of σ_f
+%      .sigma_ta             transducer uncertainty in ta
+%      .sigma_tb             transducer uncertainty in tb
+%    Global (over valid points):
+%      .N_valid, .q_mean, .q_std, .q_ci_global
+%      .f_mean,  .f_std,  .f_ci_global, .R2_median
+%    Info:
+%      .dof, .use_DPN, .alpha, .sigma_dp
+% -----------------------------------------------------------------------
+
+% ---- parse inputs ------------------------------------------------------
+p = inputParser;
+addRequired(p,  'dp1a');
+addRequired(p,  'dpa');
+addRequired(p,  'dpb');
+addRequired(p,  'dpr');
+addParameter(p, 'DPN',       []);
+addParameter(p, 'sigma_dp',  0);
+addParameter(p, 'q_bounds',  [10,  150]);
+addParameter(p, 'f_bounds',  [1,   3  ]);
+addParameter(p, 'ta_bounds', [-2,  2  ]);
+addParameter(p, 'tb_bounds', [-2,  2  ]);
+addParameter(p, 'alpha',     0.05);
+parse(p, dp1a, dpa, dpb, dpr, varargin{:});
+
+DPN      = p.Results.DPN;
+sigma_dp = p.Results.sigma_dp(:);   % ensure column
+q_bounds = p.Results.q_bounds;
+f_bounds = p.Results.f_bounds;
+ta_bnd   = p.Results.ta_bounds;
+tb_bnd   = p.Results.tb_bounds;
+alpha    = p.Results.alpha;
+use_DPN  = ~isempty(DPN);
+n_dp     = 4 + use_DPN;
+
+% Expand scalar sigma_dp to per-sensor vector
+if isscalar(sigma_dp)
+    sigma_dp = sigma_dp * ones(n_dp, 1);
+elseif numel(sigma_dp) ~= n_dp
+    error('solve858:sigmaDim', ...
+        'sigma_dp must be scalar or length %d (one per pressure input).', n_dp);
+end
+
+% ---- core solve --------------------------------------------------------
+[q_raw, f_raw, ta_raw, tb_raw, fq, S, P, ca, cb, D] = ...
+    solve_core(dp1a, dpa, dpb, dpr, DPN, use_DPN, ta_bnd, tb_bnd);
+
+% ---- bounds & validity -------------------------------------------------
+valid = q_raw >= q_bounds(1) & q_raw <= q_bounds(2) & ...
+        f_raw >= f_bounds(1) & f_raw <= f_bounds(2);
+
+q      = q_raw;  f = f_raw;
+q(~valid) = 0;   f(~valid) = 0;
+ta_out = ta_raw; tb_out = tb_raw;
+ta_out(~valid) = NaN;  tb_out(~valid) = NaN;
+
+if nargout < 5, return; end
+
+% ---- residuals ---------------------------------------------------------
+r2 = 2.*tb_raw.*fq - dpb.*P;
+r3 = 2.*ta_raw.*fq - dpa.*P;
+r4 = cb.*fq         - 2.*dpr.*P;
+if use_DPN
+    r5  = ca.*fq - 2.*DPN.*P;
+    res = [r2, r3, r4, r5];    % N×4
+    dof_val = 1;
+else
+    res = [r2, r3, r4];        % N×3
+    dof_val = 0;
+end
+res(~valid, :) = 0;
+
+% ---- residual-based sigma (requires DPN / dof ≥ 1) --------------------
+if dof_val >= 1
+    sigma2_resid = sum(res.^2, 2) ./ dof_val;
+    var_q_resid  = sigma2_resid .* (D + S.^2) ./ (P.^2 .* D);
+    var_f_resid  = sigma2_resid ./ (q_raw.^2 .* P.^2 .* D) .* ...
+                   (f_raw.^2 .* (D + S.^2) - 2.*f_raw.*S.*P + P.^2);
+    sigma_q_resid = sqrt(var_q_resid);
+    sigma_f_resid = sqrt(var_f_resid);
+else
+    sigma_q_resid = zeros(size(q_raw));
+    sigma_f_resid = zeros(size(f_raw));
+end
+sigma_q_resid(~valid) = NaN;
+sigma_f_resid(~valid) = NaN;
+
+% ---- transducer uncertainty via central finite-difference Jacobian -----
+%  Perturb each pressure ±h and central-difference.  Wide angle bounds
+%  used for FD calls to avoid clipping discontinuities.
+wide_bnd = [-10, 10];
+
+if any(sigma_dp > 0)
+    dp_in = {dp1a, dpa, dpb, dpr};
+    if use_DPN, dp_in{5} = DPN; end
+
+    h = 1e-4;   % Pa — small vs. sigma_dp (0.1-0.2 hPa), large vs. machine eps
+
+    sq_q  = zeros(size(q_raw));
+    sq_f  = zeros(size(f_raw));
+    sq_ta = zeros(size(ta_raw));
+    sq_tb = zeros(size(tb_raw));
+
+    for k = 1:n_dp
+        dp_p = dp_in;  dp_p{k} = dp_in{k} + h;
+        dp_m = dp_in;  dp_m{k} = dp_in{k} - h;
+
+        if use_DPN
+            [qp,fp,tap,tbp] = solve_core(dp_p{1},dp_p{2},dp_p{3},dp_p{4},dp_p{5}, ...
+                                          true, wide_bnd, wide_bnd);
+            [qm,fm,tam,tbm] = solve_core(dp_m{1},dp_m{2},dp_m{3},dp_m{4},dp_m{5}, ...
+                                          true, wide_bnd, wide_bnd);
+        else
+            [qp,fp,tap,tbp] = solve_core(dp_p{1},dp_p{2},dp_p{3},dp_p{4},[], ...
+                                          false, wide_bnd, wide_bnd);
+            [qm,fm,tam,tbm] = solve_core(dp_m{1},dp_m{2},dp_m{3},dp_m{4},[], ...
+                                          false, wide_bnd, wide_bnd);
+        end
+
+        scale = (sigma_dp(k) / (2*h))^2;
+        sq_q  = sq_q  + scale .* (qp  - qm ).^2;
+        sq_f  = sq_f  + scale .* (fp  - fm ).^2;
+        sq_ta = sq_ta + scale .* (tap - tam).^2;
+        sq_tb = sq_tb + scale .* (tbp - tbm).^2;
+    end
+
+    sigma_q_trans  = sqrt(sq_q);
+    sigma_f_trans  = sqrt(sq_f);
+    sigma_ta_trans = sqrt(sq_ta);
+    sigma_tb_trans = sqrt(sq_tb);
+else
+    sigma_q_trans  = zeros(size(q_raw));
+    sigma_f_trans  = zeros(size(f_raw));
+    sigma_ta_trans = zeros(size(ta_raw));
+    sigma_tb_trans = zeros(size(tb_raw));
+end
+
+sigma_q_trans(~valid)  = NaN;
+sigma_f_trans(~valid)  = NaN;
+sigma_ta_trans(~valid) = NaN;
+sigma_tb_trans(~valid) = NaN;
+
+% ---- angle uncertainties (delta method: d/dta of atan(ta)·180/π) ------
+%  sigma_alpha = sigma_ta · (180/π) / (1 + ta²)
+%  sigma_beta  = sigma_tb · (180/π) / (1 + tb²)
+deg = 180 / pi;
+sigma_alpha = sigma_ta_trans .* deg ./ (1 + ta_raw.^2);
+sigma_beta  = sigma_tb_trans .* deg ./ (1 + tb_raw.^2);
+sigma_alpha(~valid) = NaN;
+sigma_beta(~valid)  = NaN;
+
+% ---- combined (total) uncertainty in quadrature -----------------------
+sigma_q = sqrt(sigma_q_resid.^2 + sigma_q_trans.^2);
+sigma_f = sqrt(sigma_f_resid.^2 + sigma_f_trans.^2);
+
+if nargout < 8, return; end
+
+% ---- confidence intervals ---------------------------------------------
+if dof_val >= 1
+    try,   t_pt = tinv(1 - alpha/2, dof_val);
+    catch, t_pt = norminv(1 - alpha/2);
+        warning('solve858:noTinv','tinv unavailable; using normal approx for CI.');
+    end
+else
+    % 0 dof: CI from transducer propagation only — treat as Gaussian
+    t_pt = norminv(1 - alpha/2);
+end
+
+q_ci = [q - t_pt.*sigma_q,  q + t_pt.*sigma_q];
+f_ci = [f - t_pt.*sigma_f,  f + t_pt.*sigma_f];
+q_ci(~valid,:) = NaN;
+f_ci(~valid,:) = NaN;
+
+% ---- R² (through-origin, eqs used for fq) ----------------------------
+if use_DPN
+    SS_tot = (dpb.*P).^2 + (dpa.*P).^2 + (2.*dpr.*P).^2 + (2.*DPN.*P).^2;
+else
+    SS_tot = (dpb.*P).^2 + (dpa.*P).^2 + (2.*dpr.*P).^2;
+end
+R2 = 1 - sum(res.^2, 2) ./ SS_tot;
+R2(~valid) = NaN;
+
+% ---- global statistics over valid points ------------------------------
+N_valid = sum(valid);
+q_v = q_raw(valid);  f_v = f_raw(valid);
+q_mean = mean(q_v);  q_std = std(q_v);
+f_mean = mean(f_v);  f_std = std(f_v);
+q_sem  = q_std / sqrt(N_valid);
+f_sem  = f_std / sqrt(N_valid);
+
+try,   t_gl = tinv(1 - alpha/2, N_valid - 1);
+catch, t_gl = norminv(1 - alpha/2); end
+
+% ---- pack stats --------------------------------------------------------
+stats.q_ci          = q_ci;
+stats.f_ci          = f_ci;
+stats.R2            = R2;
+stats.valid         = valid;
+stats.N_valid       = N_valid;
+stats.q_mean        = q_mean;
+stats.q_std         = q_std;
+stats.q_ci_global   = [q_mean - t_gl*q_sem,  q_mean + t_gl*q_sem];
+stats.f_mean        = f_mean;
+stats.f_std         = f_std;
+stats.f_ci_global   = [f_mean - t_gl*f_sem,  f_mean + t_gl*f_sem];
+stats.R2_median     = median(R2(valid));
+stats.sigma_q_resid = sigma_q_resid;
+stats.sigma_q_trans = sigma_q_trans;
+stats.sigma_f_resid = sigma_f_resid;
+stats.sigma_f_trans = sigma_f_trans;
+stats.sigma_ta      = sigma_ta_trans;
+stats.sigma_tb      = sigma_tb_trans;
+stats.sigma_alpha   = sigma_alpha;     % deg, uncertainty in angle of attack
+stats.sigma_beta    = sigma_beta;      % deg, uncertainty in sideslip angle
+stats.dof           = dof_val;
+stats.use_DPN       = use_DPN;
+stats.alpha         = alpha;
+stats.sigma_dp      = sigma_dp;
+
+end   % main function
+
+
+% =======================================================================
+function [q, f, ta, tb, fq, S, P, ca, cb, D] = ...
+         solve_core(dp1a, dpa, dpb, dpr, DPN, use_DPN, ta_bnd, tb_bnd)
+%SOLVE_CORE  Bare computation — no bounds enforcement beyond angle clips,
+%  no residuals, no stats.  Called by solve858 and its FD Jacobian loop.
+
+% ---- Stage 1: tb from quadratic (eq2 ÷ eq4) -------------------------
+%  dpb·tb² + (2·dpb + 4·dpr)·tb − dpb = 0
+%  discriminant = (2·dpb+4·dpr)² + 4·dpb² > 0 always
+%  product of roots = −1  →  opposite signs; sign(tb) = sign(dpb)
+b_b    = 2.*dpb + 4.*dpr;
+disc_b = b_b.^2 + 4.*dpb.^2;
+tb_r1  = (-b_b + sqrt(disc_b)) ./ (2.*dpb);
+tb_r2  = (-b_b - sqrt(disc_b)) ./ (2.*dpb);
+
+tb = zeros(size(dpb));
+tb(dpb > 0) = max(tb_r1(dpb > 0), tb_r2(dpb > 0));   % positive root
+tb(dpb < 0) = min(tb_r1(dpb < 0), tb_r2(dpb < 0));   % negative root
+% dpb == 0 → tb stays 0
+tb = max(tb_bnd(1), min(tb_bnd(2), tb));
+
+% ---- Stage 2: ta -------------------------------------------------------
+if use_DPN
+    b_a    = 2.*dpa + 4.*DPN;
+    disc_a = b_a.^2 + 4.*dpa.^2;
+    ta_r1  = (-b_a + sqrt(disc_a)) ./ (2.*dpa);
+    ta_r2  = (-b_a - sqrt(disc_a)) ./ (2.*dpa);
+
+    ta = zeros(size(dpa));
+    ta(dpa > 0) = max(ta_r1(dpa > 0), ta_r2(dpa > 0));
+    ta(dpa < 0) = min(ta_r1(dpa < 0), ta_r2(dpa < 0));
+else
+    ta = zeros(size(dpa));
+    nz = abs(dpb) > eps * max(abs(dpb(:)));
+    ta(nz) = tb(nz) .* dpa(nz) ./ dpb(nz);
+end
+ta = max(ta_bnd(1), min(ta_bnd(2), ta));
+
+% ---- Stage 3: fq via scalar LS ----------------------------------------
+S  = ta.^2 + tb.^2;
+P  = 1 + S;
+ca = 1 - 2.*ta - ta.^2;
+cb = 1 - 2.*tb - tb.^2;
+
+if use_DPN
+    D  = 4.*S + ca.^2 + cb.^2;
+    Nv = 2.*tb.*dpb + 2.*ta.*dpa + 2.*cb.*dpr + 2.*ca.*DPN;
+else
+    D  = 4.*S + cb.^2;
+    Nv = 2.*tb.*dpb + 2.*ta.*dpa + 2.*cb.*dpr;
+end
+
+fq = P .* Nv ./ D;
+q  = dp1a + S .* Nv ./ D;
+f  = fq ./ q;
+
+end   % solve_core

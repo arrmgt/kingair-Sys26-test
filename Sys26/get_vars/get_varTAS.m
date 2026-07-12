@@ -54,7 +54,7 @@ for k = 1:length(rawNames)
         [blurf,irate] = getdata(X.RawPath, var1);
         kk0=[1:numel(blurf)]';
         kk = find(~isnan(blurf));
-        blurf = interp1(kk, blurf(kk), kk0, 'linear', NaN);
+        blurf = interp1(kk, blurf(kk), kk0, "nearest","extrap");
         % set left-of-first to first good point 
         %     and right-of-last to last good
         blurf(kk0 < kk(1))   = blurf(kk(1)); 
@@ -64,38 +64,12 @@ for k = 1:length(rawNames)
     end
 end
 
-TEST = true ; % 
-if TEST
-    % Get the data and recalibrate 202604* raw files;
-    [filepath,name,ext] = fileparts(X.RawPath);
-    rawFile1 = fullfile(filepath,["20260701_raw" + ext]);
-    rawnames = rawNames(~contains(rawNames,["Buck"])); % Skip Buck vars
-    for i=1:numel(rawnames)
-        c0 = ncreadatt(X.RawPath,rawnames(i),"CalibrationCoefficients");
-        c1 = ncreadatt(rawFile1,rawnames(i),"CalibrationCoefficients");
-        jrate = get_irate(X.RawPath,rawnames(i));
-        x= getdata(X.RawPath,rawnames(i));
-        kk0=[1:numel(x)]';
-        kk = find(~isnan(x));
-        x = interp1(kk, x(kk), kk0, 'linear', NaN);
-        V = (x - c0(1)) ./ c0(2);
-        y = c1(2) .* V + c1(1);
-        eval(sprintf("%s = y;",rawnames(i)));
-        %X.psaV = (X.psa + 2.531417) / -209.518138;
-        %X.psa = -209.828501 * X.psaV - 1.308564;
-        y(kk0 < kk(1))   = y(kk(1)); 
-        y(kk0 > kk(end)) = y(kk(end));
-        RAW.(rawnames(i)) = y;
-        RATE.(rawnames(i)) = jrate;
-    end
-end
-
 % Is Buck TDP installed?
 if any(contains(RAWNAMES, "Buck", "IgnoreCase", true));
     %  Keep Buck 1011C status flags at 1 Hz (No rate-changing)
     BuckDataFlag = RAW.BuckDataFlag;
     BuckMirrorFlag = RAW.BuckMirrorFlag;
-    tdpFlag = BuckDataFlag + 10*BuckMirrorFlag;
+    tdpFlag = BuckDataFlag + 10*BuckMirrorFlag; % 1Hz
  
     % Remove BuckMirrorFlag and BuckDataFlag variables from rawNames
     RAW = rmfield(RAW,{'BuckMirrorFlag','BuckDataFlag'});
@@ -124,48 +98,55 @@ if ~any(contains(RAWNAMES, "PRES9000", "IgnoreCase", true));
     rawNames = fieldnames(RAW);
 end
 
-
-%   Unpack struct fields to named locals  and change rate.
+% Unpack RAW struct variables, sanity check,
+%   and change rate.
+kk = find( RAW.DP1>0 & RAW.DP2>0 & abs(gradient(RAW.DP1))<10 ...
+    & RAW.PSA <= RAW.PTB  & RAW.PSB <= RAW.PTB);
+kk0 = [1:numel(RAW.DP1)]';
 for i = 1:length(rawNames)
     rawName = strtrim(rawNames{i});
-    if isfield(RAW, rawName)
-        x = changeRate(RAW.(rawName), RATE.(rawName), X.procRate);
+    if isfield(RAW, rawName) 
+        x = RAW.(rawName);
+        % Sanity check R858 variables only
+        if RATE.(rawName) == 1000
+            x = interp1(kk,x(kk),kk0,'pchip',0);
+            RAW.(rawName) = repair_one(x, kk);
+        end
+        x = changeRate(x, RATE.(rawName), X.procRate);
         eval(sprintf("%s = x;",rawName));
     end
 end
 
-%  Sanity check (attack angles are largely positive);
+%  Sanity check (attack angles are "always" largely positive);
 if mean(DPA)<0
     DPA = -DPA;
 end
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Get static pressure corrections
 %%%%%%%%%%    and remove outliers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%% Maneuver results
-% Get fcoef from 2005 trailing cone calibration flight
-[~,ship_fcoef] = cone_pcor(DP1,DPB,DPA,DPR,PSA);
-% Using foef, calculate pcor from 858 equations.
-ship_pcor = pcor858(ship_fcoef,DP1,DPA,DPB,DPR,PSA); %pcor858(fcoef,DP1,DPA,DPB,DPR,PSA)
-%  Assume PSB-boom_pcor = PSA-ship_pcor, and estimate boom_pcor.
-boom_pcor = PSB - PSA + ship_pcor;
-if exist('PRES6140','var')
-    PRES6140_ship = PRES6140 - ship_pcor;
+if X.NOpcor
+    ship_pcor = zeros(size(DP1));
+    boom_pcor = zeros(size(DP1));
+    ship_fcoef = zeros(size(DP1));
+    boom_fcoef = zeros(size(DP1));
+else
+    [pitoff,rolloff,hedoff,bfactor,afactor,PSfactor] =  ...
+            AV410_factors(X.ncFINAL);
+    % Get fcoef from 2005 trailing cone calibration flight
+    [ship_pcor,ship_fcoef] = cone_pcor(DP1,DPB,DPA,DPR,PSA);
+    ship_pcor = ship_pcor + PSfactor;
+    %  Assume PSB-boom_pcor = PSA-ship_pcor, and estimate boom_pcor.
+    boom_pcor = PSB - PSA + ship_pcor;
 end
-if exist('PRES9000','var')
-    PRES9000_ship = PRES9000 - ship_pcor;
-end
-    
 
 %  Fix segements before takeoff and after landing
-[pitoff,rolloff,hedoff,bfactor,afactor,PSfactor] =  ...
-        AV410_factors(X.ncFINAL);
 accepted = DP1 > 10 & DP1 < 85 & DP2 > 10 & DP2 < 85;
 kk = find(accepted);
-ship_pcor  = repair_one(ship_pcor, kk) + PSfactor;
-boom_pcor  = repair_one(boom_pcor, kk) + PSfactor;
+ship_pcor  = repair_one(ship_pcor, kk) ;
+boom_pcor  = repair_one(boom_pcor, kk);
 ship_fcoef = repair_one(ship_fcoef, kk);
 
 % Variables to be used in TAS etc.
@@ -195,9 +176,10 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%% Dewpoint (TDPEDGE or Buck 1011C  or ??
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 if exist('BuckDewPoint')
     tdp = BuckDewPoint;
+    kk=find(tdp < TROSE ); % sanity
+    tdp = interp1(kk,tdp(kk),[1:numel(tdp)]','nearest','extrap');
     % Frost point?? Then convert to dew point
     kk=find(tdp<0); 
     % Assume Frost Point sensed if tdp<0 C
@@ -236,8 +218,49 @@ dpa         = DPA;
 dpb         = DPB;
 dpr_beta    = DPR;
 dpr_alpha   = DPN;
-[qimpact_ship, f_ship] = solve858(dp1_ship, DPA, DPB, 'dpr', DPR);
-[qimpact_boom, f_boom] = solve858(dp1_boom, DPA, DPB, 'dpr', DPR); 
+[qimpact_ship, f_ship, TA, TB]  = solve858(dp1_ship, DPA, DPB, 'dpr', DPR);
+[qimpact_boom, f_boom]          = solve858(dp1_boom, DPA, DPB, 'dpr', DPR); 
+
+
+TEST = false
+if TEST
+    sigma.PTB   = 0.1;
+    sigma.PSA   = 0.1;
+    sigma.DPA   = 0.01;
+    sigma.DPB   = 0.01;
+    sigma.DPR   = 0.01;
+    sigma.DPN   = 0.01;
+    sigma.fcoef = 0.1;
+    sigma.pcor  = 1;
+    mr = zeros(size(DP1));
+    [ship_pcor,ship_fcoef] = cone_pcor(DP1,DPB,DPA,DPR,PSA,mr);
+    M1 = getDerivedVariablesR858(DPB, DPA, DPR, DPN, dp1_ship, DP2, PSA , PSB );
+    q0  = M1.ship.q_beta;
+    fqx = fqCalc(DPA,DPB,DPR); 
+    f0 = fqx./q0;
+    betaf0 = [ ...
+   1.699864444944109; ...
+  -0.156929423443038; ...
+   0.066325085038090; ...
+   0.001254576494439  ...
+   ];
+    LB = betaf0.*0.9;
+    UB = betaf0.*1.1;
+    options=optimset('lsqnonlin');
+    options=optimset(options,'Display','iter');
+    %options=optimset(options,'MaxFunEvals',5000);
+    %options=optimset(options,'TolX',5.e-3,'TolFun',5.e-3);
+    mr = zeros(size(DPA));
+    f0 = fcalc(betaf0,PTB, PSA, DPA, DPB, DPR, DPN, mr);
+    [betaf,resnorm,resid,exitflag,output,lambda,jacobian]= ...
+        lsqnonlin(fcalc,betaf0,LB,UB,options,PTB, PSA, DPA, DPB, DPR, DPN, mr, sigma);
+    %OUT1 = r858_solve3(PTB, PSA, DPA, DPB, DPR, DPN, ship_fcoef, ship_pcor, sigma, .05);
+    TA1=OUT1.ta; TB1=OUT1.tb;
+   
+
+
+end
+
 ptotal_boom = qimpact_boom + ps_boom;
 ptotal_ship = qimpact_ship + ps_ship;
 correctedVars(end+1) = "qimpact_ship";
@@ -317,13 +340,15 @@ M = getDerivedVariablesR858( ...
     DPB, DPA, DPR, DPN, ...
     DP1, DP2, PSA ,  PSB );
 
+M1 = getDerivedVariablesR858( ...
+    DPB, DPA, DPR, DPN, ...
+    dp1_ship, DP2, ps_ship ,  ps_boom );
+
 % All these variables are now pressure corrected as needed
 ta_alpha    = M.ta_alpha;
 ta_beta     = M.ta_beta;
 tb_alpha    = M.tb_alpha;
 tb_beta     = M.tb_beta;
-fq_alpha    = M.fq_alpha;
-fq_beta     = M.fq_beta;
 
 q_ship_alpha = M.ship.q_alpha;
 q_ship_beta  = M.ship.q_beta;
@@ -425,7 +450,7 @@ end
 if exist("TROSE","var") %%%%%%%%%% Using TROSE temperature
     %recovery factor
     r=0.97;
-    Tmeas = TROSE + C.Tzero; % Uncorrected
+    Tmeas = TROSE; % Uncorrected
     ADatTROSE = airdata(PSX, pTotal, TROSE, r, TDPK ...
         , "Z_gps", Zgps);
 %%%        , "dPs_corr", boom_pcor, "Z_gps", Zgps);
@@ -495,9 +520,13 @@ diffGPShydro = (Zhydro - Zgps).* ADat.rho .* C.g0 ./100; % hPa
 
 % Static pressure corrections in attributes
 for i = 1:numel(correctedVars)
-    try % some may not be in the output list
-        ncwriteatt(X.ncFINAL, correctedVars(i), "Static pressure error", "Corrected");
-    end
+  try % some may not be in the output list
+      if X.NOpcor
+          ncwriteatt(X.ncFINAL, correctedVars(i), "Static pressure error", "Uncorrected");
+      else
+         ncwriteatt(X.ncFINAL, correctedVars(i), "Static pressure error", "Corrected");
+      end
+  end
 end
 
 ncwriteatt(X.ncFINAL,'tas','TempUsed',X.TempUsed,'Datatype','char');
@@ -561,7 +590,7 @@ eval(ss);
 
 TT1=datetime('now');
 procSeconds=seconds(TT1-TT)
-save(matfile,'-append','procSeconds','TT','TT1')
+save(matfile,'-append','procSeconds','TT','TT1','RAW','RATE','ADat')
 ;
 load_ncFINAL(X.ncFINAL,matfile);
 sprintf('Processed get_varTAS.m for Project: %s',X.PROJ)
@@ -621,7 +650,7 @@ else
 end
 Pt_meas         = DP1 + Ps_meas;
 
-kk = find(~isnan(DP1) & DP1>20 & DP1<90);
+kk = find(~isnan(DP1) & DP1>20 & DP1<90 & Tdp < T_meas);
 
 OUT     = airdata(Ps_meas(kk), Pt_meas(kk), T_meas(kk), recovf, Tdp(kk) ...
     ,'dPs_corr', pcorc(kk));

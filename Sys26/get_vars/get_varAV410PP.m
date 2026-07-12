@@ -24,7 +24,7 @@ TT=datetime('now');% save processing start time
 clear ncinfo ncreadatt ncwriteatt ncread
 close all
 
-% Load time vector to reference length
+% Load time vector to reference lengt=h
 try
     Time=ncread(X.RawPath,'time');
     rawTimeVar = 'time';
@@ -32,12 +32,12 @@ catch
     Time = ncread(X.RawPath,'Time');
     rawTimeVar = 'Time';
 end
+nTime = numel(Time);
 
-% Get raw variables needed for this group
+% Get variables needed for this group
 %
 orate=X.procRate;
 Rate=orate;
-rawfile=X.RawPath;
 
 % Use pivot table and raw mapping table to get 
 % 1. variables to be calculated;
@@ -49,43 +49,43 @@ GROUPS = 'AV410PP';
 irate=200;
 deltat=1/200;
 orate=X.procRate;
-Rate=orate;
+Rate=orate;  
 [ninterp,ndecim]=interp_decim(irate,orate);
+
+% Set variable names:
+% AV* variables will be rate changed directly
+% Others require special handling
+imu_names = [ "t_ac_gps" "AVlat" "AVlon" "AVzell" "VX" "VY" "VZ" ...
+              "AVroll" "AVpitch" "PlatformHead" "WanderAngle" ...
+              "AVlonga" "AVlata" "AVnorma" "AVrollr" "AVpitchr" "AVyawr" ];
+
+imu_units = {'seconds', 'radians', 'radians', 'meters', ...
+            'meters/sec', 'meters/sec', 'meters/sec',  ...              
+            'radians', 'radians', 'radians', 'radians', ...         
+            'meters/sec^2', 'meters/sec^2', 'meters/sec^2',  ...  
+            'radians/sec', 'radians/sec', 'radians/sec'};
 
 % Read the sbet data file and convert units
 [imudata]=dataAV410(X.AVdata);
 [mm,nn]=size(imudata);
 nImuVar=mm;
-GPSTime0=imudata(1,:)';
-Lat0=imudata(2,:)';  
-Lon0=imudata(3,:)';  
-Ell0=imudata(4,:)';  
-VX0=imudata(5,:)';
-VY0=imudata(6,:)';
-VZ0=imudata(7,:)';   
-Roll0=imudata(8,:)';
-Pitch0=imudata(9,:)';
-PlatformHead0=imudata(10,:)';
-WanderAngle0=imudata(11,:)';
-Xaccel0=imudata(12,:)';
-Yaccel0=imudata(13,:)';
-Zaccel0=imudata(14,:)';
-Xangr0=imudata(15,:)';
-Yangr0=imudata(16,:)';
-Zangr0=imudata(17,:)';
 
-[mm,nn]=size(imudata);
-
-% Get time in seconds from raw file
-time=ncread(X.RawPath,rawTimeVar);
+VAR   = struct;
+UNITS = struct;
+vals = cellstr(imu_units);
+for i=1:numel(imu_names)
+    name            = imu_names(i);
+    VAR.(name)      = imudata(i,:).';
+    UNITS.(name)    = vals{i};
+end
 
 % *_raw.nc time units will look something like 
 %  'seconds since 2021-01-01 00:00:00 +0000'
 
+% Get GPS time information from aircraft time [seconds]
 GPSunits=ncreadatt(X.RawPath,rawTimeVar,'units');
-% string parse time format
 GPSformat = ncreadatt(X.RawPath,rawTimeVar,'strptime_format'); 
-G = aircraftTime2gpsTime(time,GPSunits,GPSformat);
+G = aircraftTime2gpsTime(Time,GPSunits,GPSformat);
 
 % Create aircraft GPS time vector at 200 Hz
 % Applanix system outputs time of week without leapsecond
@@ -97,110 +97,73 @@ G = aircraftTime2gpsTime(time,GPSunits,GPSformat);
 weekStart = G.week(1);
 tow1 = G.gpsSeconds - weekStart * 604800;
 
+%  Create aircraft 200 Hz GPS time vector
 PPrate = 200;
-deltat=1/PPrate;
+deltat = 1/200;
 t_ac_gps = [(tow1(1):deltat:(tow1(end)+1-deltat)) - G.leapSeconds(1)]';
-t01=t_ac_gps;  % aircraft GPS time
-t00=imudata(1,:)'; % Applanix GPS time
 
-% Syncronize aircraft and GPS times
-Lat=interp1(t00,Lat0,t01,'pchip',0);
-Lon=interp1(t00,Lon0,t01,'pchip',0);
-Ell=interp1(t00,Ell0,t01,'pchip',0);
-VX=interp1(t00,VX0,t01,'pchip',0);
-VY=interp1(t00,VY0,t01,'pchip',0);
-VZ=interp1(t00,VZ0,t01,'pchip',0);
-Roll=interp1(t00,Roll0,t01,'pchip',0);
-Pitch=interp1(t00,Pitch0,t01,'pchip',0);
-PlatformHead=interp1(t00,PlatformHead0,t01,'pchip',0);
-WanderAngle=interp1(t00,WanderAngle0,t01,'pchip',0);
-Xaccel=interp1(t00,Xaccel0,t01,'pchip',0);
-Yaccel=interp1(t00,Yaccel0,t01,'pchip',0);
-Zaccel=interp1(t00,Zaccel0,t01,'pchip',0);
-Xangr=interp1(t00,Xangr0,t01,'pchip',0);
-Yangr=interp1(t00,Yangr0,t01,'pchip',0);
-Zangr=interp1(t00,Zangr0,t01,'pchip',0);
+%  Get IMU variables from sbet imudata array [17x200]
+S = imu2AircraftTime(t_ac_gps, imudata, imu_names);
 
-% The standard navigation record casts the computed velocity 
-% in a wander angle frame that is locally level but not necessarily 
-% aligned with true North. If the X‐axis of the wander angle frame 
-% points North, then the Y‐axis points West and the Z‐axis points Up. 
-% The standard navigation record includes the wander angle that allows 
-% transformation of the computed velocity components to 
-% North, East and Up, shown below:
-%
-% PlatformHeading is sometimes noisy
-H0 = unwrap(PlatformHead-WanderAngle); %True Heading
-[x,TFrm,TFoutlier] = rmoutliers(H0,'movmedian',100*PPrate);
-zz = find(~TFoutlier);
-Head = wrap(interp1(zz,H0(zz),[1:numel(H0)]','spline'));
-swa=sin(WanderAngle);
-cwa=cos(WanderAngle);
-VNorth=VX.*cwa-VY.*swa;
-VEast=-VX.*swa-VY.*cwa;
-VUp=VZ;
+% wrapped variables treated differently 
+%   (eliminate 360 deg jumps before rate changing)
+sin1        = changeRate(sin(S.AVlat), PPrate, X.procRate);
+cos1        = changeRate(cos(S.AVlat), PPrate, X.procRate);
+AVlat       = convertUnits(atan2(sin1,cos1),UNITS.AVlat,'degrees');
 
-AV_lat=Lat * 180/pi;
-AV_lon=Lon * 180/pi;
-AV_Ell=Ell;
-AV_Roll=Roll;
-AV_Pitch=Pitch;
-AV_Head=Head;
-AV_vew=VEast;
-AV_vns=VNorth;
-AV_vz= VUp; 
-AV_pitchr=Yangr;
-AV_rollr=Xangr;
-AV_yawr=Zangr;
-AV_longa=Xaccel;
-AV_lata=Yaccel;
-AV_norma=Zaccel;
+sin1        = changeRate(sin(S.AVlon), PPrate, X.procRate);
+cos1        = changeRate(cos(S.AVlon), PPrate, X.procRate);
+AVlon       = convertUnits(atan2(sin1,cos1),UNITS.AVlat,'degrees');
+AVlon       = wrapTo180(AVlon);
 
-nac=length(time);
-nn=1:nac;
-kkfill=find(AV_norma==0); %indices of filled values
-kknotfill=setxor(nn,kkfill); % not filled 
+% Heading: PlatformHeading is sometimes noisy
+H0          = unwrap(S.PlatformHead-S.WanderAngle); %True Heading
+[x,TFrm,TFoutlier] = rmoutliers(H0,'movmedian',100*PPrate); % 1/2 sec blocks
+zz          = find(~TFoutlier);
+H0          = interp1(zz,H0(zz),[1:numel(H0)]','pchip',0);
+% Wrap to +- 2*pi
+sin1        = changeRate(sin(H0), PPrate, X.procRate);
+cos1        = changeRate(cos(H0), PPrate, X.procRate);
+AVthead     = atan2(sin1,cos1);
+AVthead     = wrapToPi(AVthead);
 
-AVewvel = changeRate(AV_vew,irate,orate);
-AVnsvel = changeRate(AV_vns,irate,orate);
-AVzvel  = changeRate(AV_vz, irate,orate);
+% Change rate on the others.
+%    Keep "AVlata" but not "AVlat" and "PatformHead" 
+%    which are already processed.
+remove = ["AVlat","AVlon","AVthead","Platform"];
+names = imu_names(~ismember(imu_names, remove));
+for i = 1:numel(names)
+    name = names(i); 
+    x = changeRate(S.(name), PPrate, X.procRate) ;
+    eval(sprintf('%s = x;', name)) ;
+end
+
+% Platform Heading and Wander Angle converts to True Heading
+% 
+swa         = sin(WanderAngle);
+cwa         = cos(WanderAngle);
+VNorth      =  VX.*cwa-VY.*swa;
+VEast       = -VX.*swa-VY.*cwa;
+VUp         = VZ;
+AVewvel     = VEast;
+AVnsvel     = VNorth;
+AVzvel      = VUp; 
 
 % aircraft coords, z down
-AVzvel=-AVzvel;
-
-AVroll  = changeRate(AV_Roll, irate,orate);
-AVpitch = changeRate(AV_Pitch,irate,orate);
-
-% wrapped variables treated differently
-sin1    = changeRate(sin(AV_lat.*pi/180),irate,orate);
-cos1    = changeRate(cos(AV_lat.*pi/180),irate,orate);
-AVlat   = atan2(sin1,cos1).*180/pi;
-
-sin1    = changeRate(sin(AV_lon.*pi/180),irate,orate);
-cos1    = changeRate(cos(AV_lon.*pi/180),irate,orate);
-AVlon   = atan2(sin1,cos1)*180/pi;
-AVlon   = wrapTo180(AVlon);
-
-sin1    = changeRate(sin(AV_Head),irate,orate);
-cos1    = changeRate(cos(AV_Head),irate,orate);
-AVthead = atan2(sin1,cos1);
-
-
-% Ellipsoid height
-AVzell=changeRate(AV_Ell,irate,orate);
+AVzvel      =-AVzvel;
 
 % MSL Height
 % MSL Height
-zgeoid = get_geoid(X.egm,AVlat,AVlon,X.FillValue);
-AVzmsl = AVzell-zgeoid; % ellipsoid height - geoid of
-AValt  = AVzmsl;
-ALTX   = AVzmsl;
+zgeoid      = get_geoid(X.egm,AVlat,AVlon,X.FillValue);
+AVzmsl      = AVzell-zgeoid; % ellipsoid height - geoid of
+AValt       = AVzmsl;
+ALTX        = AVzmsl;
 
 % Ground Speed
-AVgs=sqrt(AVnsvel.^2+AVewvel.^2);
+AVgs        =sqrt(AVnsvel.^2+AVewvel.^2);
 
 % aircraft coords, z down
-AVzvel=-AVzvel;
+AVzvel      = -AVzvel;
 
 kk = find(AVlat == 0);
 AVewvel(kk) = 0;
@@ -208,50 +171,32 @@ AVnsvel(kk) = 0;
 
 kkk1=find(AVewvel~=0);
 % Track angle
-AVtrack=0*ones(size(AVewvel));
-AVtrack(kkk1)=wrapTo360(atan2(AVewvel(kkk1),AVnsvel(kkk1)).*180/pi);
+AVtrack         =0*ones(size(AVewvel));
+AVtrack(kkk1)   =wrapTo360(atan2(AVewvel(kkk1),AVnsvel(kkk1)).*180/pi);
 
 
 % Ground speed
-AVgs=0*ones(size(AVewvel));
-AVgs(kkk1)=sqrt(AVewvel(kkk1).^2+AVnsvel(kkk1).^2);
-
-AVrollr=changeRate(AV_rollr,irate,orate);
-AVpitchr=changeRate(AV_pitchr,irate,orate);
-AVyawr=changeRate(AV_yawr,irate,orate);
-
-AVlonga=changeRate(AV_longa,irate,orate);
-AVlata=changeRate(AV_lata,irate,orate);
-AVnorma=changeRate(AV_norma,irate,orate);
+AVgs        =0*ones(size(AVewvel));
+AVgs(kkk1)  =sqrt(AVewvel(kkk1).^2+AVnsvel(kkk1).^2);
 
 % NCAR/EOL "ncplot" needs these to plot X-Y track
-GALT = AVzmsl;
-GLON = AVlon;
-GLAT = AVlat;
+GALT        = AVzmsl;
+GLON        = AVlon;
+GLAT        = AVlat;
 
-ALTX = AVzmsl;
-LONX = AVlon;
-LATX = AVlat;
+ALTX        = AVzmsl;
+LONX        = AVlon;
+LATX        = AVlat;
 
-kkk2=find(AVlat~=0 & AVlon~=0);
-AVxdist=0*ones(size(AVlat));
-AVydist=0*ones(size(AVlat));
+kkk2        =find(AVlat~=0 & AVlon~=0);
+AVxdist     =0*ones(size(AVlat));
+AVydist     =0*ones(size(AVlat));
 
 % Center coordinate for distances
-glat0=ncreadatt(X.ncFINAL,'/','CenterCoordLat0');
-glon0=ncreadatt(X.ncFINAL,'/','CenterCoordLon0');
+glat0       =ncreadatt(X.ncFINAL,'/','CenterCoordLat0');
+glon0       =ncreadatt(X.ncFINAL,'/','CenterCoordLon0');
 
-MAP=X.MAP;
-if(exist('MAP','var')==0)
-MAP=0; % don't us mapping toolbox
-end; % Default to MAP=0
-%  Compute distances from center point.
-if(MAP==0),%if matlab mapping toolbox not available
-    ckmdeg=111.05; % convert deg to km
-    MAPPROJ='simple';
-    avxdist=(AVlat-glat0).*ckmdeg;
-    AVydist=(AVlon-glon0).*ckmdeg.*cos(AVlatXX.*pi./180);
-else,
+if license('test', 'map_toolbox');
     MAPPROJ='eqaazim';
     geoid=almanac('earth','ellipsoid','kilometers');
     wgs84 = wgs84Ellipsoid("m");;
@@ -262,6 +207,11 @@ else,
     mstruct.origin=[glat0 glon0 0];
     mstruct.geoid=geoid;
     [AVxdist,AVydist]=projfwd(mstruct,AVlat,AVlon);
+else
+    ckmdeg=111.05; % convert deg to km
+    MAPPROJ='simple';
+    avxdist=(AVlat-glat0).*ckmdeg;
+    AVydist=(AVlon-glon0).*ckmdeg.*cos(AVlatXX.*pi./180);
 end
 
 AVtopo = zeros(size(AVroll));
@@ -285,7 +235,7 @@ AVpitch = AVpitch.*180/pi;
 AVroll = AVroll.*180/pi;
 AVthead = wrapTo2Pi(AVthead).*180/pi;
 
-ss1="'orate','Rate','rawfile','arcNames','rawNames','AVzell','AVzmsl','AVtrack','AVxdist','AVydist','Time'";
+ss1="'orate','Rate','arcNames','rawNames','AVzell','AVzmsl','AVtrack','AVxdist','AVydist','Time'";
 for ii=1:numel(arcNames);
     if(numel(arcNames{ii})>1)
         % Build list name for outputing to matfile 
@@ -300,8 +250,10 @@ delete(matfile)
 ss=sprintf("save(matfile,%s);",ss1);eval(ss);
 
 TT1=datetime('now');
-procSeconds=seconds(TT1-TT)
+procSeconds=round(seconds(TT1-TT))
 save(matfile,'-append','procSeconds')
 load_ncFINAL(X.ncFINAL,matfile);
 
 sprintf('Processed get_varAV410PP.m for Project: %s',X.PROJ)
+
+end
