@@ -16,6 +16,7 @@ function get_varTAS(X)
 %     get_uvw:  gets hi-rate TAS components for the EDR calculation
 %     repair_one:   clean up the end times before TO and after landing.
 
+
 TT=datetime('now');
 % Time attributes
 try
@@ -25,7 +26,6 @@ catch
     Time = ncread(X.RawPath,'Time');
     rawTimeVar = 'Time';
 end
-
 C = phycon; % Physical constants
 Tzero = C.Tzero;
 
@@ -39,29 +39,91 @@ GROUPS = X.rawGROUPS(mask) ; % Pressures loaded previously
 % 2. raw measurements needed from *_RAW.nc
 [arcNames, rawNames] = getVarsAndRawNames(X.Ptable, GROUPS, X.Ttable);
 
-% Read in raw data and change rate as needed; 
-%   Changing rate
-info = ncinfo(X.RawPath);
-RAWNAMES  = {info.Variables.Name};   
-isPresent = ismember(rawNames,RAWNAMES);
+%  Get *_raw.nc variable information
+info  = ncinfo(X.RawPath);
+RAWNAMES = {info.Variables.Name};
+info.Variables = info.Variables(ismember(RAWNAMES,rawNames));
 
-RAW = struct();
-RATE = struct();
-% Read in data from *_raw.nc, and do some sanity checking
-for k = 1:length(rawNames)
-    var1 = char(rawNames(k));
-    if isPresent(k)
-        [blurf,irate] = getdata(X.RawPath, var1);
-        kk0=[1:numel(blurf)]';
-        kk = find(~isnan(blurf));
-        blurf = interp1(kk, blurf(kk), kk0, "nearest","extrap");
-        % set left-of-first to first good point 
-        %     and right-of-last to last good
-        blurf(kk0 < kk(1))   = blurf(kk(1)); 
-        blurf(kk0 > kk(end)) = blurf(kk(end));
-        RAW.(var1 ) = blurf;
-        RATE.(var1) = irate;
+
+TEST = true ; % 
+if TEST
+    % Get the data and recalibrate 202604* raw files;
+    [filepath,name,ext] = fileparts(X.RawPath);
+    rawFile1 = fullfile(filepath,["20260710a_raw" + ext]);
+    rawNames = rawNames(~contains(rawNames,["Buck"])); % Skip Buck vars
+    rawNames = rawNames(~contains(rawNames,["PRES"])); % Skip CPT vars
+    RAWNAMES = RAWNAMES(~contains(RAWNAMES,["Buck"])); % Skip Buck vars
+    RAWNAMES = RAWNAMES(~contains(RAWNAMES,["PRES"])); % Skip CPT vars
+    arcNames = arcNames(~contains(arcNames,["Buck"])); % Skip Buck vars
+    arcNames = arcNames(~contains(arcNames,["CPT"])); % Skip CPT vars
+    for i=1:numel(rawNames)
+        c0 = ncreadatt(X.RawPath,rawNames(i),"CalibrationCoefficients");
+        c1 = ncreadatt(rawFile1,rawNames(i),"CalibrationCoefficients");
+        jrate = get_irate(X.RawPath,rawNames(i));
+        x= getdata(X.RawPath,rawNames(i));
+        kk0=[1:numel(x)]';
+        kk = find(~isnan(x));
+        x = interp1(kk, x(kk), kk0, 'linear', NaN);
+        V = (x - c0(1)) ./ c0(2);
+        y = c1(2) .* V + c1(1);
+        eval(sprintf("%s = y;",rawNames(i)));
+        %X.psaV = (X.psa + 2.531417) / -209.518138;
+        %X.psa = -209.828501 * X.psaV - 1.308564;
+        y(kk0 < kk(1))   = y(kk(1)); 
+        y(kk0 > kk(end)) = y(kk(end));
+        RAW.(rawNames(i)) = y;
+        RATE.(rawNames(i)) = jrate;
     end
+end
+
+
+
+%% Read in the needed raw data and change rate as needed; 
+%   Changing rate
+RAW  = struct();
+RATE = struct();
+for i = 1:numel(info.Variables)
+    var   = info.Variables(i).Name;
+    [RAW.(var), irate] = getdata(X.RawPath,var);
+    y = RAW.(var);
+    yy = y;
+    RATE.(var)         = irate;
+    if X.rmOutliers  %  Set in do_batch26 as an option 
+        attrNames = {info.Variables(i).Attributes.Name};
+        % Analog variable??
+        if any(strcmp(attrNames,'AnalogCalibration')) 
+            [B,Tfrm,TFoutlier]=rmoutliers(y,'movmedian',500);
+            kk = find(~TFoutlier);
+            y = interp1(kk,y(kk),[1:numel(y)]','pchip',0);
+            plots = false;
+            if plots
+                figure(i)
+                plot([1:numel(y)]'./irate/60,yy,'.')
+                rawfile = strrep(X.RawFile,'_','\_');
+                title(sprintf("%s: %s  irate = %5.0f",rawfile,var,irate))
+                grid
+                saveas(gca,sprintf('%s-%s.jpg',X.RawFile,var))
+            end  
+        end
+    end
+    D.(var) = changeRate(y,RATE.(var),X.procRate);
+    eval([var ' = D.(var);']);
+end
+
+% Detect in-flight
+R858names=["DP1","DP2","PTB","DPA","DPB","DPR","DPN","PSA","PSB"];
+R858names = R858names(find(ismember(R858names, RAWNAMES)));
+[pcorc,fcoef] = cone_pcor(D.DP1,D.DPB,D.DPA,D.DPR,D.PSA,"SOURCE","SHIP");
+% Rough estmate of error variance for 8 inputs to r858_solve
+sigma = 0.2.*ones(8,1);
+out = r858_solve(D.PTB, D.PSA, D.DPA, D.DPB, D.DPR, D.DPN, fcoef, pcorc, sigma);
+kk = find(out.q_SE<10 & out.q>5 & ~isnan(out.q) & abs(pcorc)<10); % In-flight points
+for i = 1:numel(R858names)
+    var = char(R858names(i));
+    x   = interp1(kk,D.(var)(kk),[1:numel(D.(var))]',"nearest",1);
+    x(kk < kk(1))   = 1; 
+    x(kk > kk(end)) = 1;
+    eval([var ' = x;']);
 end
 
 % Is Buck TDP installed?
@@ -96,25 +158,6 @@ if ~any(contains(RAWNAMES, "PRES9000", "IgnoreCase", true));
     RATE.('PRES9000') = 50;
     RATE.('TEMP9000') = 50;
     rawNames = fieldnames(RAW);
-end
-
-% Unpack RAW struct variables, sanity check,
-%   and change rate.
-kk = find( RAW.DP1>0 & RAW.DP2>0 & abs(gradient(RAW.DP1))<10 ...
-    & RAW.PSA <= RAW.PTB  & RAW.PSB <= RAW.PTB);
-kk0 = [1:numel(RAW.DP1)]';
-for i = 1:length(rawNames)
-    rawName = strtrim(rawNames{i});
-    if isfield(RAW, rawName) 
-        x = RAW.(rawName);
-        % Sanity check R858 variables only
-        if RATE.(rawName) == 1000
-            x = interp1(kk,x(kk),kk0,'pchip',0);
-            RAW.(rawName) = repair_one(x, kk);
-        end
-        x = changeRate(x, RATE.(rawName), X.procRate);
-        eval(sprintf("%s = x;",rawName));
-    end
 end
 
 %  Sanity check (attack angles are "always" largely positive);
@@ -177,15 +220,13 @@ end
 %%%%%%%%% Dewpoint (TDPEDGE or Buck 1011C  or ??
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if exist('BuckDewPoint')
-    tdp = BuckDewPoint;
-    kk=find(tdp < TROSE ); % sanity
-    tdp = interp1(kk,tdp(kk),[1:numel(tdp)]','nearest','extrap');
+    tdp = BuckDewPoint; % Celsius
     % Frost point?? Then convert to dew point
     kk=find(tdp<0); 
     % Assume Frost Point sensed if tdp<0 C
-    if(~isempty(kk))
+    if ~isempty(kk)
         tdp(kk) = dew(tdp(kk)); % Frost point is sensed
-        % tdp1(kk) = frostpoint_to_dewpoint(tdp1(kk));
+        % tdp1(kk) = frostpoint_to_dewpoint(tdp(kk));
     end
     TDPK = tdp + Tzero;
 else
@@ -220,46 +261,6 @@ dpr_beta    = DPR;
 dpr_alpha   = DPN;
 [qimpact_ship, f_ship, TA, TB]  = solve858(dp1_ship, DPA, DPB, 'dpr', DPR);
 [qimpact_boom, f_boom]          = solve858(dp1_boom, DPA, DPB, 'dpr', DPR); 
-
-
-TEST = false
-if TEST
-    sigma.PTB   = 0.1;
-    sigma.PSA   = 0.1;
-    sigma.DPA   = 0.01;
-    sigma.DPB   = 0.01;
-    sigma.DPR   = 0.01;
-    sigma.DPN   = 0.01;
-    sigma.fcoef = 0.1;
-    sigma.pcor  = 1;
-    mr = zeros(size(DP1));
-    [ship_pcor,ship_fcoef] = cone_pcor(DP1,DPB,DPA,DPR,PSA,mr);
-    M1 = getDerivedVariablesR858(DPB, DPA, DPR, DPN, dp1_ship, DP2, PSA , PSB );
-    q0  = M1.ship.q_beta;
-    fqx = fqCalc(DPA,DPB,DPR); 
-    f0 = fqx./q0;
-    betaf0 = [ ...
-   1.699864444944109; ...
-  -0.156929423443038; ...
-   0.066325085038090; ...
-   0.001254576494439  ...
-   ];
-    LB = betaf0.*0.9;
-    UB = betaf0.*1.1;
-    options=optimset('lsqnonlin');
-    options=optimset(options,'Display','iter');
-    %options=optimset(options,'MaxFunEvals',5000);
-    %options=optimset(options,'TolX',5.e-3,'TolFun',5.e-3);
-    mr = zeros(size(DPA));
-    f0 = fcalc(betaf0,PTB, PSA, DPA, DPB, DPR, DPN, mr);
-    [betaf,resnorm,resid,exitflag,output,lambda,jacobian]= ...
-        lsqnonlin(fcalc,betaf0,LB,UB,options,PTB, PSA, DPA, DPB, DPR, DPN, mr, sigma);
-    %OUT1 = r858_solve3(PTB, PSA, DPA, DPB, DPR, DPN, ship_fcoef, ship_pcor, sigma, .05);
-    TA1=OUT1.ta; TB1=OUT1.tb;
-   
-
-
-end
 
 ptotal_boom = qimpact_boom + ps_boom;
 ptotal_ship = qimpact_ship + ps_ship;
@@ -435,7 +436,6 @@ beta  = convertUnits(atan(tb_beta),'radian',units);
 if exist("TRF","var")   %%%%%%%%%  Using TRF temperature 
     %recovery factor
     r=0.6425;
-    Tmeas = TRF; % Uncorrected
     ADatTRF = airdata(PSX, pTotal, TRF, r, TDPK ...
         , "Z_gps", Zgps); 
 %%%        , "dPs_corr", boom_pcor, "Z_gps", Zgps);     
@@ -450,7 +450,6 @@ end
 if exist("TROSE","var") %%%%%%%%%% Using TROSE temperature
     %recovery factor
     r=0.97;
-    Tmeas = TROSE; % Uncorrected
     ADatTROSE = airdata(PSX, pTotal, TROSE, r, TDPK ...
         , "Z_gps", Zgps);
 %%%        , "dPs_corr", boom_pcor, "Z_gps", Zgps);

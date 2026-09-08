@@ -1,4 +1,4 @@
-function [f,qx1,pErr,f0] = fcalc(x,Z,sigma)
+function [f,qx1,pErr,f0,fqx0,XX1f,betaf,machn] = fcalc(x,Z,sigma)
 %FCALC Residual function for lsqnonlin pitot-static "f-factor" calibration.
 %
 %   [f,qx1,pErr,f0] = fcalc(x,Z,sigma)
@@ -34,42 +34,61 @@ function [f,qx1,pErr,f0] = fcalc(x,Z,sigma)
 pa  = Z.DPA;
 pb  = Z.DPB;
 pr  = Z.DPR;
+dp1 = Z.DPX;
+psm = Z.PSX;
 pn  = Z.DPN;
-dp1 = Z.DP1;
-psm = Z.PSA;
 mr  = Z.mr;
 ptb = Z.PTB;
 
 % These are independent of static pressure correction
 tax = tanAlpha(pa,pb,pr);
 tbx = tanBeta(pb,pr);
-abFact = 1 + tax.^2 + tbx.^2;
+abFact = tax.^2 + tbx.^2;
+abFact1 = sqrt(pa.^2+pb.^2);
 
 qx0 = impactPcalc(dp1,pa,pb,pr); % uncorrected qc
 % fqx is f*q; fqx/f = q; fqx is independent of pcor
-fqx = fqCalc(pa,pb,pr);
+fqx0 = fq_beta(pa,pb,pr);
 
-betaf = x;
 onez = ones(size(psm));
+zeroz = zeros(size(psm));
+C=phycon;
+
+% From Rodi&Leon(2012)
+betaf0 = [ ...
+   1.699864444944109; ...
+  -0.156929423443038; ...
+   0.066325085038090; ...
+   0.001254576494439  ...
+   ];
 
 % Set default f
-f0 = 1.68 .* ones(size(dp1)); % just a guess
+f0 = 1.70 .* ones(size(dp1)); % just a guess
 % We need mach number to get f, so we have to iterate
-pErr = fqx./f0 - qx0; % error in q
+pErr = 0;
+zeroz=zeros(size(dp1));
+betaf = x;
 for jj = 1:3 % iterate three times
-    % We need machn to get pErr, and pErr to get machn
     machn = mach(qx0+pErr, psm-pErr, mr);
-    % Rodi & Leon (2012)
-    XX = [machn machn.^2 abFact];
-    XXf = [onez XX];
-    f0 = XXf*betaf;
-    pErr = fqx./f0 - qx0;
+    XX0 = [machn machn.^2 pa];
+    XX0f = [onez XX0];
+    f0 = XX0f*betaf0;
+    pkor = pcor_beta(dp1,pa,pb,pr,f0,fqx0);
+    ptb = qx0+pErr + psm - pErr;
+    XX1 = [machn ptb pa pn];
+    XX1f = [onez XX1];
+    pErr = XX1f*betaf;
 end
-qx1 = fqx./f0;
-
+%qx1 = fqx0./f0;
+qx1 = qx0 + pErr;
+ptb = dp1 + psm;
+fqx1 = f0.*qx1;
 % "(ptb, psa, dpa, dpb, dpr, dpn, f, pkor, sigma, alpha, opts)"
-OUT1 = r858_solve3(ptb, psm, pa, pb, pr, pn, f0, pErr, sigma, .05);
-f = OUT1.q - qx0 + pErr;
+OUT1 = r858_solve3(ptb, psm, pa, pb, pr, pn, f0, pErr);
+
+f = OUT1.q - qx0 - pErr;
 f = fillmissing(f, 'constant', 0);
 
 end
+
+

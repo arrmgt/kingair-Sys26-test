@@ -130,9 +130,9 @@ addParameter(p, 'f_sim',         []);
 addParameter(p, 'sigma_dp',      0);
 addParameter(p, 'ps_cor',        0);
 addParameter(p, 'q_bounds',      [5,  150]);
-addParameter(p, 'f_bounds',      [1,   3  ]);
-addParameter(p, 'ta_bounds',     [-2,  2  ]);
-addParameter(p, 'tb_bounds',     [-2,  2  ]);
+addParameter(p, 'f_bounds',      [1,   2.5]);
+addParameter(p, 'ta_bounds',     [-1,  1  ]);
+addParameter(p, 'tb_bounds',     [-1,  1  ]);
 addParameter(p, 'alpha',         0.05);
 parse(p, dp1a, dpa, dpb, varargin{:});
 
@@ -174,6 +174,7 @@ if use_ptb
     sigma_ptb_diff = sqrt(sig_ptb.^2 + sig_ps.^2);
 else
     ptb_diff       = zeros(size(dp1a));
+    ptb_diff       = dp1a;
     sigma_ptb_diff = 0;
 end
 

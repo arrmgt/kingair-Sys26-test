@@ -36,7 +36,11 @@ m = 0.01*ones(size(qc));
 kk=find(qc>20 & qc < 100 & ps >300 & ps < 1200);
 fact=(qc(kk)./ps(kk)+1).^k(kk)-1;
 m2=2./(gamma(kk)-1).*fact;
+try
 m(kk)=sqrt(m2);
+catch
+    'blurf'
+end
 
 end
 

@@ -25,7 +25,7 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 % OPTIONAL NAME-VALUE INPUTS
 %
 %   'dPs_corr' : Static pressure correction (hPa), scalar or array
-%                Ps_corr = Ps_meas + dPs_corr is used in all calculations
+%                Ps_corr = Ps_meas - dPs_corr is used in all calculations
 %                If not entered, inputs assumed to be already corrected.
 %   'Z_gps'    : GPS altitude (m) used to initialize Zhydrostatic calc.
 %
@@ -98,7 +98,7 @@ function OUT = airdata(Ps_meas, Pt_meas, Tm, recovf, Td, varargin)
 %
 % -------------------------------------------------------------------------
 %   Corrected static pressure :
-%       Ps_corr = Ps_meas + dPs_corr
+%       Ps_corr = Ps_meas - dPs_corr
 %   Optional: name/value input:
 %   'dPs_corr' : Static pressure correction (hPa), scalar or array
 %
@@ -186,7 +186,7 @@ function S = core_calc(Ps_meas, Pt_meas, Tm, recovf, Td, ...
 %
 % Ps_meas and Pt_meas are measured pressures (hPa)
 % Corrections applied:
-%   Ps = Ps_meas + dPs_corr;
+%   Ps = Ps_meas - dPs_corr;
 %   Pt = Pt_meas + dPs_corr;
 % All internal pressure calculations use Ps and Pt (hPa)
 

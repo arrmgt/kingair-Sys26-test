@@ -72,6 +72,7 @@ fBefore = fcalc(x0, Z, sigma);
 [betaf, resnorm, residual, exitflag, output, ~, jacobian] = lsqnonlin( ...
     @(x) fcalc(x, Z, sigma), x0, opts.lb, opts.ub, opts.lsqnonlinOpts);
 
+x=fcalc(betaf,Z,sigma);
 fAfter = residual;
 
 n = numel(fAfter);
@@ -115,5 +116,6 @@ if exitflag <= 0
         '(it stopped on an iteration/evaluation limit or stalled). Try ' ...
         'checkFcalcConditioning(x0,Z,sigma), and/or set opts.lb/opts.ub to bound betaf.\n']);
 end
+
 
 end

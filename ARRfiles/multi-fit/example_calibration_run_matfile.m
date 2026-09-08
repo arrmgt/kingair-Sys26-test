@@ -1,4 +1,7 @@
-%% example_calibration_run_matfile.m
+addpath c:/users/alfre/Github/kingair-Sys26-test/ARRfiles/multi-fit
+addpath c:/users/alfre/Github/kingair-Sys26-test/ARRfiles/
+addpath c:/users/alfre/Github/kingair-Sys26-test/Sys26/get_vars/utilities 
+
 % Calibration fit reading from a processed .mat file (RAW/RATE structs,
 % each channel possibly at its own native rate) instead of NetCDF.
 % Reproduces the manual script exactly, including the two-stage kk:
@@ -16,11 +19,11 @@
 % results assigned into struct fields per channel instead.)
 
 %% ---------------- CONFIG (edit this section) ----------------
-matFile = "E:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260701_arr_TAS.mat";
+matFile = "E:\MATLAB-DATA2\kingair_data\scratch\test26\temp\20260619a_arr_TAS.mat";
 
 % All channels to load/resample from RAW/RATE (kept as a superset --
 % DP2/PSB aren't used by fcalc but are available for kk/bounds/inspection).
-rnames = ["PTB","DP1","DP2","PSA","PSB","DPA","DPB","DPR","DPN"];
+rnames = ["PTB","DP1","DP2","PSA","PSB","DPA","DPB","DPR","DPN","TROSE"];
 
 orate = 10;   % common output rate (Hz) every channel is resampled to
 
@@ -34,6 +37,7 @@ rawVarMap = struct( ...
     'DPN', 'DPN', ...
     'DP1', 'DP1', ...
     'PSA', 'PSA', ...
+    'TROSE', 'TROSE', ...
     'PTB', 'PTB');
 
 dummyZFields = struct();
@@ -82,6 +86,7 @@ sigmaValue.('DPR')   = 0.01;
 sigmaValue.('DPN')   = 0.01;
 sigmaValue.('fcoef') = 0.01;
 sigmaValue.('pcor')  = 0.5;
+sigmaValue.('TROSE')  = 0.5;
 
 % Initial guess.
 x0 = [0; 1; -2; 2];
@@ -103,15 +108,39 @@ fprintf('Calibration points after kk selection: %d\n', numel(Z.DPA));
 
 % Bounds + solver options confirmed working manually:
 fitOpts = struct();
-fitOpts.lb = [-3.0;  0.0; -5.0; 0.0];
-fitOpts.ub = [ 3.0;  2.0;  0.0; 4.0];
+fitOpts.lb = [-10.0; -10.0; -10.0; -10.0];
+fitOpts.ub = [ 10.0;  10.0;  10.0;  10.0];
+fitOpts.lb = [];
+fitOpts.ub = [];
 fitOpts.lsqnonlinOpts = optimoptions('lsqnonlin', ...
     'Display', 'iter', ...
     'MaxFunctionEvaluations', 20000);
 % TolX/TolFun intentionally left at lsqnonlin's defaults (not overridden).
 
+TEST = true
+if TEST
+    load('e:/MATLAB-DATA2/kingair_data/test26/work/maneuvers.mat')
+    ptb = dp1 + psm;
+    fnames = string(fieldnames(Z));
+    %fnames = fnames(find(~contains(fnames,["DPN","PTB"])));
+    Z=struct;
+    sigma=struct;
+    for i=1:numel(fnames);
+        fnames(i)
+        if contains(fnames(i),'PSA')
+            Z.PSA=psm;
+            eval(sprintf('sigma.%s = 0.1;',fnames(i)));
+            continue
+        else
+            eval(sprintf('Z.%s = %s;',fnames(i),lower(fnames(i))));
+            eval(sprintf('sigma.%s = 0.1;',fnames(i)));  
+        end
+    end
+end
+
 [betaf, diagOut] = runCalibrationFit(Z, sigma, x0, fitOpts);
 
+close all
 %% ---------------- 4. Diagnostics ----------------
 figure('Name', 'Calibration residuals (matfile source)');
 subplot(1,2,1);
@@ -218,3 +247,5 @@ legend('95% prediction interval (+ measurement noise)', '95% CI (parameter uncer
     'qx1 (fit)', 'OUT1.q (reference, binned median)', 'Location', 'best');
 xlabel('qx1 (binned)'); ylabel('q');
 title(sprintf('Binned %d-point confidence/prediction band', nBins));
+
+

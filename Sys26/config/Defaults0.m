@@ -51,8 +51,13 @@ if X.POSPAC % Process Applanix pospac data
     X.SBETbasename = "_sbet.*";
     basename=fullfile(X.Data,X.PROJ,'work',X.locPP,[X.BaseName0 + X.SBETbasename]);
     AVsbet=dir(basename);
-    X.AVdata=fullfile(AVsbet.folder,AVsbet.name);
-    
+    try
+        fprintf('Searching for SBET file: trying ...')
+        X.AVdata=fullfile(AVsbet.folder,AVsbet.name);
+        fprintf('SUCCESS!\n')
+    catch
+        fprintf('SBET files not found!\n')
+    end
     X.RMSbasename = "_rms.*";
     basename=fullfile(X.Data,X.PROJ,'work',X.locPP,[X.BaseName0 + X.RMSbasename]);
     AVrms=dir(basename);
